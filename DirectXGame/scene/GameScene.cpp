@@ -68,8 +68,14 @@ void GameScene::Update()
 
 	//スペースキーを押した瞬間
 	if (input_->TriggerKey(DIK_SPACE)) {
-		//音声停止
-		audio_->StopWave(voiceHandle_);
+		if (audio_->IsPlaying(voiceHandle_)) {
+			//音声が流れていたら音声停止
+			audio_->StopWave(voiceHandle_);
+		} else 
+		{
+			//音声が流れていなかったら音声再生
+			voiceHandle_ = audio_->PlayWave(soundDataHandle_);		
+		}
 	}
 
 	//デバックテキストの表示
@@ -125,6 +131,7 @@ void GameScene::Draw() {
 	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
+
 	// ラインを描画する
 	PrimitiveDrawer::GetInstance()->DrawLine3d({0, 0, 0}, {0, 10, 0}, {1.0f, 0.0f, 0.0f, 1.0f});
 #pragma endregion
