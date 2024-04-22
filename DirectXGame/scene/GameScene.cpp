@@ -78,6 +78,8 @@ void GameScene::Update()
 		}
 	}
 
+	#ifdef DEBUG
+
 	//デバックテキストの表示
 	ImGui::Begin("Drbug1");
 	ImGui::Text("Kamata Tarou %d.%d.%d", 2050, 12, 31);
@@ -92,6 +94,7 @@ void GameScene::Update()
 
 	//デモウィンドの表示の有効化
 	ImGui::ShowDemoWindow();
+#endif // DEBUG
 
 	//デバックカメラの更新
 	debugCamera_->Update();
