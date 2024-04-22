@@ -1,19 +1,42 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "Player.h"
 #include <cassert>
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{
+	delete model_;
+	delete player_;
+}
 
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	tetureHandle_ = TextureManager::Load("sample.png");
+
+	//3Dモデルの生成
+	model_ = Model::Create();
+
+	worldTransform_.Initialize();
+	ViewProjection_.Initialize();
+
+	//自キャラの生成
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initialize();
+
 }
 
-void GameScene::Update() {}
+
+void GameScene::Update() 
+{ 
+	player_->Update(); 
+}
 
 void GameScene::Draw() {
 
@@ -41,6 +64,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	model_->Draw(worldTransform_, ViewProjection_, tetureHandle_);
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
