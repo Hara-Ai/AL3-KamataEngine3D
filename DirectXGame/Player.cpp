@@ -14,5 +14,7 @@ void Player::Draw() {}
 void Player::Initialize(Model* model, uint32_t textureHandle) 
 {
 	assert(model);
-	textureHandle;
+	model_ = model;
+	textureHandle_ = textureHandle;
+	worldTransfrom_.Initialize();
 }
