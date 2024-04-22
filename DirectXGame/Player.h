@@ -1,15 +1,30 @@
 ﻿#pragma once
-#include "GameScene.h"
-#include "GameScene.cpp"
+#include "Model.h"
+#include"WorldTransform.h"
 
 class Player {
 
 public:
 
-	Player Initialize();
-	Player Update(); 
-	Player Draw();
+	Player();
+	~Player();
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	void Initialize();
 	void Initialize(Model* model, uint32_t textureHandle);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw();
+ 
 
 
 private:

@@ -1,19 +1,18 @@
-#include "Player.h"
-#include "GameScene.h"
+﻿#include "Player.h"
+#include <cassert>
 
-Player Player::Initialize() { return Player(); }
+void Player::Initialize() {}
 
-Player Player::Update() { return Player(); }
+void Player::Update() 
+{ 
+	//行列を定数バッファに転送
+	//worldTransfrom_.TransferMatrix();
+}
 
-Player Player::Draw(WorldTransform,ViewProjection,&textureHandle_) {
-	
-
-
-	return Player(); }
+void Player::Draw() {}
 
 void Player::Initialize(Model* model, uint32_t textureHandle) 
 {
 	assert(model);
-	
-
+	textureHandle;
 }
