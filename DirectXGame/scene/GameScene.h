@@ -52,6 +52,7 @@ private: // メンバ変数
 	uint32_t tetureHandle_ = 0;
 
 	Model* model_ = nullptr;
+
 	Player* player_ = nullptr;
 
 	/// <summary>

@@ -12,8 +12,8 @@ public:
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Initialize();
-	void Initialize(Model* model, uint32_t textureHandle);
+	/// <param name="model">モデル</param>
+	void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新処理
@@ -24,8 +24,6 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
- 
-
 
 private:
 
@@ -38,5 +36,7 @@ private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	
-	
+	//ビュープロジェクション
+	ViewProjection* viewProjection_ = nullptr;
+
 };

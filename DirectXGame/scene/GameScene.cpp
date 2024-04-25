@@ -28,7 +28,7 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initialize(model_, tetureHandle_);
+	player_->Initialize(model_, tetureHandle_,&ViewProjection_);
 
 }
 
