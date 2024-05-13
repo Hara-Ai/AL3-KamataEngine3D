@@ -110,7 +110,7 @@ void GameScene::Update()
 			}
 
 			// アフィン変換
-			t->matWorld_ = 0;
+			t->matWorld_ = ;
 
 			// 定数バッファに転送する
 			t->TransferMatrix();
