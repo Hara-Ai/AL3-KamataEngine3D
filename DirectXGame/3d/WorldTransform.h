@@ -52,6 +52,11 @@ public:
 	/// <returns>定数バッファ</returns>
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
 
+	
+	void UpdateMatrix();
+
+	Vector3 MakeAffineMatrix(Vector3 scale_, Vector3 rotation_, Vector3 translation_);
+
 private:
 	// 定数バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffer_;
