@@ -13,7 +13,7 @@ void Player::Update()
 
 void Player::Draw() 
 { 
-	model_->Draw(worldTransfrom_,
+	model_->Draw(*worldTransfrom_,
 	*viewProjection_, 
 	textureHandle_); 
 }

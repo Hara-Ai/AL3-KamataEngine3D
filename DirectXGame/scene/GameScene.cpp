@@ -2,7 +2,9 @@
 #include "TextureManager.h"
 #include "Player.h"
 #include "WorldTransform.h"
+#include "Matrix4x4.h"
 #include <cassert>
+#include <DirectXCommon.cpp>
 
 GameScene::GameScene() {}
 
@@ -37,6 +39,8 @@ GameScene::~GameScene() {
 		worldTransform_.Initialize();
 		ViewProjection_.Initialize();
 
+		debugCamera_->SetFarZ(5000);
+
 		// 自キャラの生成
 		player_ = new Player();
 		// 自キャラの初期化
@@ -44,7 +48,7 @@ GameScene::~GameScene() {
 
 		blockModel_ = Model::Create();
 
-		block_ = Model();
+		block_ = new Model();
 		blockTextureHandle_ = TextureManager::Load("cube/cube.jpg");
 
 		// 要素数
@@ -109,8 +113,10 @@ void GameScene::Update()
 				continue;
 			}
 
+			Vector3 matWorld_;
+
 			// アフィン変換
-			t->matWorld_ = ;
+			matWorld_ = t->MakeAffineMatrix(t->scale_, t->rotation_, t->translation_);
 
 			// 定数バッファに転送する
 			t->TransferMatrix();
