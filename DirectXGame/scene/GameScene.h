@@ -44,6 +44,8 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
