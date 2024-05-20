@@ -14,6 +14,8 @@
 class GameScene {
 
 public: // メンバ関数
+
+
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -39,12 +41,17 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void GenerateBlocks();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+<<<<<<< Updated upstream
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+=======
+>>>>>>> Stashed changes
 
 	/// <summary>
 	/// ゲームシーン用

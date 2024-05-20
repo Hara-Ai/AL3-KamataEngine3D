@@ -101,3 +101,8 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
+void GameScene::GenerateBlocks() 
+{
+	uint32_t numBlockVirtical = mapChipField_
+}
