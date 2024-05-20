@@ -11,8 +11,7 @@ GameScene::~GameScene()
 
 void GameScene::Initialize() {
 
-	const uint32_t kNumBlockVirtical = 10;
-	const uint32_t kNumBlockHorizontal = 20;
+	
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -66,9 +65,18 @@ void GameScene::Draw()
 	Sprite::PostDraw();
 
 #pragma endregion
-}
+} 
 
 void GameScene::GenerateBlocks() 
 {
-	uint32_t numBlockVirtical = mapChipField_;
+	uint32_t numBlockVirtical = mapChipField_->kNumBockVirtical();
+	uint32_t numBlockHorizontal = mapChipField_->kNumBockHorizontal();
+
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i)
+	{
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
+	
 }

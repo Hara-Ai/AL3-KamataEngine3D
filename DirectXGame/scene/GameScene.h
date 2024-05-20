@@ -46,6 +46,9 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	MapChipField* mapChipField_;
 
+	const uint32_t kNumBlockVirtical = 10;
+	const uint32_t kNumBlockHorizontal = 20;
+
 	void GenerateBlocks();
 
 	/// <summary>

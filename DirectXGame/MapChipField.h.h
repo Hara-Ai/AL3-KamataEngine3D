@@ -33,5 +33,6 @@ private:
 	static inline const uint32_t kNumBockHorizontal = 100;
 
 	MapChipData mapChipData_;
+	WorldTransform worldTransformBlocks_;
 
 };
