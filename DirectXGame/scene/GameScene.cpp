@@ -4,18 +4,26 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() 
+{ 
+	delete mapChipField_; 
+}
 
-void GameScene::Initialize() {
+void GameScene::Initialize()
+{
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	//GenerateBlocks();
 }
 
 void GameScene::Update() {}
 
-void GameScene::Draw() {
+void GameScene::Draw()
+{
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
