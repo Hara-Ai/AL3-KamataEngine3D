@@ -46,7 +46,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	MapChipField* mapChipField_;
 
-	//void GenerateBlocks();
+	void GenerateBlocks();
 
 	/// <summary>
 	/// ゲームシーン用

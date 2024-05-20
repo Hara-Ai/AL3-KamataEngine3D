@@ -9,15 +9,15 @@ GameScene::~GameScene()
 	delete mapChipField_; 
 }
 
-void GameScene::Initialize()
-{
+void GameScene::Initialize() {
 
+	const uint32_t kNumBlockVirtical = 10;
+	const uint32_t kNumBlockHorizontal = 20;
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
-	//GenerateBlocks();
 }
 
 void GameScene::Update() {}
@@ -66,4 +66,9 @@ void GameScene::Draw()
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::GenerateBlocks() 
+{
+	uint32_t numBlockVirtical = mapChipField_;
 }
