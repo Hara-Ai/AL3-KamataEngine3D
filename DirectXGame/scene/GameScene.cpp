@@ -111,8 +111,8 @@ void GameScene::Draw() {
 void GameScene::GenerateBlocks() 
 {
 
-	uint32_t numBlockVirtical = mapChipField_->;
-	uint32_t numBlockHorizontal = mapChipField_->;
+	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockVirtical();
 
 	worldTransformBlocks_.resize(numBlockVirtical);
 	   
