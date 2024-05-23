@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "MapChipField.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -14,6 +15,7 @@ GameScene::~GameScene()
 		}
 	}
 	worldTransformBlocks_.clear();
+	delete mapChipField_;
 }
 
 void GameScene::Initialize() {
@@ -45,6 +47,10 @@ void GameScene::Initialize() {
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
+	
+	mapChipField_ = new MapChipField;
+	//mapChipField_;
+
 }
 
 void GameScene::Update() {}
@@ -104,5 +110,15 @@ void GameScene::Draw() {
 
 void GameScene::GenerateBlocks() 
 {
-	uint32_t numBlockVirtical = mapChipField_
+
+	uint32_t numBlockVirtical = mapChipField_->;
+	uint32_t numBlockHorizontal = mapChipField_->;
+
+	worldTransformBlocks_.resize(numBlockVirtical);
+	   
+	for (uint32_t i = 0; i < numBlockVirtical; ++i)
+	{
+		worldTransformBlocks_[i].resize(numBlockHorizontal);
+	}
+	
 }

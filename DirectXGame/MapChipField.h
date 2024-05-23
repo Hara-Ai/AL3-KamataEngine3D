@@ -1,21 +1,46 @@
-#pragma once
-#include <cstdint>
+ï»¿#pragma once
+#include <vector>
+#include <string>
+#include <Vector3.h>
+#include <GameScene.h>
 
 /// <sumary>
-/// ƒ}ƒbƒvƒ`ƒbƒvƒtƒB[ƒ‹ƒh
+/// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
 /// <sumary>
+
+enum class MapChipType {
+	kBlank, // ç©ºç™½
+	kBlock, // ãƒ–ãƒ­ãƒƒã‚¯
+};
+
+struct  MapChipData 
+{
+	std::vector<std::vector<MapChipType>> deta;
+};
 
 class MapChipField 
 {
-	//1ƒuƒƒbƒN‚ÌƒTƒCƒY
+public:
+
+	void ResetMapChipData();
+	void LoadMapChipCsv(const std::string& filePath);
+	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
+	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	void GetNumBlockVirtical() 
+	{
+
+	}
+
+	MapChipData mapChipData_;
+
+private:
+	//1ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚µã‚¤ã‚º
 	static inline const float kBlockWidth = 1.0f;
 	static inline const float kBlockHeight = 1.0f;
-	//ƒuƒƒbƒN‚ÌŒÂ”
-	static inline const uint32_t kNumBlockVirtical = 20;
-	static inline const uint32_t kNumBlockHorizontal = 20;
 
-	enum class MapChipType {
-		kBlank,//‹ó”’
-		kBlock,//ƒuƒƒbƒN
-	};
+	//ãƒ–ãƒ­ãƒƒã‚¯ã®å€‹æ•°
+	static inline const uint32_t kNumBlockVirtical = 20;
+	static inline const uint32_t kNumBlockHorizontal = 100;
+
 };

@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MapChipField.h"
 
 /// <summary>
 /// ゲームシーン
@@ -45,13 +46,13 @@ public: // メンバ関数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
-	Input* input_ = nullptr;
+	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
 
-<<<<<<< Updated upstream
+	MapChipField* mapChipField_;
+
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-=======
->>>>>>> Stashed changes
+
 
 	/// <summary>
 	/// ゲームシーン用
