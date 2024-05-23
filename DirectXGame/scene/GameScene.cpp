@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "MapChipField.h.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -72,11 +73,11 @@ void GameScene::GenerateBlocks()
 	uint32_t numBlockVirtical = mapChipField_->kNumBockVirtical();
 	uint32_t numBlockHorizontal = mapChipField_->kNumBockHorizontal();
 
-	worldTransformBlocks_.resize(kNumBlockVirtical);
+	worldTransformBlocks_.resize(numBlockVirtical);
 
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i)
+	for (uint32_t i = 0; i < numBlockVirtical; ++i)
 	{
-		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+		worldTransformBlocks_[i].resize(numBlockHorizontal);
 	}
 	
 }
