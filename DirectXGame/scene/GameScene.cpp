@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include "MapChipField.h"
+#include "Skydome.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -16,9 +17,13 @@ GameScene::~GameScene()
 	}
 	worldTransformBlocks_.clear();
 	delete mapChipField_;
+	delete skydome_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
+
+	GenerateBlocks();
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -32,28 +37,38 @@ void GameScene::Initialize() {
 
 	worldTransformBlocks_.resize(kNumBlockVirtical);
 
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i)
-	{
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
 		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
 
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i)
-	{
-		for (uint32_t j = 0; j < kNumBlockHorizontal; j++) 
-		{
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		for (uint32_t j = 0; j < kNumBlockHorizontal; j++) {
 			worldTransformBlocks_[i][j] = new WorldTransform();
 			worldTransformBlocks_[i][j]->Initialize();
 			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
-	
-	mapChipField_ = new MapChipField;
-	//mapChipField_;
 
+	mapChipField_ = new MapChipField();
+	mapChipField_->LoadMapChipCsv("Resources/cube.jpg");
+
+	skydome_ = new Skydome();
+	skydome_->Initialize();
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() 
+{
+	skydome_->Update();
+
+	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+		}
+	}
+}
 
 void GameScene::Draw() {
 
@@ -81,6 +96,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	skydome_->Draw();
 
 	//for (WorldTransform* worldTransformBlock : worldTransformBlocks_)
 	//{
@@ -110,15 +127,27 @@ void GameScene::Draw() {
 
 void GameScene::GenerateBlocks() 
 {
-
 	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
-	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockVirtical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 
 	worldTransformBlocks_.resize(numBlockVirtical);
-	   
-	for (uint32_t i = 0; i < numBlockVirtical; ++i)
-	{
+
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
 		worldTransformBlocks_[i].resize(numBlockHorizontal);
 	}
-	
+
+
+	//for (int j = 0; numBlockVirtical < j;j++)
+	//{
+	//	for (int i = 0; numBlockHorizontal < i;i++)
+	//	{
+	//		if (mapChipField_->GetMapChipPositionByIndex(j, i) == MapChipType::kBlock) 
+	//		{
+	//			WorldTransform* worldTransform = new WorldTransform();
+	//			worldTransform->Initialize();
+	//			worldTransformBlocks_[i][j] = worldTransform;
+	//			worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+	//		}
+	//	}
+	//}
 }

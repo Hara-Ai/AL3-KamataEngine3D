@@ -2,12 +2,14 @@
 
 #include "Audio.h"
 #include "DirectXCommon.h"
+#include "Skydome.h"
 #include "Input.h"
 #include "Model.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "MapChipField.h"
+
 
 /// <summary>
 /// ゲームシーン
@@ -48,10 +50,13 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
-
-	MapChipField* mapChipField_;
+	Model* modelBlock_ = nullptr;
+	Model* modelSkydome_ = nullptr;
+	MapChipField* mapChipField_ = nullptr;
+	Skydome* skydome_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	ViewProjection viewProjection_; 
 
 
 	/// <summary>

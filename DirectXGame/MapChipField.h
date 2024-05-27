@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <Vector3.h>
-#include <GameScene.h>
+
 
 /// <sumary>
 /// マップチップフィールド
@@ -23,11 +23,15 @@ class MapChipField
 public:
 
 	void ResetMapChipData();
+	uint32_t GetNumBlockVirtical() const;
+
+	uint32_t GetNumBlockHorizontal() const;
+
+
 	void LoadMapChipCsv(const std::string& filePath);
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
 
-	void GetNumBlockVirtical();
 
 	MapChipData mapChipData_;
 
@@ -41,3 +45,4 @@ private:
 	static inline const uint32_t kNumBlockHorizontal = 100;
 
 };
+

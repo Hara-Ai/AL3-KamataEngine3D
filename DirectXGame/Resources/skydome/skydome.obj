@@ -1,4 +1,6 @@
-mtllib cube.mtl
+# Blender MTL File: 'skydome.blend'
+# www.blender.org
+mtllib skydome.mtl
 o Cube
 v 1.000000 -1.000000 -1.000000
 v -1.000000 -1.000000 -1.000000
