@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 
+
 class Skydome 
 {
 public:
@@ -23,7 +24,7 @@ public:
 
 	private:
 	WorldTransform worldTransform_;
-	//ViewProjection& viewProjection_;
+	ViewProjection* viewProjection_;
 
 	Model* model_ = nullptr;
 };
