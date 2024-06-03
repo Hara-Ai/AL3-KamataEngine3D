@@ -51,7 +51,7 @@ void GameScene::Initialize() {
 	}
 
 	mapChipField_ = new MapChipField();
-	mapChipField_->LoadMapChipCsv("Resources/skydome/skydome.jpg");
+	mapChipField_->LoadMapChipCsv("Resources/skydome/skydome.obj");
 
 	skydome_ = new Skydome();
 	skydome_->Initialize();
