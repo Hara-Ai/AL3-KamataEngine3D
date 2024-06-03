@@ -23,6 +23,7 @@ public:
 
 	private:
 	WorldTransform worldTransform_;
+	//ViewProjection& viewProjection_;
 
 	Model* model_ = nullptr;
 };

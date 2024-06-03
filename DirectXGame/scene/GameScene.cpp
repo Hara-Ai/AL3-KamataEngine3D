@@ -51,7 +51,7 @@ void GameScene::Initialize() {
 	}
 
 	mapChipField_ = new MapChipField();
-	mapChipField_->LoadMapChipCsv("Resources/skydome/skydome.obj");
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -68,6 +68,8 @@ void GameScene::Update()
 				continue;
 		}
 	}
+
+
 }
 
 void GameScene::Draw() {
@@ -137,17 +139,18 @@ void GameScene::GenerateBlocks()
 	}
 
 
-	//for (int j = 0; numBlockVirtical < j;j++)
-	//{
-	//	for (int i = 0; numBlockHorizontal < i;i++)
-	//	{
-	//		if (mapChipField_->GetMapChipPositionByIndex(j, i) == MapChipType::kBlock) 
-	//		{
-	//			WorldTransform* worldTransform = new WorldTransform();
-	//			worldTransform->Initialize();
-	//			worldTransformBlocks_[i][j] = worldTransform;
-	//			worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
-	//		}
-	//	}
-	//}
+	for (uint32_t j = 0; numBlockVirtical < j;j++)
+	{
+		for (uint32_t i = 0; numBlockHorizontal < i;i++)
+		{
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) 
+			{
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j] = worldTransform;
+				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+			}
+		}
+	}
+
 }
