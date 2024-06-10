@@ -51,13 +51,17 @@ private: // メンバ変数
 	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
 	Model* modelBlock_ = nullptr;
-	Model* modelSkydome_ = nullptr;
+	Model* modelSkydome_;
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	WorldTransform wolrldTransform_;
 	ViewProjection viewProjection_; 
 
+	Matrix4x4 ViewProjection_;
+	uint32_t numBlockVirtical_;
+	uint32_t numBlockHorizontal_;
 
 	/// <summary>
 	/// ゲームシーン用

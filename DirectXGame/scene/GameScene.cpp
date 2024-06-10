@@ -32,6 +32,9 @@ void GameScene::Initialize() {
 	const uint32_t kNumBlockVirtical = 10;
 	const uint32_t kNumBlockHorizontal = 20;
 
+	numBlockVirtical_ = 10;
+	numBlockHorizontal_ = 20;
+
 	const float kBlockWidth = 2.0f;
 	const float kBlockHeight = 2.0f;
 
@@ -56,6 +59,10 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome();
 	skydome_->Initialize();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
+	ViewProjection_;
+	wolrldTransform_;
+
 }
 
 void GameScene::Update() 
@@ -99,12 +106,19 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	skydome_->Draw();
+	skydome_->Draw(wolrldTransform_,viewProjection_,modelSkydome_);
 
-	//for (WorldTransform* worldTransformBlock : worldTransformBlocks_)
-	//{
-	//	modelBlock_->Draw(*worldTransformBlock, ViewProjection_);
-	//}
+	for (uint32_t i = 0; i < numBlockVirtical_; ++i) {
+		for (uint32_t j = 0; j < numBlockHorizontal_; ++j) {
+		
+			if (mapChipField_->GetMapChipTypeByIndex(i, j) == MapChipType::kBlock) {
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j] = worldTransform;
+				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(i, j);
+			}
+		}
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

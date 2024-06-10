@@ -20,10 +20,10 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw(const WorldTransform& skydomeWorldTransform_, const ViewProjection& skydomeViewProjection_, uint32_t textureHadle);
 
 	private:
-	WorldTransform worldTransform_;
+	WorldTransform* worldTransform_;
 	ViewProjection* viewProjection_;
 
 	Model* model_ = nullptr;
