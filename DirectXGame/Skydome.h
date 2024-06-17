@@ -11,6 +11,10 @@ public:
 	/// 初期化
 	/// </summary>
 	void Initialize();
+	
+	Skydome();
+
+	~Skydome();
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -20,11 +24,13 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const WorldTransform& skydomeWorldTransform_, const ViewProjection& skydomeViewProjection_, uint32_t textureHadle);
+	void Draw(const WorldTransform& skydomeWorldTransform_, const ViewProjection& skydomeViewProjection_);
 
 	private:
 	WorldTransform* worldTransform_;
 	ViewProjection* viewProjection_;
+	
 
 	Model* model_ = nullptr;
+	
 };

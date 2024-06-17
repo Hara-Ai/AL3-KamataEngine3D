@@ -106,7 +106,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	skydome_->Draw(wolrldTransform_,viewProjection_,modelSkydome_);
+	skydome_->Draw(wolrldTransform_, viewProjection_);
 
 	for (uint32_t i = 0; i < numBlockVirtical_; ++i) {
 		for (uint32_t j = 0; j < numBlockHorizontal_; ++j) {

@@ -51,7 +51,7 @@ private: // メンバ変数
 	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
 	Model* modelBlock_ = nullptr;
-	Model* modelSkydome_;
+	Model* modelSkydome_ = nullptr;
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 
