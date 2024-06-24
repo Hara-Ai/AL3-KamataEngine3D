@@ -62,7 +62,7 @@ void GameScene::Initialize() {
 
 	ViewProjection_;
 	wolrldTransform_;
-
+	MapChipData mapChipData_;
 }
 
 void GameScene::Update() 
@@ -145,6 +145,7 @@ void GameScene::GenerateBlocks()
 {
 	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVirtical();
 	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+	
 
 	worldTransformBlocks_.resize(numBlockVirtical);
 
@@ -153,16 +154,18 @@ void GameScene::GenerateBlocks()
 	}
 
 
-	for (uint32_t j = 0; numBlockVirtical < j;j++)
+	for (uint32_t x = 0; numBlockVirtical > x;x++)
 	{
-		for (uint32_t i = 0; numBlockHorizontal < i;i++)
+		for (uint32_t y = 0; numBlockHorizontal > y;y++)
 		{
-			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) 
+			if (mapChipField_->GetMapChipTypeByIndex(x, y) == MapChipType::kBlock) 
 			{
 				WorldTransform* worldTransform = new WorldTransform();
+				MapChipData* mapChipData_ = new MapChipData();
 				worldTransform->Initialize();
-				worldTransformBlocks_[i][j] = worldTransform;
-				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+				
+				worldTransformBlocks_[y][x] = worldTransform;
+				worldTransformBlocks_[y][x]->translation_ = mapChipField_->GetMapChipPositionByIndex(x, y);
 			}
 		}
 	}

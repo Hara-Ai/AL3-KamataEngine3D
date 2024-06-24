@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const WorldTransform& skydomeWorldTransform_, const ViewProjection& skydomeViewProjection_);
+	void Draw(const WorldTransform& WorldTransform, const ViewProjection& ViewProjection);
 
 	private:
 	WorldTransform* worldTransform_;
