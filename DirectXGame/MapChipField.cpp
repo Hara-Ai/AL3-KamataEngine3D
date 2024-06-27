@@ -4,24 +4,19 @@
 #include <fstream>
 #include <map>
 
-namespace
+namespace 
 {
 	std::map<std::string, MapChipType> mapChipTable = 
-	{
-		{"0", MapChipType::kBlank},
-		{"0", MapChipType::kBlock},
-	};
-
+		{
+			{"0", MapChipType::kBlank},
+			{"1", MapChipType::kBlock},
+		};
 }
 
-
-
-void MapChipField::ResetMapChipData() 
-{
-	mapChipData_.deta.clear(); 
+void MapChipField::ResetMapChipData() {
+	mapChipData_.deta.clear();
 	mapChipData_.deta.resize(kNumBlockVirtical);
-	for (std::vector<MapChipType>& mapChipDataLine : mapChipData_.deta)
-	{
+	for (std::vector<MapChipType>& mapChipDataLine : mapChipData_.deta) {
 		mapChipDataLine.resize(kNumBlockHorizontal);
 	}
 }
@@ -50,17 +45,15 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 	{
 		std::string line;
 		getline(mapChipCsv, line);
-	
 		std::istringstream line_stream(line);
-	
-		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j)
+		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) 
 		{
 			std::string word;
-			getline(line_stream, word);
-	
-			if (mapChipTable.contains(word))
+			getline(line_stream, word, ',');
+			auto it = mapChipTable.find(word);
+			if (it != mapChipTable.end()) 
 			{
-				mapChipData_.deta[i][j] = mapChipTable[word];
+				mapChipData_.deta[i][j] = it->second;
 			}
 		}
 	}

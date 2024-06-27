@@ -16,6 +16,8 @@ GameScene::~GameScene()
 		}
 	}
 	worldTransformBlocks_.clear();
+	delete modelBlock_;
+	delete modelSkydome_;
 	delete mapChipField_;
 	delete skydome_;
 	delete modelSkydome_;
@@ -52,11 +54,14 @@ void GameScene::Initialize() {
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
-
+	
+	modelBlock_ = Model::Create();
+	modelSkydome_ = Model::Create();
 	mapChipField_ = new MapChipField();
+	skydome_ = new Skydome();
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
-	skydome_ = new Skydome();
+
 	skydome_->Initialize();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
@@ -149,23 +154,23 @@ void GameScene::GenerateBlocks()
 
 	worldTransformBlocks_.resize(numBlockVirtical);
 
-	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
+	for (uint32_t i = 0; i < numBlockVirtical; ++i)
+	{
 		worldTransformBlocks_[i].resize(numBlockHorizontal);
 	}
-
 
 	for (uint32_t x = 0; numBlockVirtical > x;x++)
 	{
 		for (uint32_t y = 0; numBlockHorizontal > y;y++)
 		{
-			if (mapChipField_->GetMapChipTypeByIndex(x, y) == MapChipType::kBlock) 
+			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
 			{
 				WorldTransform* worldTransform = new WorldTransform();
 				MapChipData* mapChipData_ = new MapChipData();
 				worldTransform->Initialize();
-				
-				worldTransformBlocks_[y][x] = worldTransform;
-				worldTransformBlocks_[y][x]->translation_ = mapChipField_->GetMapChipPositionByIndex(x, y);
+				mapChipData_->deta;
+				worldTransformBlocks_[x][y] = worldTransform;
+				worldTransformBlocks_[x][y]->translation_ = mapChipField_->GetMapChipPositionByIndex(x, y);
 			}
 		}
 	}
