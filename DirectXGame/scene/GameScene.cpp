@@ -1,6 +1,6 @@
 #include "GameScene.h"
-#include "TextureManager.h"
 #include "MapChipField.h"
+#include "TextureManager.h"
 #include "Skydome.h"
 #include <cassert>
 
@@ -55,6 +55,8 @@ void GameScene::Initialize() {
 		}
 	}
 	
+
+
 	modelBlock_ = Model::Create();
 	modelSkydome_ = Model::Create();
 	mapChipField_ = new MapChipField();
@@ -67,7 +69,7 @@ void GameScene::Initialize() {
 
 	ViewProjection_;
 	wolrldTransform_;
-	MapChipData mapChipData_;
+	mapChipData_ = {};
 }
 
 void GameScene::Update() 
@@ -111,8 +113,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	//天球の描画
 	skydome_->Draw(wolrldTransform_, viewProjection_);
 
+	//マップチップの描画
 	for (uint32_t i = 0; i < numBlockVirtical_; ++i) {
 		for (uint32_t j = 0; j < numBlockHorizontal_; ++j) {
 		
@@ -166,11 +170,10 @@ void GameScene::GenerateBlocks()
 			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
 			{
 				WorldTransform* worldTransform = new WorldTransform();
-				MapChipData* mapChipData_ = new MapChipData();
 				worldTransform->Initialize();
-				mapChipData_->deta;
+				
 				worldTransformBlocks_[x][y] = worldTransform;
-				worldTransformBlocks_[x][y]->translation_ = mapChipField_->GetMapChipPositionByIndex(x, y);
+				worldTransformBlocks_[x][y]->translation_ = mapChipField_->GetMapChipPositionByIndex(y, x);
 			}
 		}
 	}

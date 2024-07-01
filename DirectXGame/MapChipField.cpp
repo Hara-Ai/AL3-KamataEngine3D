@@ -14,8 +14,9 @@ namespace
 }
 
 void MapChipField::ResetMapChipData() {
+//	MapChipData* mapChipData_ = new MapChipData();
 	mapChipData_.deta.clear();
-	mapChipData_.deta.resize(kNumBlockVirtical);
+
 	for (std::vector<MapChipType>& mapChipDataLine : mapChipData_.deta) {
 		mapChipDataLine.resize(kNumBlockHorizontal);
 	}
@@ -61,6 +62,9 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 
 MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex) 
 { 
+
+
+
 	if (xIndex < 0 || kNumBlockHorizontal - 1 < xIndex)
 	{
 		return MapChipType::kBlank;
@@ -71,6 +75,7 @@ MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex
 		return MapChipType::kBlock;
 	}
 
+	mapChipData_.deta.resize(kNumBlockVirtical);
 	return mapChipData_.deta[yIndex][xIndex];
 }
 

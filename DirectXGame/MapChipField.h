@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <vector>
 #include <string>
 #include <Vector3.h>
+#include <vector>
+
 
 
 /// <sumary>
@@ -16,6 +17,7 @@ enum class MapChipType {
 struct  MapChipData 
 {
 	std::vector<std::vector<MapChipType>> deta;
+
 };
 
 class MapChipField 

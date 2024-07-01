@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
+#include "MapChipField.h"
 #include "WinApp.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -17,6 +18,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
+	MapChipData* mapChipData_ = nullptr;
+	mapChipData_ = new MapChipData;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
