@@ -52,7 +52,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
-	MapChipField* mapChipField_ = nullptr;
+	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
@@ -66,4 +66,6 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+	
+
 };

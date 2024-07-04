@@ -16,7 +16,7 @@ namespace
 void MapChipField::ResetMapChipData() {
 //	MapChipData* mapChipData_ = new MapChipData();
 	mapChipData_.deta.clear();
-
+	mapChipData_.deta.resize(kNumBlockVirtical);
 	for (std::vector<MapChipType>& mapChipDataLine : mapChipData_.deta) {
 		mapChipDataLine.resize(kNumBlockHorizontal);
 	}
@@ -31,7 +31,6 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 
 	std::ifstream file;
 	file.open(filePath);
-
 	assert(file.is_open());
 
 	//マップチップCSV
@@ -51,10 +50,11 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 		{
 			std::string word;
 			getline(line_stream, word, ',');
-			auto it = mapChipTable.find(word);
-			if (it != mapChipTable.end()) 
+
+			
+			if (mapChipTable.contains(word)) 
 			{
-				mapChipData_.deta[i][j] = it->second;
+				mapChipData_.deta[i][j] = mapChipTable[word];
 			}
 		}
 	}
@@ -63,8 +63,6 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex) 
 { 
 
-
-
 	if (xIndex < 0 || kNumBlockHorizontal - 1 < xIndex)
 	{
 		return MapChipType::kBlank;
@@ -72,15 +70,15 @@ MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex
 
 	if (yIndex < 0 || kNumBlockVirtical - 1 < yIndex)
 	{
-		return MapChipType::kBlock;
+		return MapChipType::kBlank;
 	}
 
-	mapChipData_.deta.resize(kNumBlockVirtical);
+	//mapChipData_.deta.resize(kNumBlockVirtical);
 	return mapChipData_.deta[yIndex][xIndex];
 }
 
 Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex) 
 { 
-	return Vector3 (kBlockWidth + xIndex, kBlockHeight*(kNumBlockVirtical - 1 - yIndex),0);
+	return Vector3 (kBlockWidth * xIndex, kBlockHeight*(kNumBlockVirtical - 1 - yIndex),0);
 }
 

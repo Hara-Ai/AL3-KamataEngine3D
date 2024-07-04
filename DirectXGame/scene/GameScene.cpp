@@ -2,6 +2,7 @@
 #include "MapChipField.h"
 #include "TextureManager.h"
 #include "Skydome.h"
+#include "Matrix4x4Function.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -59,7 +60,7 @@ void GameScene::Initialize() {
 
 	modelBlock_ = Model::Create();
 	modelSkydome_ = Model::Create();
-	mapChipField_ = new MapChipField();
+	mapChipField_ = new MapChipField;
 	skydome_ = new Skydome();
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
@@ -83,6 +84,18 @@ void GameScene::Update()
 		}
 	}
 
+	for (std::vector<WorldTransform*> worldTransformBlock : worldTransformBlocks_)
+	{
+		for (WorldTransform* worldTransformBlock : ) {
+			Matrix4x4 scale_;
+			Matrix4x4 rotation_;
+			Matrix4x4 translation_;
+
+			Matrix4x4 matWorld_ = WorldTransform::UpdateMatrix(scale_, rotation_, translation_);
+
+			Matrix4x4 TransferMatrix();
+		}
+	}
 
 }
 
@@ -116,7 +129,6 @@ void GameScene::Draw() {
 	//天球の描画
 	skydome_->Draw(wolrldTransform_, viewProjection_);
 
-	//マップチップの描画
 	for (uint32_t i = 0; i < numBlockVirtical_; ++i) {
 		for (uint32_t j = 0; j < numBlockHorizontal_; ++j) {
 		
@@ -126,6 +138,15 @@ void GameScene::Draw() {
 				worldTransformBlocks_[i][j] = worldTransform;
 				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(i, j);
 			}
+		}
+	}
+
+	//マップチップの描画
+	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
 
@@ -179,3 +200,4 @@ void GameScene::GenerateBlocks()
 	}
 
 }
+
