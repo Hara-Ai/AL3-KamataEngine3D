@@ -1,15 +1,7 @@
 #include "Matrix4x4Function.h"
 
-Matrix4x4::Matrix4x4() {
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			m[i][j] = 0.0f;
-		}
-	}
-}
-
-Matrix4x4 Matrix4x4::MakeScaleMatrix(const Vector3& scale) {
-	Matrix4x4 scaleMatrix;
+Matrix4x4Function Matrix4x4Function::MakeScaleMatrix(const Vector3& scale) {
+	Matrix4x4Function scaleMatrix;
 	scaleMatrix.m[0][0] = scale.x;
 	scaleMatrix.m[1][1] = scale.y;
 	scaleMatrix.m[2][2] = scale.z;
@@ -17,10 +9,10 @@ Matrix4x4 Matrix4x4::MakeScaleMatrix(const Vector3& scale) {
 	return scaleMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeRotateXMatrix(float radian) {
+Matrix4x4Function Matrix4x4Function::MakeRotateXMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4 rotateXMatrix;
+	Matrix4x4Function rotateXMatrix;
 	rotateXMatrix.m[0][0] = 1.0f;
 	rotateXMatrix.m[1][1] = cosTheta;
 	rotateXMatrix.m[1][2] = sinTheta;
@@ -30,10 +22,10 @@ Matrix4x4 Matrix4x4::MakeRotateXMatrix(float radian) {
 	return rotateXMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeRotateYMatrix(float radian) {
+Matrix4x4Function Matrix4x4Function::MakeRotateYMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4 rotateYMatrix;
+	Matrix4x4Function rotateYMatrix;
 	rotateYMatrix.m[0][0] = cosTheta;
 	rotateYMatrix.m[0][2] = -sinTheta;
 	rotateYMatrix.m[1][1] = 1.0f;
@@ -43,10 +35,10 @@ Matrix4x4 Matrix4x4::MakeRotateYMatrix(float radian) {
 	return rotateYMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeRotateZMatrix(float radian) {
+Matrix4x4Function Matrix4x4Function::MakeRotateZMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4 rotateZMatrix;
+	Matrix4x4Function rotateZMatrix;
 	rotateZMatrix.m[0][0] = cosTheta;
 	rotateZMatrix.m[0][1] = sinTheta;
 	rotateZMatrix.m[1][0] = -sinTheta;
@@ -56,9 +48,8 @@ Matrix4x4 Matrix4x4::MakeRotateZMatrix(float radian) {
 	return rotateZMatrix;
 }
 
-Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) 
-{
-	Matrix4x4 result;
+Matrix4x4Function Matrix4x4Function::Multiply(Matrix4x4Function m1, Matrix4x4Function m2) {
+	Matrix4x4Function result;
 	for (int i = 0; i < 4; ++i) 
 	{
 		for (int j = 0; j < 4; ++j)
@@ -69,17 +60,16 @@ Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& m1, const Matrix4x4& m2)
 	return result;
 }
 
-Matrix4x4 Matrix4x4::MakeRotationMatrix(const Vector3& rotate) 
-{
-	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
-	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
-	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
-	return rotateXMatrix * rotateYMatrix * rotateZMatrix;
+Matrix4x4Function Matrix4x4Function::MakeRotationMatrix(const Vector3& rotate) {
+	Matrix4x4Function rotateXMatrix = MakeRotateXMatrix(rotate.x);
+	Matrix4x4Function rotateYMatrix = MakeRotateYMatrix(rotate.y);
+	Matrix4x4Function rotateZMatrix = MakeRotateZMatrix(rotate.z);
+	Matrix4x4Function a = rotateXMatrix * rotateYMatrix * rotateZMatrix;
+	return a;
 }
 
-Matrix4x4 Matrix4x4::MakeTranslationMatrix(const Vector3& translate) 
-{
-	Matrix4x4 translationMatrix;
+Matrix4x4Function Matrix4x4Function::MakeTranslationMatrix(const Vector3& translate) {
+	Matrix4x4Function translationMatrix;
 	translationMatrix.m[0][0] = 1.0f;
 	translationMatrix.m[1][1] = 1.0f;
 	translationMatrix.m[2][2] = 1.0f;
@@ -90,16 +80,14 @@ Matrix4x4 Matrix4x4::MakeTranslationMatrix(const Vector3& translate)
 	return translationMatrix;
 }
 
-Matrix4x4 Matrix4x4::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate)
-{
-	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
-	Matrix4x4 rotationMatrix = MakeRotationMatrix(rotate);
-	Matrix4x4 translationMatrix = MakeTranslationMatrix(translate);
-	return scaleMatrix * rotationMatrix * translationMatrix;
+Matrix4x4Function Matrix4x4Function::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+	Matrix4x4Function scaleMatrix = MakeScaleMatrix(scale);
+	Matrix4x4Function rotationMatrix = MakeRotationMatrix(rotate);
+	Matrix4x4Function translationMatrix = MakeTranslationMatrix(translate);
+	return (scaleMatrix * rotationMatrix * translationMatrix);
 }
 
-Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const 
-{ 
+Matrix4x4Function Matrix4x4Function::operator*(const Matrix4x4Function& other) const { 
 	return Multiply(*this, other); 
 }
 

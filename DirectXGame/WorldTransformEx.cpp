@@ -3,7 +3,7 @@
 
 void WorldTransform::UpdateMatrix() 
 {
-	matWorld_ = Matrix4x4::MakeAffineMatrix(scale_, rotation_, translation_);
+	matWorld_ = Matrix4x4Function::MakeAffineMatrix(scale_, rotation_, translation_);
 
 	WorldTransform::TransferMatrix();
 }

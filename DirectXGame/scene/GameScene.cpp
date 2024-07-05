@@ -1,5 +1,5 @@
 #include "GameScene.h"
-#include "MapChipField.h"
+//#include "MapChipField.h"
 #include "TextureManager.h"
 #include "Skydome.h"
 #include "Matrix4x4Function.h"
@@ -84,16 +84,10 @@ void GameScene::Update()
 		}
 	}
 
-	for (std::vector<WorldTransform*> worldTransformBlock : worldTransformBlocks_)
+	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_)
 	{
-		for (WorldTransform* worldTransformBlock : ) {
-			Matrix4x4 scale_;
-			Matrix4x4 rotation_;
-			Matrix4x4 translation_;
-
-			Matrix4x4 matWorld_ = WorldTransform::UpdateMatrix(scale_, rotation_, translation_);
-
-			Matrix4x4 TransferMatrix();
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			worldTransformBlock->UpdateMatrix();
 		}
 	}
 
@@ -188,7 +182,7 @@ void GameScene::GenerateBlocks()
 	{
 		for (uint32_t y = 0; numBlockHorizontal > y;y++)
 		{
-			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
+l			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
 			{
 				WorldTransform* worldTransform = new WorldTransform();
 				worldTransform->Initialize();
