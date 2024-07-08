@@ -1,5 +1,4 @@
 #include "GameScene.h"
-//#include "MapChipField.h"
 #include "TextureManager.h"
 #include "Skydome.h"
 #include "Matrix4x4Function.h"
@@ -26,17 +25,17 @@ GameScene::~GameScene()
 
 void GameScene::Initialize() {
 
-	GenerateBlocks();
+
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	const uint32_t kNumBlockVirtical = 10;
-	const uint32_t kNumBlockHorizontal = 20;
+	const uint32_t kNumBlockVirtical = 20;
+	const uint32_t kNumBlockHorizontal = 100;
 
-	numBlockVirtical_ = 10;
-	numBlockHorizontal_ = 20;
+	numBlockVirtical_ = 20;
+	numBlockHorizontal_ = 100;
 
 	const float kBlockWidth = 2.0f;
 	const float kBlockHeight = 2.0f;
@@ -51,8 +50,8 @@ void GameScene::Initialize() {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; j++) {
 			worldTransformBlocks_[i][j] = new WorldTransform();
 			worldTransformBlocks_[i][j]->Initialize();
-			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
-			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * i;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * j;
 		}
 	}
 	
@@ -68,9 +67,13 @@ void GameScene::Initialize() {
 	skydome_->Initialize();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
-	ViewProjection_;
+	wolrldTransform_.Initialize();
+	viewProjection_.Initialize();
 	wolrldTransform_;
 	mapChipData_ = {};
+
+	GenerateBlocks();
+
 }
 
 void GameScene::Update() 
@@ -182,7 +185,7 @@ void GameScene::GenerateBlocks()
 	{
 		for (uint32_t y = 0; numBlockHorizontal > y;y++)
 		{
-l			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
+			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock) 
 			{
 				WorldTransform* worldTransform = new WorldTransform();
 				worldTransform->Initialize();

@@ -59,7 +59,6 @@ private: // メンバ変数
 	WorldTransform wolrldTransform_;
 	ViewProjection viewProjection_; 
 	MapChipData mapChipData_;
-	Matrix4x4 ViewProjection_;
 	uint32_t numBlockVirtical_;
 	uint32_t numBlockHorizontal_;
 

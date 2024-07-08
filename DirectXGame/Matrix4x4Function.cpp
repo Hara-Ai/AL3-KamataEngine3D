@@ -1,7 +1,8 @@
 #include "Matrix4x4Function.h"
 
 Matrix4x4Function Matrix4x4Function::MakeScaleMatrix(const Vector3& scale) {
-	Matrix4x4Function scaleMatrix;
+	Matrix4x4Function scaleMatrix{};
+
 	scaleMatrix.m[0][0] = scale.x;
 	scaleMatrix.m[1][1] = scale.y;
 	scaleMatrix.m[2][2] = scale.z;
@@ -12,7 +13,7 @@ Matrix4x4Function Matrix4x4Function::MakeScaleMatrix(const Vector3& scale) {
 Matrix4x4Function Matrix4x4Function::MakeRotateXMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4Function rotateXMatrix;
+	Matrix4x4Function rotateXMatrix{};
 	rotateXMatrix.m[0][0] = 1.0f;
 	rotateXMatrix.m[1][1] = cosTheta;
 	rotateXMatrix.m[1][2] = sinTheta;
@@ -25,7 +26,7 @@ Matrix4x4Function Matrix4x4Function::MakeRotateXMatrix(float radian) {
 Matrix4x4Function Matrix4x4Function::MakeRotateYMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4Function rotateYMatrix;
+	Matrix4x4Function rotateYMatrix{};
 	rotateYMatrix.m[0][0] = cosTheta;
 	rotateYMatrix.m[0][2] = -sinTheta;
 	rotateYMatrix.m[1][1] = 1.0f;
@@ -38,7 +39,7 @@ Matrix4x4Function Matrix4x4Function::MakeRotateYMatrix(float radian) {
 Matrix4x4Function Matrix4x4Function::MakeRotateZMatrix(float radian) {
 	float cosTheta = std::cos(radian);
 	float sinTheta = std::sin(radian);
-	Matrix4x4Function rotateZMatrix;
+	Matrix4x4Function rotateZMatrix{};
 	rotateZMatrix.m[0][0] = cosTheta;
 	rotateZMatrix.m[0][1] = sinTheta;
 	rotateZMatrix.m[1][0] = -sinTheta;
@@ -49,7 +50,7 @@ Matrix4x4Function Matrix4x4Function::MakeRotateZMatrix(float radian) {
 }
 
 Matrix4x4Function Matrix4x4Function::Multiply(Matrix4x4Function m1, Matrix4x4Function m2) {
-	Matrix4x4Function result;
+	Matrix4x4Function result{};
 	for (int i = 0; i < 4; ++i) 
 	{
 		for (int j = 0; j < 4; ++j)
@@ -69,7 +70,7 @@ Matrix4x4Function Matrix4x4Function::MakeRotationMatrix(const Vector3& rotate) {
 }
 
 Matrix4x4Function Matrix4x4Function::MakeTranslationMatrix(const Vector3& translate) {
-	Matrix4x4Function translationMatrix;
+	Matrix4x4Function translationMatrix{};
 	translationMatrix.m[0][0] = 1.0f;
 	translationMatrix.m[1][1] = 1.0f;
 	translationMatrix.m[2][2] = 1.0f;
