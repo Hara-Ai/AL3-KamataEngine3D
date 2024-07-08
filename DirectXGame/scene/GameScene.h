@@ -9,6 +9,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
+#include "Player.h"
 
 
 /// <summary>
@@ -17,7 +19,6 @@
 class GameScene {
 
 public: // メンバ関数
-
 
 	/// <summary>
 	/// コンストクラタ
@@ -54,6 +55,7 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
+	Player* player_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform wolrldTransform_;
@@ -66,5 +68,10 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	
+	// デバックカメラ有効
+	bool isDebugCameraActiive_ = false;
+
+	//デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
 
 };

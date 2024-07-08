@@ -21,11 +21,14 @@ GameScene::~GameScene()
 	delete mapChipField_;
 	delete skydome_;
 	delete modelSkydome_;
+	delete debugCamera_;
+	delete player_;
 }
 
 void GameScene::Initialize() {
 
-
+	const float height = 720;
+	const float width = 1080;
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -72,6 +75,14 @@ void GameScene::Initialize() {
 	wolrldTransform_;
 	mapChipData_ = {};
 
+	debugCamera_ = new DebugCamera(width, height);
+
+	//自キャラの生成
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initialize();
+
+
 	GenerateBlocks();
 
 }
@@ -79,6 +90,8 @@ void GameScene::Initialize() {
 void GameScene::Update() 
 {
 	skydome_->Update();
+	//自キャラの更新
+	player_->Update();
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -93,6 +106,22 @@ void GameScene::Update()
 			worldTransformBlock->UpdateMatrix();
 		}
 	}
+
+	debugCamera_->Update();
+
+	#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_P))
+	{
+		isDebugCameraActiive_ = true;
+	}
+	#endif
+
+	if (isDebugCameraActiive_)
+	{
+
+	}
+
+	
 
 }
 
@@ -123,6 +152,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
+	//自キャラの描画
+	player_->Draw();
 	//天球の描画
 	skydome_->Draw(wolrldTransform_, viewProjection_);
 
