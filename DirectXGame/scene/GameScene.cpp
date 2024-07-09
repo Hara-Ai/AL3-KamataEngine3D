@@ -27,8 +27,8 @@ GameScene::~GameScene()
 
 void GameScene::Initialize() {
 
-	const float height = 720;
-	const float width = 1080;
+	const int height = 720;
+	const int width = 1080;
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -125,7 +125,8 @@ void GameScene::Update()
 
 }
 
-void GameScene::Draw() {
+void GameScene::Draw()
+{
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();

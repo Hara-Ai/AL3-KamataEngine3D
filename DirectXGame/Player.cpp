@@ -1,21 +1,28 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include <cassert>
 
-void Player::Initialize(Model* model, uint32_t textureHandle,ViewProjection* viewProjection) 
-{ 
-	assert(model);
-	//ˆø”‚Ì“à—e‚ğƒƒ“ƒo•Ï”‚É‹L˜^
-	viewProjection_ = viewProjection;
-	//ƒ[ƒ‹ƒh•ÏŠ·‚Ì‰Šú‰»
-	worldTransform_;
-}
+Player::Player() {}
+
+Player::~Player() {}
 
 void Player::Update() 
 {
-	// s—ñ‚ğ’è”ƒoƒbƒtƒ@‚É“]‘—
-	worldTransform_.TransferMatrix();
+	// è¡Œåˆ—ã‚’å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«è»¢é€
+	worldTransfrom_->TransferMatrix();
 }
 
+void Player::Draw()
+{ 
+	model_->Draw(*worldTransfrom_, *viewProjection_, textureHandle_);
+}
 
-void Player::Draw() 
-{ model_->Draw(worldTransform_, viewProjection_, textureHandle_); }
+void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection) 
+{
+	assert(model);
+	model_ = model;
+	textureHandle_ = textureHandle;
+	worldTransfrom_->Initialize();
+
+	// å¼•æ•°ã®å†…å®¹ã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«è¨˜éŒ²
+	viewProjection_ = viewProjection;
+}
