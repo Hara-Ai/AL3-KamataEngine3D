@@ -80,4 +80,7 @@ private: // メンバ変数
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
+	//デバックカメラのビュープロジェクション
+	ViewProjection debugViewProjection_; 
+
 };

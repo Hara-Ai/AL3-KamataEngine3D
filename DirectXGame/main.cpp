@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "MapChipField.h"
 #include "WinApp.h"
+#include "Player.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {

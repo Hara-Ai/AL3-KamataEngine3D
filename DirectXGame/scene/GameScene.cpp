@@ -45,8 +45,10 @@ void GameScene::Initialize() {
 
 	// 自キャラの生成
 	player_ = new Player();
+	//座標をマップトップ番号で指定
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(), mapChipField_->GetNumBlockVirtical());
 	// 自キャラの初期化
-	player_->Initialize(model_, tetureHandle_, &ViewProjection_);
+	player_->Initialize(model_, &ViewProjection_, playerPosition);
 
 
 	const uint32_t kNumBlockVirtical = 20;
@@ -95,7 +97,7 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initialize(model_, tetureHandle_, &ViewProjection_);
+	player_->Initialize(model_, &ViewProjection_,playerPosition);
 
 
 	GenerateBlocks();
@@ -133,7 +135,15 @@ void GameScene::Update()
 
 	if (isDebugCameraActiive_)
 	{
-
+		ViewProjection_.matView = ViewProjection_;
+		ViewProjection_.matProjection;
+		//ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} 
+	else
+	{
+		//ビュープロジェクション行列の更新と転送
+		viewProjection_.UpdateMatrix();
 	}
 
 	

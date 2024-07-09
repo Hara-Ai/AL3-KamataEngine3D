@@ -13,7 +13,7 @@ public:
 	/// 初期化処理
 	/// </summary>
 	/// <param name="model">モデル</param>
-	void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
 
 	/// <summary>
 	/// 更新処理
@@ -27,7 +27,7 @@ public:
 
 private:
 	// ワールド変換データ
-	WorldTransform* worldTransfrom_ = nullptr;
+	WorldTransform worldTransfrom_;
 
 	// モデル
 	Model* model_ = nullptr;
@@ -37,4 +37,7 @@ private:
 
 	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
+
+	static inline const float kAcceleraion = 0.3f;
+	Vector3 velocity_ = {};
 };
