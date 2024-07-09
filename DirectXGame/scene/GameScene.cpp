@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "Skydome.h"
 #include "Matrix4x4Function.h"
+#include "Player.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -33,6 +34,20 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	tetureHandle_ = TextureManager::Load("sample.png");
+
+	// 3Dモデルの生成
+	model_ = Model::Create();
+
+	worldTransform_.Initialize();
+	ViewProjection_.Initialize();
+
+	// 自キャラの生成
+	player_ = new Player();
+	// 自キャラの初期化
+	player_->Initialize(model_, tetureHandle_, &ViewProjection_);
+
 
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
