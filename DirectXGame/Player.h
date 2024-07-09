@@ -27,7 +27,7 @@ public:
 
 private:
 	// ワールド変換データ
-	WorldTransform* worldTransfrom_;
+	WorldTransform* worldTransfrom_ = nullptr;
 
 	// モデル
 	Model* model_ = nullptr;

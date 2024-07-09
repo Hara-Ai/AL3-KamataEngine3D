@@ -48,6 +48,10 @@ public: // メンバ関数
 	void GenerateBlocks();
 
 private: // メンバ変数
+
+	WorldTransform worldTransform_;
+	ViewProjection ViewProjection_;
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
@@ -56,6 +60,7 @@ private: // メンバ変数
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 	Player* player_ = nullptr;
+	Model* model_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform wolrldTransform_;
@@ -63,6 +68,7 @@ private: // メンバ変数
 	MapChipData mapChipData_;
 	uint32_t numBlockVirtical_;
 	uint32_t numBlockHorizontal_;
+	uint32_t tetureHandle_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用
