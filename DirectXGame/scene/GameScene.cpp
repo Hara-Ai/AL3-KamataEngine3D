@@ -21,15 +21,14 @@ GameScene::~GameScene()
 	delete modelSkydome_;
 	delete mapChipField_;
 	delete skydome_;
-	delete modelSkydome_;
 	delete debugCamera_;
 	delete player_;
 }
 
 void GameScene::Initialize() {
 
-	const int height = 720;
-	const int width = 1080;
+	//int height = 720;
+	//int width = 1280;
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -41,14 +40,13 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 
 	worldTransform_.Initialize();
-	ViewProjection_.Initialize();
 
 	// 自キャラの生成
 	player_ = new Player();
 	//座標をマップトップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(), mapChipField_->GetNumBlockVirtical());
 	// 自キャラの初期化
-	player_->Initialize(model_, &ViewProjection_, playerPosition);
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 
 	const uint32_t kNumBlockVirtical = 20;
@@ -92,12 +90,12 @@ void GameScene::Initialize() {
 	wolrldTransform_;
 	mapChipData_ = {};
 
-	debugCamera_ = new DebugCamera(width, height);
-
+	debugCamera_ = new DebugCamera(1280,720);
+	
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initialize(model_, &ViewProjection_,playerPosition);
+	player_->Initialize(model_, &viewProjection_,playerPosition);
 
 
 	GenerateBlocks();
@@ -124,19 +122,19 @@ void GameScene::Update()
 		}
 	}
 
-	debugCamera_->Update();
-
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_P))
 	{
 		isDebugCameraActiive_ = true;
 	}
 	#endif
+	
+	debugCamera_->Update();
 
 	if (isDebugCameraActiive_)
 	{
-		ViewProjection_.matView = ViewProjection_;
-		ViewProjection_.matProjection;
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		//ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} 

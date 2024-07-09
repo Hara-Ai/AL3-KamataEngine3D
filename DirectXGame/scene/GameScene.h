@@ -50,8 +50,6 @@ public: // メンバ関数
 private: // メンバ変数
 
 	WorldTransform worldTransform_;
-	ViewProjection ViewProjection_;
-
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr; 
 	Audio* audio_ = nullptr;
@@ -63,11 +61,11 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-	WorldTransform wolrldTransform_;
-	ViewProjection viewProjection_; 
-	MapChipData mapChipData_;
-	uint32_t numBlockVirtical_;
-	uint32_t numBlockHorizontal_;
+	WorldTransform wolrldTransform_ = {};
+	ViewProjection viewProjection_ = {}; 
+	MapChipData mapChipData_ = {};
+	uint32_t numBlockVirtical_ = 0;
+	uint32_t numBlockHorizontal_ = 0;
 	uint32_t tetureHandle_ = 0;
 
 	/// <summary>
@@ -81,6 +79,6 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 
 	//デバックカメラのビュープロジェクション
-	ViewProjection debugViewProjection_; 
+	ViewProjection* debugViewProjection_; 
 
 };

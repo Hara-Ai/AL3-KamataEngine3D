@@ -38,9 +38,9 @@ public:
 #pragma endregion
 
 	// ビュー行列
-	Matrix4x4Function matView;
+	Matrix4x4Function matView = {};
 	// 射影行列
-	Matrix4x4Function matProjection;
+	Matrix4x4Function matProjection = {};
 
 	ViewProjection() = default;
 	~ViewProjection() = default;
