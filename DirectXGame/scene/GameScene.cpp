@@ -46,8 +46,8 @@ void GameScene::Initialize() {
 	//座標をマップトップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(), mapChipField_->GetNumBlockVirtical());
 	// 自キャラの初期化
+	model_ = Model::CreateFromOBJ("player", true);
 	player_->Initialize(model_, &viewProjection_, playerPosition);
-
 
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
@@ -76,13 +76,13 @@ void GameScene::Initialize() {
 
 
 	modelBlock_ = Model::Create();
-	modelSkydome_ = Model::Create();
 	mapChipField_ = new MapChipField;
-	skydome_ = new Skydome();
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
-
-	skydome_->Initialize();
+	//スカイドームの初期化
+	skydome_ = new Skydome();
+	modelSkydome_ = Model::Create();
+	skydome_->Initialize(model_, &viewProjection_);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	wolrldTransform_.Initialize();
@@ -91,11 +91,6 @@ void GameScene::Initialize() {
 	mapChipData_ = {};
 
 	debugCamera_ = new DebugCamera(1280,720);
-	
-	//自キャラの生成
-	player_ = new Player();
-	//自キャラの初期化
-	player_->Initialize(model_, &viewProjection_,playerPosition);
 
 
 	GenerateBlocks();
@@ -179,26 +174,14 @@ void GameScene::Draw()
 	//自キャラの描画
 	player_->Draw();
 	//天球の描画
-	skydome_->Draw(wolrldTransform_, viewProjection_);
-
-	for (uint32_t i = 0; i < numBlockVirtical_; ++i) {
-		for (uint32_t j = 0; j < numBlockHorizontal_; ++j) {
-		
-			if (mapChipField_->GetMapChipTypeByIndex(i, j) == MapChipType::kBlock) {
-				WorldTransform* worldTransform = new WorldTransform();
-				worldTransform->Initialize();
-				worldTransformBlocks_[i][j] = worldTransform;
-				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(i, j);
-			}
-		}
-	}
+	skydome_->Draw();
 
 	//マップチップの描画
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
-			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+			//modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
 

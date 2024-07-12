@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(Model* model, ViewProjection* viewProjection);
 	
 	Skydome();
 
@@ -24,10 +24,10 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const WorldTransform& WorldTransform, const ViewProjection& ViewProjection);
+	void Draw();
 
 	private:
-	WorldTransform* worldTransform_;
+	WorldTransform worldTransform_;
 	ViewProjection* viewProjection_;
 	
 
