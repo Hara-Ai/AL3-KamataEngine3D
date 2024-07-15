@@ -124,7 +124,7 @@ void Player::Update()
 	else 
 	{
 		// 落下速度
-		velocity_. += Vector3(0, -kGravityAcceleration, 0);
+		velocity_ += Vector3(0, -kGravityAcceleration, 0);
 		// 落下速度制限
 		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
 	}
