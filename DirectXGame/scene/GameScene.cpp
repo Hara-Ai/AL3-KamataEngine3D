@@ -45,7 +45,7 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 	//座標をマップトップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,-5);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,1);
 	// 自キャラの初期化
 	
 	player_->Initialize(model_, &viewProjection_, playerPosition);

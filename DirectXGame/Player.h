@@ -45,7 +45,12 @@ private:
 	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
+	LRDirection lrDirection_ = LRDirection::kLeft;
+
 	static inline const float kAcceleraion = 0.3f;
 	static inline const float kLimitRunSpeed = 0.8f;
 	Vector3 velocity_ = {};
+
+
+
 };

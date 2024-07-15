@@ -42,10 +42,18 @@ void Player::Update()
 				velocity_.x *= (1.0f - kAcceleraion);
 			}
 			acceleration .x+= kAcceleraion;
+
+			if (lrDirection_ != LRDirection::kLeft) {
+				lrDirection_ = LRDirection::kLeft;
+			}
 		} 
 		else if (Input::GetInstance()->PushKey(DIK_LEFT))
 		{
 			acceleration.x -= kAcceleraion;
+			
+			if (lrDirection_ != LRDirection::kRight) {
+				lrDirection_ = LRDirection::kRight;
+			}
 		}
 
 		//右移動中の左入力
@@ -54,6 +62,18 @@ void Player::Update()
 			//速度と逆方向に入力中は急ブレーキ
 			velocity_.x *= (1.0f - kAcceleraion);
 		}
+
+		//旋回制御
+		//左右の自キャラ角度テーブル
+		float destinationRotationYTable[] = 
+		{
+			std::numbers::pi_v<float> / 2.0f, 
+			std::numbers::pi_v<float> * 3.0f / 2.0f
+		};
+		//状態に応じえた角度を取得する
+		float destionRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection_)];
+		//自キャラの角度を設定する
+		worldTransfrom_.rotation_.y = destionRotationY;
 
 		//加速/減速
 		velocity_.x += acceleration.x;
