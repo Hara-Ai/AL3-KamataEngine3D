@@ -51,6 +51,22 @@ private:
 	static inline const float kLimitRunSpeed = 0.8f;
 	Vector3 velocity_ = {};
 
+	// 旋回開始時の角度
+	float turnFirstRotationY_ = 0.0f;
+	// 旋回タイマー
+	float turnTimer_ = 0.0f;
+	// 旋回時間<秒>
+	static inline const float kTimeTurn = 0.3f;
+
+	// 接地状態フラグ
+	bool onGround_ = true;
+
+	//重力加速度(下方向)
+	static inline const float kGravityAcceleration = 0.1f;
+	// 最大落下速度(下方向)
+	static inline const float kLimitFallSpeed = 0.5f;
+	// ジャンプ速度(上方向)
+	static inline const float kJumpAcceleration = 0.3f;
 
 
 };
