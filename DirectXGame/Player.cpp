@@ -1,8 +1,10 @@
 ﻿#include "Player.h"
+#include "WorldTransform.h"
+#include "ViewProjection.h" 
 #include <cassert>
 #include <numbers>
-#include "WorldTransform.h"
 #include <Input.h>
+#include <algorithm>
 
 Player::Player() {}
 
@@ -30,22 +32,41 @@ void Player::Update()
 	{
 		//左右加速
 		Vector3 acceleration = {};
+
 		if (Input::GetInstance()->PushKey(DIK_RIGHT))
 		{
+			//左移動中の右入力
+			if (velocity_.x < 0.0f)
+			{
+				//速度と逆方向に入力中は急ブレーキ
+				velocity_.x *= (1.0f - kAcceleraion);
+			}
 			acceleration .x+= kAcceleraion;
 		} 
 		else if (Input::GetInstance()->PushKey(DIK_LEFT))
 		{
 			acceleration.x -= kAcceleraion;
 		}
+
+		//右移動中の左入力
+		if (velocity_.x < 0.0f)
+		{
+			//速度と逆方向に入力中は急ブレーキ
+			velocity_.x *= (1.0f - kAcceleraion);
+		}
+
 		//加速/減速
 		velocity_.x += acceleration.x;
+
+		//最大速度制限
+		velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 	}
 	else 
 	{
 		//非入力時は移動減衰をかける
 		velocity_.x *= (1.0f - kAcceleraion);
 	}
+
 	//移動
 	worldTransfrom_.translation_.x += velocity_.x;
 	//行列計算

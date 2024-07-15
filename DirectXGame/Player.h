@@ -2,6 +2,13 @@
 #include "Model.h"
 #include "WorldTransform.h"
 
+// 左右
+enum class LRDirection
+{
+	kRight,
+	kLeft,
+};
+
 class Player 
 {
 
@@ -39,5 +46,6 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 
 	static inline const float kAcceleraion = 0.3f;
+	static inline const float kLimitRunSpeed = 0.8f;
 	Vector3 velocity_ = {};
 };

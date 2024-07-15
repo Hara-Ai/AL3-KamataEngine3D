@@ -37,16 +37,17 @@ void GameScene::Initialize() {
 	tetureHandle_ = TextureManager::Load("sample.png");
 
 	// 3Dモデルの生成
-	model_ = Model::Create();
+//	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("player", true);
 
 	worldTransform_.Initialize();
 
 	// 自キャラの生成
 	player_ = new Player();
 	//座標をマップトップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(), mapChipField_->GetNumBlockVirtical());
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,-5);
 	// 自キャラの初期化
-	model_ = Model::CreateFromOBJ("player", true);
+	
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	const uint32_t kNumBlockVirtical = 20;
@@ -174,7 +175,7 @@ void GameScene::Draw()
 	//自キャラの描画
 	player_->Draw();
 	//天球の描画
-	skydome_->Draw();
+	//skydome_->Draw();
 
 	//マップチップの描画
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
