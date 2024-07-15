@@ -41,17 +41,7 @@ void Player::Update()
 		else
 		{
 			// 着地
-			if (landing)
-			{
-				// めり込み排斥
-				worldTransfrom_.translation_.y = 1.0f;
-				// 摩擦で横方向速度が減衰する
-				velocity_.x *= (1.0f - kAcceleraion);
-				// 下方向速度をリセット
-				velocity_.y = 0.0f;
-				// 接地状態に移行
-				onGround_ = true;
-			}
+			
 		}
 
 
@@ -124,7 +114,7 @@ void Player::Update()
 	else 
 	{
 		// 落下速度
-		velocity_ += Vector3(0, -kGravityAcceleration, 0);
+		velocity_ = Vector3(0, -kGravityAcceleration, 0);
 		// 落下速度制限
 		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
 	}
@@ -138,10 +128,20 @@ void Player::Update()
 		{
 			landing = true;
 		}
+		if (landing) {
+			// めり込み排斥
+			worldTransfrom_.translation_.y = 1.0f;
+			// 摩擦で横方向速度が減衰する
+			velocity_.x *= (1.0f - kAcceleraion);
+			// 下方向速度をリセット
+			velocity_.y = 0.0f;
+			// 接地状態に移行
+			onGround_ = true;
+		}
 	}
 
 	//移動
-	worldTransfrom_.translation_.x += velocity_.x;
+	worldTransfrom_.translation_ += velocity_;
 	//行列計算
 	worldTransfrom_.UpdateMatrix();
 

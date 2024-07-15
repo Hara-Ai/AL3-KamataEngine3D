@@ -69,8 +69,8 @@ void GameScene::Initialize() {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; j++) {
 			worldTransformBlocks_[i][j] = new WorldTransform();
 			worldTransformBlocks_[i][j]->Initialize();
-			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * i;
-			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * j;
+			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
+			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
 	
@@ -88,7 +88,11 @@ void GameScene::Initialize() {
 
 	wolrldTransform_.Initialize();
 	viewProjection_.Initialize();
-	wolrldTransform_;
+
+	//カメラの位置の調整
+	viewProjection_.translation_.y = 20;
+	viewProjection_.translation_.x = 20;
+
 	mapChipData_ = {};
 
 	debugCamera_ = new DebugCamera(1280,720);
@@ -182,7 +186,7 @@ void GameScene::Draw()
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
-			//modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
 
