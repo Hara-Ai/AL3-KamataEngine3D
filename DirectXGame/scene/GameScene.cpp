@@ -95,19 +95,24 @@ void GameScene::Initialize() {
 
 	 GenerateBlocks();
 
+
 	// カメラコントローラの初期化
 	CameraController_ = new CameraController; // 生成
 	CameraController_->Initialize();          // 初期化
 	CameraController_->SetTarget(player_);    // 追跡対象をリセット
 	CameraController_->Reset();               // リセット(瞬間合わせ)
 
-	Rect MovementRange
+	//出力範囲の初期化
+	Rect setter = 
 	{
-	    1.0f,  // 左端
-	    30.0f, // 右端
-	    0.0f,  // 下端
-	    1.0f,  // 上端
-	};
+		35.5,    //左端
+		160.5,   //右端
+		20.0, 	 //下端
+		25.0,    //上端
+	}; 
+
+	CameraController_->SetMovableArea(setter);
+
 
 }
 
@@ -202,6 +207,8 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
+
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

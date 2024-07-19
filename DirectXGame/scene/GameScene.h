@@ -69,7 +69,7 @@ private: // メンバ変数
 	uint32_t numBlockVirtical_ = 0;
 	uint32_t numBlockHorizontal_ = 0;
 	uint32_t tetureHandle_ = 0;
-
+	
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
