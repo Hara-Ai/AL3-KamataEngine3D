@@ -11,6 +11,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Player.h"
+#include "CameraController.h"
 
 
 /// <summary>
@@ -59,6 +60,7 @@ private: // メンバ変数
 	Skydome* skydome_ = nullptr;
 	Player* player_ = nullptr;
 	Model* model_ = nullptr;
+	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 	WorldTransform wolrldTransform_ = {};

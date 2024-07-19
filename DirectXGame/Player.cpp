@@ -12,6 +12,17 @@ Player::Player() {}
 
 Player::~Player() {}
 
+WorldTransform& Player::GetWorldTrnsform() {
+	// TODO: return ステートメントをここに挿入します
+	//Vector3 worldPosition = {};
+	//worldPosition.x = worldTransfrom_.translation_.x;
+	//worldPosition.y = worldTransfrom_.translation_.y;
+	//worldPosition.z = worldTransfrom_.translation_.z;
+	//
+	//return worldPosition;
+	return worldTransfrom_;
+}
+
 void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 	worldTransfrom_.Initialize();
@@ -38,11 +49,7 @@ void Player::Update()
 			// 空中状態に移行
 			onGround_ = false;
 		} 
-		else
-		{
-			// 着地
-			
-		}
+		
 
 
 		// 左右移動操作
@@ -151,6 +158,14 @@ void Player::Update()
 
 void Player::Draw()
 { 
-	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_);
-}
+	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); }
+//WorldTransform Player::GetWorldTrnsform() 
+//{
+//	Vector3 worldPosition;
+//	worldPosition.x = worldTransfrom_.translation_.x;
+//	worldPosition.y = worldTransfrom_.translation_.y;
+//	worldPosition.z = worldTransfrom_.translation_.z;
+//
+//	return worldPosition; 
+//}
 

@@ -16,6 +16,8 @@ public:
 	Player();
 	~Player();
 
+	WorldTransform& GetWorldTrnsform();
+
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
@@ -62,11 +64,11 @@ private:
 	bool onGround_ = true;
 
 	//重力加速度(下方向)
-	static inline const float kGravityAcceleration = 0.1f;
+	static inline const float kGravityAcceleration = 0.2f;
 	// 最大落下速度(下方向)
-	static inline const float kLimitFallSpeed = 0.5f;
+	static inline const float kLimitFallSpeed = 2.0f;
 	// ジャンプ速度(上方向)
-	static inline const float kJumpAcceleration = 0.9f;
+	static inline const float kJumpAcceleration = 2.0f;
 
 
 };
