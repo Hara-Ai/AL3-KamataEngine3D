@@ -2,7 +2,7 @@
 #include <string>
 #include <Vector3.h>
 #include <vector>
-
+#include "WorldTransform.h"
 
 
 /// <sumary>
@@ -20,6 +20,21 @@ struct  MapChipData
 
 };
 
+struct IndexSet {
+	uint32_t xIndex;
+	uint32_t yIndex;
+};
+
+// 範囲短形
+struct Rect 
+{
+	float left;   // 左端
+	float right;  // 右端
+	float bottom; // 下端
+	float top;    // 上橋
+};
+
+
 class MapChipField 
 {
 public:
@@ -33,9 +48,9 @@ public:
 	void LoadMapChipCsv(const std::string& filePath);
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+	IndexSet GetMapChipIndexSetByPoition(const Vector3& position);
+	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
-
-	MapChipData mapChipData_;
 
 private:
 	//1ブロックのサイズ
@@ -46,5 +61,7 @@ private:
 	static inline const uint32_t kNumBlockVirtical = 20;
 	static inline const uint32_t kNumBlockHorizontal = 100;
 
+	MapChipData mapChipData_;
+	WorldTransform worldTransformBlocks_;
 };
 

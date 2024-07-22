@@ -1,4 +1,5 @@
-﻿#include "MapChipField.h.h"
+﻿#include "MapChipField.h"
+
 #include <map>
 #include <fstream>
 #include <sstream>
@@ -79,13 +80,27 @@ Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex
 	return Vector3(kBockWidth * xIndex,kBockHeight * (kNumBockVirtical - 1 -yIndex),0); 
 }
 
-IndexSet GetMapChipIndexSetByPoition(const Vector3& position)
+IndexSet MapChipField::GetMapChipIndexSetByPoition(const Vector3& position)
 {
 	IndexSet indexSet = {};
-	indexSet.xIndex = ...;
-	indexSet.xIndex = ...;
+
+
+	float x = ((position.x + kBockWidth / 2)/ kBockHeight);
+	float y = ((position.y + kBockWidth / 2)/ kBockHeight);
+	indexSet.xIndex = kNumBockVirtical - 1 - x;
+	indexSet.yIndex = kNumBockVirtical - 1 - y;
 	return indexSet;
+}
 
+Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex) 
+{
+	// 指定ブロックの中心座標を取得する
+	Vector3 center = GetMapChipPositionByIndex(xIndex, yIndex);
 
-
+	Rect rect;
+	rect.left = center.x - kBlockWidth / 2.0f;
+	rect.right = center.x - kBlockWidth / 2.0f;
+	rect.bottom = center.y - kBlockHeight / 2.0f;
+	rect.top = center.y - kBlockHeight / 2.0f;
+	return rect;
 }

@@ -49,6 +49,8 @@ public:
 	//マップ衝突判定
 	void MapCollisionDetection(CollisionMapInfo& info);
 
+	void CollisonMapTop(CollisionMapInfo& info);//上
+
 	/// <summary>
 	/// 初期化処理
 	/// </summary>

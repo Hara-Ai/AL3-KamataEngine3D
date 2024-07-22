@@ -6,6 +6,7 @@
 #include <numbers>
 #include <Input.h>
 #include <algorithm>
+#include "MapChipField.h"
 
 
 Player::Player() {}
@@ -32,17 +33,47 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 
 void Player::MapCollisionDetection(CollisionMapInfo& info) 
 {
+	CollisonMapTop(info);
+
+}
+
+//上方向衝突判定
+void Player::CollisonMapTop(CollisionMapInfo& info)
+{
 	std::array<Vector3, kNumCorner> positionsNew;
 
-	for (uint32_t i = 0; i < positionsNew.size(); ++i) 
-	{
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
 		positionsNew[i] = CornerPosition(worldTransfrom_.translation_ + info.moveMent, static_cast<Corner>(i));
 	}
 
-	//上昇あり?
-	if (info.moveMent.y <= 0)
-	{
+	// 上昇あり?
+	if (info.moveMent.y <= 0) {
 		return;
+	}
+
+	MapChipType mapChpiType;
+	// 真上の当たり判定を行う
+	bool hit = false;
+
+	// 左上点の判定
+	IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock)
+	{
+		hit = true;
+	}
+	//右上の判定
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	//ブロックにヒット?
+	if (hit)
+	{
+
 	}
 
 }
