@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MapChipField.h"
 #include "Audio.h"
 #include "DirectXCommon.h"
