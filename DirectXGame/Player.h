@@ -70,5 +70,6 @@ private:
 	// ジャンプ速度(上方向)
 	static inline const float kJumpAcceleration = 2.0f;
 
+	const Vector3& GetVelocity() const { return velocity_; }
 
 };

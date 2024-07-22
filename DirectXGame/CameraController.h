@@ -68,8 +68,13 @@ private:
 
 	// カメラの目標座標
 	Vector3 cameraTargetCoordinates;
+	//速度の加算
+	Vector3 targetVelocity;
 	//座上補間割合
 	static inline const float kInterpolationRate = 0.8f;
-
+	// 速度掛け率
+	static inline const float kVelocityBias = 1.2f;
+	// 追従対象の各方向へカメラ移動範囲
+	static inline const Rect Margin = {0, 0, 0, 0};
 };
 
