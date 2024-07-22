@@ -40,22 +40,12 @@ void GameScene::Initialize() {
 
 	worldTransform_.Initialize();
 
-	// 自キャラの生成
-	player_ = new Player();
-	// 座標をマップトップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
-	// 自キャラの初期化
-
-	player_->Initialize(model_, &viewProjection_, playerPosition);
-
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
 
 	numBlockVirtical_ = 20;
 	numBlockHorizontal_ = 100;
-
-	// const float kBlockWidth = 2.0f;
-	// const float kBlockHeight = 2.0f;
+	;
 
 	worldTransformBlocks_.resize(kNumBlockVirtical);
 
@@ -63,18 +53,17 @@ void GameScene::Initialize() {
 		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
 
-	// for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-	//	for (uint32_t j = 0; j < kNumBlockHorizontal; j++) {
-	//		worldTransformBlocks_[i][j] = new WorldTransform();
-	//		worldTransformBlocks_[i][j]->Initialize();
-	//		worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
-	//		worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
-	//	}
-	// }
-
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+
+
+	// 自キャラの生成
+	player_ = new Player();
+	// 座標をマップトップ番号で指定
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
+	// 自キャラの初期化
+	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	// スカイドームの初期化
 	skydome_ = new Skydome();
@@ -88,8 +77,6 @@ void GameScene::Initialize() {
 	// カメラの位置の調整
 	viewProjection_.translation_.y = 10;
 	viewProjection_.translation_.x = 20;
-
-	// mapChipData_ = {};
 
 	debugCamera_ = new DebugCamera(1280, 720);
 
@@ -113,6 +100,7 @@ void GameScene::Initialize() {
 
 	CameraController_->SetMovableArea(setter);
 
+	player_->SetMapChipField(mapChipField_);
 
 }
 
@@ -120,13 +108,6 @@ void GameScene::Update() {
 	skydome_->Update();
 	// 自キャラの更新
 	player_->Update();
-
-	// for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
-	//	for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-	//		if (!worldTransformBlock)
-	//			continue;
-	//	}
-	// }
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

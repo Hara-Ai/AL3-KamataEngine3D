@@ -12,15 +12,39 @@ Player::Player() {}
 
 Player::~Player() {}
 
-WorldTransform& Player::GetWorldTrnsform() {
-	// TODO: return ステートメントをここに挿入します
-	//Vector3 worldPosition = {};
-	//worldPosition.x = worldTransfrom_.translation_.x;
-	//worldPosition.y = worldTransfrom_.translation_.y;
-	//worldPosition.z = worldTransfrom_.translation_.z;
-	//
-	//return worldPosition;
+WorldTransform& Player::GetWorldTrnsform() 
+{
 	return worldTransfrom_;
+}
+
+Vector3 Player::CornerPosition(const Vector3& center, Corner corner) 
+{ 
+
+
+	Vector3 offsetTable[kNumCorner] = {
+	    {+kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kRightBottom
+	    {-kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kLeftBottom
+	    {+kWidth / 2.0f, +kHeigth / 2.0f, 0}, //  kRightTop
+	    {-kWidth / 2.0f, +kHeigth / 2.0f, 0}, //  kLeftTop
+	}; 
+	return center + offsetTable[static_cast<uint32_t>(corner)];
+}
+
+void Player::MapCollisionDetection(CollisionMapInfo& info) 
+{
+	std::array<Vector3, kNumCorner> positionsNew;
+
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) 
+	{
+		positionsNew[i] = CornerPosition(worldTransfrom_.translation_ + info.moveMent, static_cast<Corner>(i));
+	}
+
+	//上昇あり?
+	if (info.moveMent.y <= 0)
+	{
+		return;
+	}
+
 }
 
 void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
@@ -36,13 +60,13 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 
 void Player::Update() 
 {
-	// 行列を定数バッファに転送
-	worldTransfrom_.TransferMatrix();
+	
 	bool landing = false;
 
-	// 移動入力
+	// ①移動入力
 	// //接地状態
-	if (onGround_) {
+	if (onGround_) 
+	{
 		//ジャンプ開始
 		if (velocity_.y > 0.0f)
 		{
@@ -50,32 +74,36 @@ void Player::Update()
 			onGround_ = false;
 		} 
 		
-
-
 		// 左右移動操作
-		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
+		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
+		{
 			// 左右加速
 			Vector3 acceleration = {};
 
-			if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
+			if (Input::GetInstance()->PushKey(DIK_RIGHT))
+			{
 				// 左移動中の右入力
-				if (velocity_.x < 0.0f) {
+				if (velocity_.x < 0.0f) 
+				{
 					// 速度と逆方向に入力中は急ブレーキ
 					velocity_.x *= (1.0f - kAcceleraion);
 				}
 				acceleration.x += kAcceleraion;
 
-				if (lrDirection_ != LRDirection::kLeft) {
+				if (lrDirection_ != LRDirection::kLeft) 
+				{
 					lrDirection_ = LRDirection::kLeft;
 					// 旋回開始の角度を記録する
 					turnFirstRotationY_ = static_cast<float>(lrDirection_);
 					// 旋回タイマーに時間を設定する
 					turnTimer_ = kTimeTurn;
 				}
-			} else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+			} else if (Input::GetInstance()->PushKey(DIK_LEFT))
+			{
 				acceleration.x -= kAcceleraion;
 
-				if (lrDirection_ != LRDirection::kRight) {
+				if (lrDirection_ != LRDirection::kRight) 
+				{
 					lrDirection_ = LRDirection::kRight;
 					// 旋回開始の角度を記録する
 					turnFirstRotationY_ = static_cast<float>(lrDirection_);
@@ -85,13 +113,15 @@ void Player::Update()
 			}
 
 			// 右移動中の左入力
-			if (velocity_.x < 0.0f) {
+			if (velocity_.x < 0.0f) 
+			{
 				// 速度と逆方向に入力中は急ブレーキ
 				velocity_.x *= (1.0f - kAcceleraion);
 			}
 
 			// 旋回制御
-			if (turnTimer_ > 0.0f) {
+			if (turnTimer_ > 0.0f)
+			{
 				turnTimer_ = turnTimer_ - 1.0f / 60.0f;
 
 				// 左右の自キャラ角度テーブル
@@ -147,8 +177,22 @@ void Player::Update()
 		}
 	}
 
+	// ②移動情報初期化
+	CollisionMapInfo collisionMapInfo;
+
+	// 移動量に速度の値をコピー
+	collisionMapInfo.moveMent = velocity_;
+
+	// マップ衝突チェック
+	MapCollisionDetection(collisionMapInfo);
+
 	//移動
 	worldTransfrom_.translation_ += velocity_;
+
+
+
+	// 行列を定数バッファに転送
+	worldTransfrom_.TransferMatrix();
 	//行列計算
 	worldTransfrom_.UpdateMatrix();
 
@@ -158,7 +202,9 @@ void Player::Update()
 
 void Player::Draw()
 { 
-	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); }
+	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); 
+}
+
 //WorldTransform Player::GetWorldTrnsform() 
 //{
 //	Vector3 worldPosition;

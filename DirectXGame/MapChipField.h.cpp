@@ -79,4 +79,13 @@ Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex
 	return Vector3(kBockWidth * xIndex,kBockHeight * (kNumBockVirtical - 1 -yIndex),0); 
 }
 
+IndexSet GetMapChipIndexSetByPoition(const Vector3& position)
+{
+	IndexSet indexSet = {};
+	indexSet.xIndex = ...;
+	indexSet.xIndex = ...;
+	return indexSet;
 
+
+
+}
