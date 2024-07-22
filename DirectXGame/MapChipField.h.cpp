@@ -10,7 +10,8 @@ std::map<std::string, MapChipType> mapChipTable =
     {"1", MapChipType::kBlock},
 };
 
-void MapChipField::ResetMapChipData() {
+void MapChipField::ResetMapChipData() 
+{
 	mapChipData_.data.clear();
 	mapChipData_.data.resize(kNumBockVirtical);
 	for (std::vector<MapChipType>& mapChipDataLine : mapChipData_.data) {
