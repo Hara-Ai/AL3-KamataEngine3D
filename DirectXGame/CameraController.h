@@ -23,6 +23,10 @@ public:
 	void Initialize();
 	void SetTarget(Player* target) { target_ = target; }
 	void Reset();
+	Vector3 Lerp(const Vector3& a, const Vector3& b, float t) 
+	{ 
+		return {t * a.x + (1.0f - t) * b.x, t * a.y + (1.0f - t) * b.z, t * a.z + (1.0f - t) * b.z}; 
+	}
 
 	/// <summary>
 	/// ビュープロジェクションを取得
@@ -62,7 +66,10 @@ private:
 		1000  //上端
 	};
 
-
+	// カメラの目標座標
+	Vector3 cameraTargetCoordinates;
+	//座上補間割合
+	static inline const float kInterpolationRate = 0.8f;
 
 };
 
