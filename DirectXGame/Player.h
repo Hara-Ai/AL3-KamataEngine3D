@@ -2,6 +2,8 @@
 #include "Model.h"
 #include "WorldTransform.h"
 
+class MapChipField;
+
 // 左右
 enum class LRDirection
 {
@@ -23,6 +25,7 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
+	void SetMapChipField(MapChipField* mapChipField){mapChipFieid_ = mapChipField;}
 
 	/// <summary>
 	/// 更新処理
@@ -70,5 +73,11 @@ private:
 	// ジャンプ速度(上方向)
 	static inline const float kJumpAcceleration = 2.0f;
 
+	// マップチップによるフィールド
+	MapChipField* mapChipFieid_ = nullptr;
+
+	// キャラキターの当たり判定サイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 
 };

@@ -31,22 +31,21 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-
 	tetureHandle_ = TextureManager::Load("sample.png");
 
-	// 3Dモデルの生成
-	//	model_ = Model::Create();
-	model_ = Model::CreateFromOBJ("player", true);
-
-	worldTransform_.Initialize();
-
-	// 自キャラの生成
+		// 自キャラの生成
 	player_ = new Player();
 	// 座標をマップトップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
 	// 自キャラの初期化
-
 	player_->Initialize(model_, &viewProjection_, playerPosition);
+
+	player_->SetMapChipField(mapChipField_);
+
+	// 3Dモデルの生成
+	//	model_ = Model::Create();;	model_ = Model::CreateFromOBJ("player", true);
+
+	worldTransform_.Initialize();
 
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
@@ -63,14 +62,6 @@ void GameScene::Initialize() {
 		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
 
-	// for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-	//	for (uint32_t j = 0; j < kNumBlockHorizontal; j++) {
-	//		worldTransformBlocks_[i][j] = new WorldTransform();
-	//		worldTransformBlocks_[i][j]->Initialize();
-	//		worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
-	//		worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
-	//	}
-	// }
 
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
