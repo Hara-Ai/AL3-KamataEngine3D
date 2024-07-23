@@ -7,7 +7,12 @@
 class Player;
 
 // 短形
+<<<<<<< Updated upstream
 struct cameraRect {
+=======
+struct Rect
+{
+>>>>>>> Stashed changes
 	float left = 0.0f;   //左端
 	float rigth = 1.0f;  //右端
 	float bottom = 0.0f; //下端
