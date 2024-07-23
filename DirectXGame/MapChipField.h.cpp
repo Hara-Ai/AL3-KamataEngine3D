@@ -92,12 +92,12 @@ IndexSet MapChipField::GetMapChipIndexSetByPoition(const Vector3& position)
 	return indexSet;
 }
 
-Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex) 
+cameraRect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex) 
 {
 	// 指定ブロックの中心座標を取得する
 	Vector3 center = GetMapChipPositionByIndex(xIndex, yIndex);
 
-	Rect rect;
+	cameraRect rect;
 	rect.left = center.x - kBlockWidth / 2.0f;
 	rect.right = center.x - kBlockWidth / 2.0f;
 	rect.bottom = center.y - kBlockHeight / 2.0f;

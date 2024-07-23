@@ -1,12 +1,13 @@
 ﻿#pragma once
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MapChipField.h"
 
 //前方宣言
 class Player;
 
 // 短形
-struct Rect {
+struct cameraRect {
 	float left = 0.0f;   //左端
 	float rigth = 1.0f;  //右端
 	float bottom = 0.0f; //下端
@@ -39,7 +40,7 @@ public:
 	/// 毎フレーム処理
 	/// </summary>
 	void Update();
-	void SetMovableArea(Rect area) { movableArea_ = area; }
+	void SetMovableArea(cameraRect area) { movableArea_ = area; }
 
 
 	/// <summary>
@@ -58,7 +59,7 @@ private:
 	Vector3 targetOffset_ = {0, 0, -50.0f};
 
 	// カメラ移動範囲
-	Rect movableArea_ = 
+	cameraRect movableArea_ = 
 	{
 		0,    //左端
 		100, //右端
@@ -75,6 +76,6 @@ private:
 	// 速度掛け率
 	static inline const float kVelocityBias = 1.2f;
 	// 追従対象の各方向へカメラ移動範囲
-	static inline const Rect Margin = {0, 0, 0, 0};
+	static inline const cameraRect Margin = {0, 0, 0, 0};
 };
 

@@ -20,8 +20,6 @@ WorldTransform& Player::GetWorldTrnsform()
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner) 
 { 
-
-
 	Vector3 offsetTable[kNumCorner] = {
 	    {+kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kRightBottom
 	    {-kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kLeftBottom

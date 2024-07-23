@@ -90,7 +90,7 @@ void GameScene::Initialize() {
 	CameraController_->Reset();               // リセット(瞬間合わせ)
 
 	//出力範囲の初期化
-	Rect setter = 
+	cameraRect setter = 
 	{
 		35.5,    //左端
 		160.5,   //右端

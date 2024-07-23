@@ -21,10 +21,10 @@ void CameraController::Update()
 	viewProjection_.translation_ = Lerp(viewProjection_.translation_, cameraTargetCoordinates, kInterpolationRate);
 
 	// 移動範囲制限
-	viewProjection_.translation_.x = max(viewProjection_.translation_.x, movableArea_.left   + Margin.left);
-	viewProjection_.translation_.x = min(viewProjection_.translation_.x, movableArea_.rigth  + Margin.rigth);
-	viewProjection_.translation_.y = max(viewProjection_.translation_.y, movableArea_.bottom + Margin.bottom);
-	viewProjection_.translation_.y = min(viewProjection_.translation_.y, movableArea_.top    + Margin.top);
+	//viewProjection_.translation_.x = max(viewProjection_.translation_.x, movableArea_.left   + Margin.left);
+	//viewProjection_.translation_.x = min(viewProjection_.translation_.x, movableArea_.rigth + Margin.rigth);
+	//viewProjection_.translation_.y = max(viewProjection_.translation_.y, movableArea_.bottom + Margin.bottom);
+	//viewProjection_.translation_.y = min(viewProjection_.translation_.y, movableArea_.top    + Margin.top);
 
 	// 行列を更新する
 	viewProjection_.UpdateMatrix();
