@@ -52,7 +52,6 @@ public:
 	/// </summary>
 	/// <param name="model">モデル</param>
 	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
-	void SetMapChipField(MapChipField* mapChipField){mapChipFieid_ = mapChipField;}
 
 	/// <summary>
 	/// 更新処理
@@ -107,6 +106,6 @@ private:
 
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
-	static inline const float kHeight = 0.8f;
+	static inline const float kHeigth = 0.8f;
 
 };

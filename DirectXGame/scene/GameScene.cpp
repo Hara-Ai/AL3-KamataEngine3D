@@ -33,6 +33,9 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	tetureHandle_ = TextureManager::Load("sample.png");
 
+
+	// 3Dモデルの生成
+	model_ = Model::CreateFromOBJ("player", true);
 		// 自キャラの生成
 	player_ = new Player();
 	// 座標をマップトップ番号で指定
@@ -42,9 +45,7 @@ void GameScene::Initialize() {
 
 	player_->SetMapChipField(mapChipField_);
 
-	// 3Dモデルの生成
-	//	model_ = Model::Create();;	model_ = Model::CreateFromOBJ("player", true);
-
+	
 	worldTransform_.Initialize();
 
 	const uint32_t kNumBlockVirtical = 20;
@@ -99,7 +100,7 @@ void GameScene::Initialize() {
 		35.5,    //左端
 		160.5,   //右端
 		20.0, 	 //下端
-		25.0,    //上端
+		25.0     //上端
 	}; 
 
 	CameraController_->SetMovableArea(setter);

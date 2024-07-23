@@ -1,6 +1,7 @@
-﻿#include "CameraController.h"
+﻿#define NOMINMAX
+#include "CameraController.h"
 #include "Player.h"
-
+#include <algorithm>
 
 void CameraController::Initialize() 
 {
@@ -21,10 +22,10 @@ void CameraController::Update()
 	viewProjection_.translation_ = Lerp(viewProjection_.translation_, cameraTargetCoordinates, kInterpolationRate);
 
 	// 移動範囲制限
-	viewProjection_.translation_.x = max(viewProjection_.translation_.x, movableArea_.left);
-	viewProjection_.translation_.x = min(viewProjection_.translation_.x, movableArea_.rigth);
-	viewProjection_.translation_.y = max(viewProjection_.translation_.y, movableArea_.bottom);
-	viewProjection_.translation_.y = min(viewProjection_.translation_.y, movableArea_.top);
+	viewProjection_.translation_.x = std::max(viewProjection_.translation_.x, movableArea_.left);
+	viewProjection_.translation_.x = std::min(viewProjection_.translation_.x, movableArea_.right);
+	viewProjection_.translation_.y = std::max(viewProjection_.translation_.y, movableArea_.bottom);
+	viewProjection_.translation_.y = std::min(viewProjection_.translation_.y, movableArea_.top);
 
 	// 行列を更新する
 	viewProjection_.UpdateMatrix();

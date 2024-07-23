@@ -9,6 +9,7 @@
 #include <numbers>
 #include "Player.h"
 
+
 Player::Player() {}
 
 Player::~Player() {}
@@ -59,7 +60,13 @@ void Player::CollisonMapTop(CollisionMapInfo& info) {
 	}
 
 	// ブロックにヒット?
-	if (hit) {
+	if (hit) 
+	{
+		//めり込みを排除する方向に移動量を設定する
+		indexSet = mapChipField_->GetMapChipIndexSetByPoition();
+		// めり込み先ブロックの範囲短形
+		
+
 	}
 }
 

@@ -4,6 +4,7 @@
 #include <Vector3.h>
 #include <string>
 #include <vector>
+#include "Rect.h"
 
 /// <sumary>
 /// マップチップフィールド
@@ -21,14 +22,6 @@ struct MapChipData {
 struct IndexSet {
 	uint32_t xIndex;
 	uint32_t yIndex;
-};
-
-// 範囲短形
-struct Rect {
-	float left;   // 左端
-	float right;  // 右端
-	float bottom; // 下端
-	float top;    // 上橋
 };
 
 class MapChipField {

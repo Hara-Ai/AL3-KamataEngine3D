@@ -2,17 +2,12 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "MapChipField.h"
+#include "Rect.h"
 
 //前方宣言
 class Player;
 
 // 短形
-struct Rect {
-	float left = 0.0f;   //左端
-	float rigth = 1.0f;  //右端
-	float bottom = 0.0f; //下端
-	float top = 1.0f;    //上端
-};
 
 class CameraController
 {
