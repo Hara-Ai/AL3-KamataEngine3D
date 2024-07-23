@@ -1,26 +1,66 @@
 ﻿#define NOMINMAX
 #include "Player.h"
+#include "MapChipField.h"
+#include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "ViewProjection.h" 
-#include <cassert>
-#include <numbers>
 #include <Input.h>
 #include <algorithm>
-
+#include <cassert>
+#include <numbers>
+#include "Player.h"
 
 Player::Player() {}
 
 Player::~Player() {}
 
-WorldTransform& Player::GetWorldTrnsform() {
-	// TODO: return ステートメントをここに挿入します
-	//Vector3 worldPosition = {};
-	//worldPosition.x = worldTransfrom_.translation_.x;
-	//worldPosition.y = worldTransfrom_.translation_.y;
-	//worldPosition.z = worldTransfrom_.translation_.z;
-	//
-	//return worldPosition;
-	return worldTransfrom_;
+WorldTransform& Player::GetWorldTrnsform() { return worldTransfrom_; }
+
+Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
+	Vector3 offsetTable[kNumCorner] = {
+	    {+kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kRightBottom
+	    {-kWidth / 2.0f, -kHeigth / 2.0f, 0}, //  kLeftBottom
+	    {+kWidth / 2.0f, +kHeigth / 2.0f, 0}, //  kRightTop
+	    {-kWidth / 2.0f, +kHeigth / 2.0f, 0}, //  kLeftTop
+	};
+	return center + offsetTable[static_cast<uint32_t>(corner)];
+}
+
+void Player::MapCollisionDetection(CollisionMapInfo& info) { CollisonMapTop(info); }
+
+// 上方向衝突判定
+void Player::CollisonMapTop(CollisionMapInfo& info) {
+	std::array<Vector3, kNumCorner> positionsNew;
+
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
+		positionsNew[i] = CornerPosition(worldTransfrom_.translation_ + info.moveMent, static_cast<Corner>(i));
+	}
+
+	// 上昇あり?
+	if (info.moveMent.y <= 0) {
+		return;
+	}
+
+	MapChipType mapChpiType;
+	// 真上の当たり判定を行う
+	bool hit = false;
+
+	// 左上点の判定
+	IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock) {
+		hit = true;
+	}
+	// 右上の判定
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	// ブロックにヒット?
+	if (hit) {
+	}
 }
 
 void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
@@ -34,23 +74,18 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 	viewProjection_ = viewProjection;
 }
 
-void Player::Update() 
-{
-	// 行列を定数バッファに転送
-	worldTransfrom_.TransferMatrix();
+void Player::Update() {
+
 	bool landing = false;
 
-	// 移動入力
+	// ①移動入力
 	// //接地状態
 	if (onGround_) {
-		//ジャンプ開始
-		if (velocity_.y > 0.0f)
-		{
+		// ジャンプ開始
+		if (velocity_.y > 0.0f) {
 			// 空中状態に移行
 			onGround_ = false;
-		} 
-		
-
+		}
 
 		// 左右移動操作
 		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
@@ -111,15 +146,13 @@ void Player::Update()
 			// 非入力時は移動減衰をかける
 			velocity_.x *= (1.0f - kAcceleraion);
 		}
-		if (Input::GetInstance()->PushKey(DIK_UP))
-		{
+		if (Input::GetInstance()->PushKey(DIK_UP)) {
 			// ジャンプ初速
 			velocity_ += Vector3(0, kJumpAcceleration, 0);
 		}
 	}
 	// 空中
-	else 
-	{
+	else {
 		// 落下速度
 		velocity_ = Vector3(0, -kGravityAcceleration, 0);
 		// 落下速度制限
@@ -128,11 +161,9 @@ void Player::Update()
 
 	// 地面との当たり判定
 	// 降下中?
-	if (velocity_.y < 0)
-	{
+	if (velocity_.y < 0) {
 		// Y座標が地面いかになったら着地
-		if (worldTransfrom_.translation_.y <= 1.0f)
-		{
+		if (worldTransfrom_.translation_.y <= 1.0f) {
 			landing = true;
 		}
 		if (landing) {
@@ -147,25 +178,22 @@ void Player::Update()
 		}
 	}
 
-	//移動
+	// ②移動情報初期化
+	CollisionMapInfo collisionMapInfo;
+
+	// 移動量に速度の値をコピー
+	collisionMapInfo.moveMent = velocity_;
+
+	// マップ衝突チェック
+	MapCollisionDetection(collisionMapInfo);
+
+	// 移動
 	worldTransfrom_.translation_ += velocity_;
-	//行列計算
+
+	// 行列を定数バッファに転送
+	worldTransfrom_.TransferMatrix();
+	// 行列計算
 	worldTransfrom_.UpdateMatrix();
-
-	
-
 }
 
-void Player::Draw()
-{ 
-	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); }
-//WorldTransform Player::GetWorldTrnsform() 
-//{
-//	Vector3 worldPosition;
-//	worldPosition.x = worldTransfrom_.translation_.x;
-//	worldPosition.y = worldTransfrom_.translation_.y;
-//	worldPosition.z = worldTransfrom_.translation_.z;
-//
-//	return worldPosition; 
-//}
-
+void Player::Draw() { model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); }

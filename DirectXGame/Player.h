@@ -11,6 +11,23 @@ enum class LRDirection
 	kLeft,
 };
 
+enum Corner {
+	kRightBottom, // 右下
+	kLeftBottom,  // 左下
+	kRightTop,    // 右上
+	kLeftTop,     // 左上
+
+	kNumCorner // 要素数
+};
+
+// マップとの当たり判定情報
+struct CollisionMapInfo {
+	bool CeilingCollisionFlag = false; // 天井衝突フラグ
+	bool LandingFlag = false;          // 着地フラグ
+	bool WallContactFlag = false;      // 壁接触フラグ
+	Vector3 moveMent;                  // 移動量
+};
+
 class Player 
 {
 
@@ -19,6 +36,16 @@ public:
 	~Player();
 
 	WorldTransform& GetWorldTrnsform();
+
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
+	// マップ衝突判定
+	void MapCollisionDetection(CollisionMapInfo& info);
+
+	void CollisonMapTop(CollisionMapInfo& info); // 上
+
 
 	/// <summary>
 	/// 初期化処理
@@ -38,6 +65,9 @@ public:
 	void Draw();
 
 private:
+	// マップチップによるフィールド
+	MapChipField* mapChipField_ = nullptr;
+
 	// ワールド変換データ
 	WorldTransform worldTransfrom_;
 
@@ -73,8 +103,7 @@ private:
 	// ジャンプ速度(上方向)
 	static inline const float kJumpAcceleration = 2.0f;
 
-	// マップチップによるフィールド
-	MapChipField* mapChipFieid_ = nullptr;
+	const Vector3& GetVelocity() const { return velocity_; }
 
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
