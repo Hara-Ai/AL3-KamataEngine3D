@@ -38,6 +38,11 @@ void GameScene::Initialize() {
 	model_ = Model::CreateFromOBJ("player", true);
 		// 自キャラの生成
 	player_ = new Player();
+
+	//マップチップを使うので呼び出す
+	modelBlock_ = Model::Create();
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// 座標をマップトップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
 	// 自キャラの初期化
@@ -62,11 +67,6 @@ void GameScene::Initialize() {
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
 		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
 	}
-
-
-	modelBlock_ = Model::Create();
-	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
 	// スカイドームの初期化
 	skydome_ = new Skydome();
@@ -94,13 +94,13 @@ void GameScene::Initialize() {
 	CameraController_->SetTarget(player_);    // 追跡対象をリセット
 	CameraController_->Reset();               // リセット(瞬間合わせ)
 
-	//出力範囲の初期化
+	//カメラの出力範囲の初期化
 	Rect setter = 
 	{
 		35.5,    //左端
 		160.5,   //右端
-		20.0, 	 //下端
-		25.0     //上端
+		19.5, 	 //下端
+		19.0	 //上端
 	}; 
 
 	CameraController_->SetMovableArea(setter);
@@ -236,6 +236,7 @@ void GameScene::GenerateBlocks() {
 	{
 		for (uint32_t y = 0; numBlockHorizontal > y;y++)
 		{
+
 			if (mapChipField_->GetMapChipTypeByIndex(y, x) == MapChipType::kBlock)
 			{
 				WorldTransform* worldTransform = new WorldTransform();

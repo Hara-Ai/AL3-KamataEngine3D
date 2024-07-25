@@ -37,7 +37,10 @@ public:
 
 	WorldTransform& GetWorldTrnsform();
 
-	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+	void SetMapChipField(MapChipField* mapChipField) 
+	{ 
+		mapChipField_ = mapChipField; 
+	}
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
@@ -45,6 +48,11 @@ public:
 	void MapCollisionDetection(CollisionMapInfo& info);
 
 	void CollisonMapTop(CollisionMapInfo& info); // 上
+
+	//判定結果を反映して移動させる
+	void Move(const CollisionMapInfo& info);
+	//天井に接している場合の処理
+	void attachedCeiling(const CollisionMapInfo& info);
 
 
 	/// <summary>
@@ -98,14 +106,15 @@ private:
 	//重力加速度(下方向)
 	static inline const float kGravityAcceleration = 0.2f;
 	// 最大落下速度(下方向)
-	static inline const float kLimitFallSpeed = 2.0f;
+	static inline const float kLimitFallSpeed = 1.0f;
 	// ジャンプ速度(上方向)
-	static inline const float kJumpAcceleration = 2.0f;
+	static inline const float kJumpAcceleration = 1.0f;
 
 	const Vector3& GetVelocity() const { return velocity_; }
 
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeigth = 0.8f;
-
+	
+	static inline const float kBlank = 0.1f;
 };

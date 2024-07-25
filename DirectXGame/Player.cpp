@@ -1,18 +1,29 @@
 ﻿#define NOMINMAX
 #include "Player.h"
 #include "MapChipField.h"
+#include "Player.h"
+#include "Rect.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <Input.h>
 #include <algorithm>
 #include <cassert>
 #include <numbers>
-#include "Player.h"
-
 
 Player::Player() {}
 
 Player::~Player() {}
+
+void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
+	assert(model);
+	worldTransfrom_.Initialize();
+	worldTransfrom_.translation_ = position;
+	worldTransfrom_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	model_ = model;
+
+	// 引数の内容をメンバ変数に記録
+	viewProjection_ = viewProjection;
+}
 
 WorldTransform& Player::GetWorldTrnsform() { return worldTransfrom_; }
 
@@ -27,59 +38,6 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
 }
 
 void Player::MapCollisionDetection(CollisionMapInfo& info) { CollisonMapTop(info); }
-
-// 上方向衝突判定
-void Player::CollisonMapTop(CollisionMapInfo& info) {
-	std::array<Vector3, kNumCorner> positionsNew;
-
-	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
-		positionsNew[i] = CornerPosition(worldTransfrom_.translation_ + info.moveMent, static_cast<Corner>(i));
-	}
-
-	// 上昇あり?
-	if (info.moveMent.y <= 0) {
-		return;
-	}
-
-	MapChipType mapChpiType;
-	// 真上の当たり判定を行う
-	bool hit = false;
-
-	// 左上点の判定
-	IndexSet indexSet;
-	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
-	if (mapChpiType == MapChipType::kBlock) {
-		hit = true;
-	}
-	// 右上の判定
-	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
-	if (mapChpiType == MapChipType::kBlock) {
-		hit = true;
-	}
-
-	// ブロックにヒット?
-	if (hit) 
-	{
-		//めり込みを排除する方向に移動量を設定する
-		indexSet = mapChipField_->GetMapChipIndexSetByPoition();
-		// めり込み先ブロックの範囲短形
-		
-
-	}
-}
-
-void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
-	assert(model);
-	worldTransfrom_.Initialize();
-	worldTransfrom_.translation_ = position;
-	worldTransfrom_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
-	model_ = model;
-
-	// 引数の内容をメンバ変数に記録
-	viewProjection_ = viewProjection;
-}
 
 void Player::Update() {
 
@@ -185,7 +143,7 @@ void Player::Update() {
 		}
 	}
 
-	// ②移動情報初期化
+	// ②.1移動情報初期化
 	CollisionMapInfo collisionMapInfo;
 
 	// 移動量に速度の値をコピー
@@ -194,13 +152,73 @@ void Player::Update() {
 	// マップ衝突チェック
 	MapCollisionDetection(collisionMapInfo);
 
-	// 移動
-	worldTransfrom_.translation_ += velocity_;
+	Move(collisionMapInfo);
 
 	// 行列を定数バッファに転送
 	worldTransfrom_.TransferMatrix();
 	// 行列計算
 	worldTransfrom_.UpdateMatrix();
+}
+
+// ②.2上方向衝突判定
+void Player::CollisonMapTop(CollisionMapInfo& info) {
+	std::array<Vector3, kNumCorner> positionsNew;
+
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
+		positionsNew[i] = CornerPosition(worldTransfrom_.translation_ + info.moveMent, static_cast<Corner>(i));
+	}
+
+	// 上昇あり?
+	if (info.moveMent.y <= 0) {
+		return;
+	}
+
+	MapChipType mapChpiType;
+	// 真上の当たり判定を行う
+	bool hit = false;
+
+	// 左上点の判定
+	IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock) {
+		hit = true;
+	}
+	// 右上の判定
+	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
+	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChpiType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	// ブロックにヒット?
+	if (hit) {
+		// めり込みを排除する方向に移動量を設定する
+		indexSet = mapChipField_->GetMapChipIndexSetByPoition({worldTransfrom_.translation_.x, worldTransfrom_.translation_.y + info.moveMent.y, worldTransfrom_.translation_.z});
+		// めり込み先ブロックの範囲短形
+		Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+		info.moveMent.y = std::max(0.0f, rect.bottom - (worldTransfrom_.translation_.y + kHeigth / 2));
+		// 天井に当たったことを記録する.
+		info.CeilingCollisionFlag = true;
+	}
+}
+
+//③判定結果を反映して移動させる
+void Player::Move(const CollisionMapInfo& info) 
+{
+	//移動
+	worldTransfrom_.translation_ += info.moveMent;
+}
+
+//④天井に接してる場合の処理
+void Player::attachedCeiling(const CollisionMapInfo& info)
+{
+	//天井にあたった?
+	if (info.CeilingCollisionFlag)
+	{
+		printf("hit");
+		velocity_.y = 0;
+	}
 }
 
 void Player::Draw() { model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_); }
