@@ -55,7 +55,7 @@ public:
 	//天井に接している場合の処理
 	void attachedCeiling(const CollisionMapInfo& info);
 	//着地状態の切り替え処理
-	void SwitchingState(const CollisionMapInfo& info);
+	void SwitchingState(CollisionMapInfo& info);
 
 	/// <summary>
 	/// 初期化処理
@@ -92,7 +92,7 @@ private:
 	LRDirection lrDirection_ = LRDirection::kLeft;
 
 	static inline const float kAcceleraion = 0.3f;
-	static inline const float kLimitRunSpeed = 0.8f;
+	static inline const float kLimitRunSpeed = 0.3f;
 	Vector3 velocity_ = {};
 
 	// 旋回開始時の角度
@@ -115,8 +115,8 @@ private:
 	const Vector3& GetVelocity() const { return velocity_; }
 
 	// キャラキターの当たり判定サイズ
-	static inline const float kWidth = 0.8f;
-	static inline const float kHeigth = 0.8f;
+	static inline const float kWidth = 1.6f;
+	static inline const float kHeigth = 1.6f;
 	
 	static inline const float kBlank = 0.1f;
 

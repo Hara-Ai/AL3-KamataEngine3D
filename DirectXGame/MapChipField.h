@@ -27,9 +27,9 @@ struct IndexSet {
 class MapChipField {
 public:
 	void ResetMapChipData();
-	uint32_t GetNumBlockVirtical() const;
+	uint32_t GetNumBlockVirtical();
 
-	uint32_t GetNumBlockHorizontal() const;
+	uint32_t GetNumBlockHorizontal();
 
 	void LoadMapChipCsv(const std::string& filePath);
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);

@@ -44,7 +44,8 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// 座標をマップトップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
+	//Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(),mapChipField_->GetNumBlockVirtical());
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 

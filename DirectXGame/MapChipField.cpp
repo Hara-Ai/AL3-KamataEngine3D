@@ -23,8 +23,6 @@ void MapChipField::ResetMapChipData()
 	}
 }
 
-uint32_t MapChipField::GetNumBlockVirtical() const { return kNumBlockVirtical; }
-uint32_t MapChipField::GetNumBlockHorizontal() const { return kNumBlockHorizontal; }
 
 void MapChipField::LoadMapChipCsv(const std::string& filePath)
 {
@@ -102,8 +100,12 @@ Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex)
 
 	Rect rect;
 	rect.left = center.x - kBlockWidth / 2.0f;
-	rect.right = center.x - kBlockWidth / 2.0f;
+	rect.right = center.x + kBlockWidth / 2.0f;
 	rect.bottom = center.y - kBlockHeight / 2.0f;
-	rect.top = center.y - kBlockHeight / 2.0f;
+	rect.top = center.y + kBlockHeight / 2.0f;
 	return rect;
 }
+
+
+uint32_t MapChipField::GetNumBlockVirtical() { return kNumBlockVirtical; }
+uint32_t MapChipField::GetNumBlockHorizontal() { return kNumBlockHorizontal; }
