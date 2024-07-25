@@ -48,12 +48,14 @@ public:
 	void MapCollisionDetection(CollisionMapInfo& info);
 
 	void CollisonMapTop(CollisionMapInfo& info); // 上
+	void CollisonMapBottom(CollisionMapInfo& info); // 下
 
 	//判定結果を反映して移動させる
 	void Move(const CollisionMapInfo& info);
 	//天井に接している場合の処理
 	void attachedCeiling(const CollisionMapInfo& info);
-
+	//着地状態の切り替え処理
+	void SwitchingState(const CollisionMapInfo& info);
 
 	/// <summary>
 	/// 初期化処理
@@ -117,4 +119,7 @@ private:
 	static inline const float kHeigth = 0.8f;
 	
 	static inline const float kBlank = 0.1f;
+
+	// 着地時の速度減衰率
+	static inline const float kAttenuationLanding = 1.0f;
 };
