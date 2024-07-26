@@ -43,8 +43,6 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
-	// 座標をマップトップ番号で指定
-	//Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(mapChipField_->GetNumBlockHorizontal(),mapChipField_->GetNumBlockVirtical());
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
@@ -59,9 +57,6 @@ void GameScene::Initialize() {
 
 	numBlockVirtical_ = 20;
 	numBlockHorizontal_ = 100;
-
-	// const float kBlockWidth = 2.0f;
-	// const float kBlockHeight = 2.0f;
 
 	worldTransformBlocks_.resize(kNumBlockVirtical);
 
@@ -113,13 +108,6 @@ void GameScene::Update() {
 	skydome_->Update();
 	// 自キャラの更新
 	player_->Update();
-
-	// for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
-	//	for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-	//		if (!worldTransformBlock)
-	//			continue;
-	//	}
-	// }
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
