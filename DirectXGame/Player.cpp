@@ -44,7 +44,7 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 	// 接地状態
 	if (onGround_) {
 		// ジャンプ開始
-		if (velocity_.y > 0.0f) {
+		if (velocity_.y > 0.0f ||info.LandingFlag == false ) {
 			// 空中状態に移行
 			onGround_ = false;
 		}
@@ -128,13 +128,27 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 		if (worldTransfrom_.translation_.y <= 2.0f) {
 			info.LandingFlag = true;
 		}
+
 		if (info.LandingFlag) {
-			// めり込み排斥
-			worldTransfrom_.translation_.y = 2.0f;
+			IndexSet indexSet;
+			//プレイヤーの着地処理
+			indexSet = mapChipField_->GetMapChipIndexSetByPoition
+			({
+				worldTransfrom_.translation_.x, 
+				worldTransfrom_.translation_.y + info.moveMent.y,
+				worldTransfrom_.translation_.z
+			});
+			//  めり込み先ブロックの範囲短形
+			Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+			float playerBottom = (worldTransfrom_.translation_.y - kHeigth / 2);
+			float fallDistance = rect.top - playerBottom;
+			info.moveMent.y = std::min(0.0f, fallDistance);
 			// 摩擦で横方向速度が減衰する
 			velocity_.x *= (1.0f - kAcceleraion);
+			
 			// 下方向速度をリセット
 			velocity_.y = 0.0f;
+			
 			// 接地状態に移行
 			onGround_ = true;
 		}
@@ -235,13 +249,15 @@ void Player::CollisonMapBottom(CollisionMapInfo& info)
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftBottom]);
 	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
-	if (mapChpiType == MapChipType::kBlock) {
+	if (mapChpiType == MapChipType::kBlock) 
+	{
 		hit = true;
 	}
 	// 右下点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightBottom]);
 	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
-	if (mapChpiType == MapChipType::kBlock) {
+	if (mapChpiType == MapChipType::kBlock) 
+	{
 		hit = true;
 	}
 
@@ -254,12 +270,13 @@ void Player::CollisonMapBottom(CollisionMapInfo& info)
 
 	if (hit) {
 		// めり込みを排除する方向に移動量を設定する
-		indexSet = mapChipField_->GetMapChipIndexSetByPoition(
-			{
+		indexSet = mapChipField_->GetMapChipIndexSetByPoition
+			({
 				worldTransfrom_.translation_.x, 
 				worldTransfrom_.translation_.y + info.moveMent.y,
 				worldTransfrom_.translation_.z
 			});
+		
 		// めり込み先ブロックの範囲短形
 		Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		float playerBottom = (worldTransfrom_.translation_.y - kHeigth / 2);
