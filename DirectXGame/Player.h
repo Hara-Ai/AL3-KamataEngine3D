@@ -49,6 +49,8 @@ public:
 
 	void CollisonMapTop(CollisionMapInfo& info); // 上
 	void CollisonMapBottom(CollisionMapInfo& info); // 下
+	void CollisonMaplight(CollisionMapInfo& info);//右
+	void CollisonMapLeft(CollisionMapInfo& info);//左
 
 	//判定結果を反映して移動させる
 	void Move(const CollisionMapInfo& info);
@@ -56,6 +58,8 @@ public:
 	void attachedCeiling(const CollisionMapInfo& info);
 	//着地状態の切り替え処理
 	void SwitchingState(CollisionMapInfo& info);
+	// 壁接触による減速
+	void attachedWallCeiling(const CollisionMapInfo& info);
 
 	/// <summary>
 	/// 初期化処理
@@ -78,7 +82,7 @@ private:
 	MapChipField* mapChipField_ = nullptr;
 
 	// ワールド変換データ
-	WorldTransform worldTransfrom_;
+	WorldTransform worldTransform_;
 
 	// モデル
 	Model* model_ = nullptr;
@@ -122,4 +126,6 @@ private:
 
 	// 着地時の速度減衰率
 	static inline const float kAttenuationLanding = 1.0f;
+	// 着地時の速度減衰率
+	static inline const float kAttenuationWall = 1.0f;
 };
