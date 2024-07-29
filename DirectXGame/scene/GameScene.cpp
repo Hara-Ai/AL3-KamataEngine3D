@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "Matrix4x4Function.h"
 #include "Player.h"
-#include "Enemy.h"
+//#include "Enemy.h"
 #include "Skydome.h"
 #include "TextureManager.h"
 #include "CameraController.h"
@@ -22,7 +22,7 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete debugCamera_;
 	delete player_;
-	delete enemy_;
+	//delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	// 自キャラの生成
 	player_ = new Player();
 	// 敵キャラの生成
-	enemy_  = new Enemy();
+	//enemy_  = new Enemy();
 	//マップチップを使うので呼び出す
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
@@ -54,7 +54,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	//敵キャラの初期化
-	enemy_->Initialize(model_, &viewProjection_,enemyPosition);
+	//enemy_->Initialize(model_, &viewProjection_,enemyPosition);
 
 	worldTransform_.Initialize();
 

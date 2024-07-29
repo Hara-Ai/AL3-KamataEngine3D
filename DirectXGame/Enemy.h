@@ -1,49 +1,50 @@
-#pragma once
-#include "Model.h"
-#include "WorldTransform.h"
-
-class MapChipField;
-
-/// <summary>
-/// “G
-/// </summary>
-class Enemy 
-{
-public:
-	
-	Enemy();
-	~Enemy();
-
-
-	/// <summary>
-	/// ‰Šú‰»ˆ—
-	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
-	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
-
-	/// <summary>
-	/// XVˆ—
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// •`‰æˆ—
-	/// </summary>
-	void Draw();
-
-private:
-	// ƒ}ƒbƒvƒ`ƒbƒv‚É‚æ‚éƒtƒB[ƒ‹ƒh
-	MapChipField* mapChipField_ = nullptr;
-
-	// ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
-	WorldTransform worldTransform_;
-
-	// ƒ‚ƒfƒ‹
-	Model* model_ = nullptr;
-
-	// ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
-	uint32_t textureHandle_ = 0u;
-
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
-	ViewProjection* viewProjection_ = nullptr;
-};
+ï»¿//#pragma once
+//#include "Model.h"
+//#include "WorldTransform.h"
+//
+//class MapChipField;
+//
+///// <summary>
+///// æ•µ
+///// </summary>
+//class Enemy 
+//{
+//public:
+//	
+//	Enemy();
+//	~Enemy();
+//
+//
+//	/// <summary>
+//	/// åˆæœŸåŒ–å‡¦ç†
+//	/// </summary>
+//	/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
+//	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
+//
+//	/// <summary>
+//	/// æ›´æ–°å‡¦ç†
+//	/// </summary>
+//	void Update();
+//
+//	/// <summary>
+//	/// æç”»å‡¦ç†
+//	/// </summary>
+//	void Draw();
+//
+//private:
+//	// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã«ã‚ˆã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
+//	MapChipField* mapChipField_ = nullptr;
+//
+//	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
+//	WorldTransform worldTransform_;
+//
+//	// ãƒ¢ãƒ‡ãƒ«
+//	Model* model_ = nullptr;
+//
+//	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
+//	uint32_t textureHandle_ = 0u;
+//
+//	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
+//	ViewProjection* viewProjection_ = nullptr;
+//};
+//
