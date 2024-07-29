@@ -10,6 +10,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "CameraController.h"
 
 
@@ -60,6 +61,7 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 	Model* model_ = nullptr;
+	Model* enmeyModel_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;

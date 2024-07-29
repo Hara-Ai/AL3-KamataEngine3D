@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
 
 class MapChipField;
 
 /// <summary>
-/// “G
+/// æ•µ
 /// </summary>
 class Enemy 
 {
@@ -14,36 +14,54 @@ public:
 	Enemy();
 	~Enemy();
 
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 	/// <summary>
-	/// ‰Šú‰»ˆ—
+	/// åˆæœŸåŒ–å‡¦ç†
 	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
+	/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
 	void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
 
 	/// <summary>
-	/// XVˆ—
+	/// æ›´æ–°å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æˆ—
+	/// æç”»å‡¦ç†
 	/// </summary>
 	void Draw();
 
 private:
-	// ƒ}ƒbƒvƒ`ƒbƒv‚É‚æ‚éƒtƒB[ƒ‹ƒh
+	// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã«ã‚ˆã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
 	MapChipField* mapChipField_ = nullptr;
 
-	// ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
 	WorldTransform worldTransform_;
 
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* model_ = nullptr;
 
-	// ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
 	uint32_t textureHandle_ = 0u;
 
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 	ViewProjection* viewProjection_ = nullptr;
+
+	// æ­©è¡Œã®é€Ÿã•
+	static inline const float kWalkSpeed = 0.1f;
+
+	// é€Ÿåº¦
+	Vector3 velocity_ = {};
+
+	// æœ€åˆã®è§’åº¦[åº¦]
+	static inline const float kWalkMotionAngleStart = 0.0f;
+	// æœ€å¾Œã®è§’åº¦[åº¦]
+	static inline const float kWalkMotionAngleEnd = 70.0f;
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å‘¨æœŸã¨ãªã‚‹æ™‚é–“[ç§’]
+	static inline const float kWalkMotionTime = 3.0f;
+	// çµŒéæ™‚é–“
+	float walkTikmer_ = 0.0f;
+
+
 };

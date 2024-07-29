@@ -36,25 +36,33 @@ void GameScene::Initialize() {
 	tetureHandle_ = TextureManager::Load("sample.png");
 
 
-	// 3Dモデルの生成
+	// 3Dモデルの生成(プレイヤー)
 	model_ = Model::CreateFromOBJ("player", true);
+	// 3Dモデルの生成(敵)
+	enmeyModel_ = Model::CreateFromOBJ("player", true);
 	// 自キャラの生成
 	player_ = new Player();
 	// 敵キャラの生成
 	enemy_  = new Enemy();
+
 	//マップチップを使うので呼び出す
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	// プレイヤーの初期位置
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
+	// 敵の初期位置
 	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(10, 18);
+	
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 
 	player_->SetMapChipField(mapChipField_);
 
 	//敵キャラの初期化
-	enemy_->Initialize(model_, &viewProjection_,enemyPosition);
+	enemy_->Initialize(enmeyModel_, &viewProjection_, enemyPosition);
+
+	enemy_->SetMapChipField(mapChipField_);
 
 	worldTransform_.Initialize();
 
@@ -72,9 +80,9 @@ void GameScene::Initialize() {
 
 	// スカイドームの初期化
 	skydome_ = new Skydome();
-	modelSkydome_ = Model::Create();
-	skydome_->Initialize(model_, &viewProjection_);
+//	modelSkydome_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
 
 	wolrldTransform_.Initialize();
 	viewProjection_.Initialize();
@@ -114,6 +122,8 @@ void GameScene::Update() {
 	skydome_->Update();
 	// 自キャラの更新
 	player_->Update();
+	// 敵キャラの更新
+	enemy_->Update();
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -184,8 +194,10 @@ void GameScene::Draw()
 
 	// 自キャラの描画
 	player_->Draw();
+	// 敵キャラの描画
+	enemy_->Draw();
 	// 天球の描画
-	// skydome_->Draw();
+	skydome_->Draw();
 
 	// マップチップの描画
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
