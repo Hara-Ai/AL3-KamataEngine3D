@@ -58,6 +58,7 @@ private: // メンバ変数
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
 	Model* model_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
