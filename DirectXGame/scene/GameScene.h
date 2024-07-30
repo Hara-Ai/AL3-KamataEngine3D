@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "CameraController.h"
+#include <cassert>
 
 
 /// <summary>
@@ -72,6 +73,8 @@ private: // メンバ変数
 	uint32_t numBlockHorizontal_ = 0;
 	uint32_t tetureHandle_ = 0;
 	
+	std::list<Enemy*> enemies_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

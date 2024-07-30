@@ -15,6 +15,12 @@ GameScene::~GameScene() {
 			delete worldTansformBlock;
 		}
 	}
+
+	for (Enemy* kenemise_ : enemies_) 
+	{
+		delete kenemise_;
+	}
+
 	worldTransformBlocks_.clear();
 	delete modelBlock_;
 	delete modelSkydome_;
@@ -23,6 +29,7 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	delete player_;
 	delete enemy_;
+	
 }
 
 void GameScene::Initialize() {
@@ -63,6 +70,21 @@ void GameScene::Initialize() {
 	enemy_->Initialize(enmeyModel_, &viewProjection_, enemyPosition);
 
 	enemy_->SetMapChipField(mapChipField_);
+
+	// 敵の生成
+	for (int32_t i = 1; i < 4; ++i)
+	{
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition_ = 
+		{ 
+			enemyPosition.x * i, enemyPosition.y * i, enemyPosition.z 
+		};
+		newEnemy->Initialize(enmeyModel_, &viewProjection_, enemyPosition_);
+
+		enemies_.push_back(newEnemy);
+	}
+
+
 
 	worldTransform_.Initialize();
 
@@ -124,6 +146,9 @@ void GameScene::Update() {
 	player_->Update();
 	// 敵キャラの更新
 	enemy_->Update();
+	for (Enemy* kenemise_ : enemies_) {
+		kenemise_->Update();
+	}
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -196,6 +221,9 @@ void GameScene::Draw()
 	player_->Draw();
 	// 敵キャラの描画
 	enemy_->Draw();
+	for (Enemy* kenemise_ : enemies_) {
+		kenemise_->Draw();
+	}
 	// 天球の描画
 	skydome_->Draw();
 

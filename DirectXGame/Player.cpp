@@ -413,3 +413,35 @@ void Player::attachedWallCeiling(const CollisionMapInfo& info)
 }
 
 void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_, textureHandle_); }
+
+Vector3 Player::GetWorldPosition()
+{ 
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return Vector3();
+}
+
+AABB Player::GetAABB() {
+
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+
+	aabb.min =
+	{
+		worldPos.x - kWidth / 2.0f,
+		worldPos.y - kHeigth / 2.0f,
+		worldPos.z - kWidth / 2.0f
+	};
+	
+	aabb.max =
+	{ worldPos.x + kWidth / 2.0f,
+	  worldPos.y + kHeigth / 2.0f,
+	  worldPos.z + kWidth / 2.0f,
+	};
+
+	return aabb;
+}

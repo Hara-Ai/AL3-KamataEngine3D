@@ -28,6 +28,12 @@ struct CollisionMapInfo {
 	Vector3 moveMent;                  // 移動量
 };
 
+struct AABB 
+{
+	Vector3 min; //!< 最小点
+	Vector3 max; //!< 最大点
+};
+
 class Player 
 {
 
@@ -128,4 +134,10 @@ private:
 	static inline const float kAttenuationLanding = 1.0f;
 	// 着地時の速度減衰率
 	static inline const float kAttenuationWall = 1.0f;
+
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// AABBを取得
+	AABB GetAABB();
 };
