@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 	// 3Dモデルの生成(プレイヤー)
 	model_ = Model::CreateFromOBJ("player", true);
 	// 3Dモデルの生成(敵)
-	enmeyModel_ = Model::CreateFromOBJ("player", true);
+	enmeyModel_ = Model::CreateFromOBJ("enemy", true);
 	// 自キャラの生成
 	player_ = new Player();
 	// 敵キャラの生成
