@@ -48,8 +48,9 @@ void GameScene::ChecAllCollisiions()
 		aabb2 = enemy->GetAABB();
 		
 		// AABB同士の交差判定
-		if (AABB::IsCollision(aabb1, aabb2))
+		if (IsCollision(aabb1, aabb2))
 		{
+
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision(enemy);
 			// 敵弾の衝突時コールバックを呼び出す
@@ -312,4 +313,22 @@ void GameScene::GenerateBlocks() {
 			}
 		}
 	 }
+}
+
+bool GameScene::IsCollision(AABB aabb1, AABB aabb2) 
+{
+	bool ATFlag = false;
+
+	// 当たってるか当たってないか判断するフラグ
+	if (aabb1.max.y > aabb2.min.y && aabb1.min.y < aabb2.max.y) {
+
+		if (aabb1.max.x > aabb2.min.x && aabb1.min.x < aabb2.max.x) {
+			ATFlag = true;
+		}
+	} else {
+		ATFlag = false;
+	}
+
+	return ATFlag;
+
 }

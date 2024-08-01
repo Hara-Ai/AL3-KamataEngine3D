@@ -17,30 +17,13 @@ void Enemy::OnCollision(const Player* player)
 	(void)player; 
 }
 
-
-
-AABB Enemy::GetAABB() 
-{
-	Vector3 worldPos = GetWorldPosition();
-	AABB aabb;
-
-	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
-
-	aabb.max = {
-	    worldPos.x + kWidth / 2.0f,
-	    worldPos.y + kHeigth / 2.0f,
-	    worldPos.z + kWidth / 2.0f,
-	};
-
-	return aabb;
-}
-
-
-
 void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 	worldTransform_.Initialize();
+	//worldTransform_.translation_.x = 20.0f;
 	worldTransform_.translation_ = position;
+	//worldTransform_.translation_.y = 20.0f;
+
 	// 速度を設定する
 	velocity_ = 
 	{
@@ -85,3 +68,28 @@ void Enemy::Draw()
 	model_->Draw(worldTransform_, *viewProjection_); 
 }
 
+AABB Enemy::GetAABB() {
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
+
+	aabb.max = {
+	    worldPos.x + kWidth / 2.0f,
+	    worldPos.y + kHeigth / 2.0f,
+	    worldPos.z + kWidth / 2.0f,
+	};
+
+	return aabb;
+}
+
+Vector3 Enemy::GetWorldPosition() 
+{ // ワールド座標を入れる変数
+	Vector3 worldPos;
+
+	// ワールド行列の平行移動分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
+}

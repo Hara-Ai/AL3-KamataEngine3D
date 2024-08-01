@@ -50,6 +50,7 @@ public: // メンバ関数
 	void Draw();
 
 	void GenerateBlocks();
+	bool IsCollision(AABB aabb1, AABB aabb2);
 
 private: // メンバ変数
 

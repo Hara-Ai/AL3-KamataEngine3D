@@ -413,10 +413,23 @@ void Player::attachedWallCeiling(const CollisionMapInfo& info)
 		velocity_.x *= (1.0f - kAttenuationWall);
 	}
 }
+Vector3 Player::GetWorldPosition() { // ワールド座標を入れる変数
+	Vector3 worldPos;
+	
+	
+	// ワールド行列の平行移動分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
+}
+
+
 void Player::OnCollision(const Enemy* enemy) {
 	(void)enemy;
 	// ジャンプ開始(仮)
-	velocity_ += Vector3(0, 1, 0);
+	velocity_ += Vector3(0, 1.0f, 0);
+	
 }
 
 
