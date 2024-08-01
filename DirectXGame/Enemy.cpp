@@ -5,10 +5,45 @@
 #include <algorithm>
 #include <cassert>
 #include <numbers>
+#include "Player.h"
 
 Enemy::Enemy() {}
 
 Enemy::~Enemy() {}
+
+void Enemy::OnCollision(const Player* player) 
+{
+	(void)player; 
+}
+
+
+
+AABB Enemy::GetAABB() 
+{
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
+
+	aabb.max = {
+	    worldPos.x + kWidth / 2.0f,
+	    worldPos.y + kHeigth / 2.0f,
+	    worldPos.z + kWidth / 2.0f,
+	};
+
+	return aabb;
+}
+
+Vector3 Enemy::GetWorldPosition()
+{ // ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return Vector3();
+}
+
 
 void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);

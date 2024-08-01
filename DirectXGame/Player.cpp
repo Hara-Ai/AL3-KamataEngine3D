@@ -411,19 +411,17 @@ void Player::attachedWallCeiling(const CollisionMapInfo& info)
 		velocity_.x *= (1.0f - kAttenuationWall);
 	}
 }
+void Player::OnCollision(const Enemy* enemy) {
+	(void)enemy;
+	// ジャンプ開始(仮)
+	velocity_ += Vector3(0, 1, 0);
+}
+
+
 
 void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_, textureHandle_); }
 
-Vector3 Player::GetWorldPosition()
-{ 
-	// ワールド座標を入れる変数
-	Vector3 worldPos;
-	// ワールド行列の平行移動分を取得（ワールド座標）
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
-	return Vector3();
-}
+
 
 AABB Player::GetAABB() {
 
@@ -444,4 +442,15 @@ AABB Player::GetAABB() {
 	};
 
 	return aabb;
+}
+
+Vector3 Player::GetWorldPosition()
+{ 
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return Vector3();
 }

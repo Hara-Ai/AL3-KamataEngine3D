@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "CameraController.h"
 #include <cassert>
+#include <AABB.h>
 
 GameScene::GameScene() {}
 
@@ -30,6 +31,32 @@ GameScene::~GameScene() {
 	delete player_;
 	delete enemy_;
 	
+}
+
+void GameScene::ChecAllCollisiions()
+{
+	// 衝突対象1と2の座標
+	AABB aabb1, aabb2;
+
+	// 自キャラの座標
+	aabb1 = player_->GetAABB();
+
+	// 自キャラと敵全ての当たり判定
+	for (Enemy* enemy : enemies_)
+	{
+		//敵弾の座標
+		aabb2 = enemy->GetAABB();
+		
+		// AABB同士の交差判定
+		if (AABB::IsCollision(aabb1, aabb2))
+		{
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision(enemy);
+			// 敵弾の衝突時コールバックを呼び出す
+			enemy_->OnCollision(player_);
+		}
+	}
+
 }
 
 void GameScene::Initialize() {
@@ -149,6 +176,9 @@ void GameScene::Update() {
 	for (Enemy* kenemise_ : enemies_) {
 		kenemise_->Update();
 	}
+
+	// 全ての当たり判定を行う
+	ChecAllCollisiions();
 
 	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

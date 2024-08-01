@@ -32,6 +32,8 @@ public: // メンバ関数
 	/// </summary>
 	~GameScene();
 
+	void ChecAllCollisiions();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>

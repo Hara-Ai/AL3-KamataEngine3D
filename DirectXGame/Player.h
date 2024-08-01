@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "AABB.h"
 
 class MapChipField;
+class Enemy;
 
 // 左右
 enum class LRDirection
@@ -28,11 +30,6 @@ struct CollisionMapInfo {
 	Vector3 moveMent;                  // 移動量
 };
 
-struct AABB 
-{
-	Vector3 min; //!< 最小点
-	Vector3 max; //!< 最大点
-};
 
 class Player 
 {
@@ -66,6 +63,17 @@ public:
 	void SwitchingState(CollisionMapInfo& info);
 	// 壁接触による減速
 	void attachedWallCeiling(const CollisionMapInfo& info);
+
+	
+
+	// AABBを取得
+	AABB GetAABB();
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	void OnCollision(const Enemy* enemy);
+
 
 	/// <summary>
 	/// 初期化処理
@@ -135,9 +143,6 @@ private:
 	// 着地時の速度減衰率
 	static inline const float kAttenuationWall = 1.0f;
 
-	//ワールド座標を取得
-	Vector3 GetWorldPosition();
 
-	// AABBを取得
-	AABB GetAABB();
+	
 };
