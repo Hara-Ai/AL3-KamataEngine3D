@@ -10,7 +10,8 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {
+GameScene::~GameScene()
+{
 	for (std::vector<WorldTransform*>& worldTansformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTansformBlock : worldTansformBlockLine) {
 			delete worldTansformBlock;
@@ -21,6 +22,12 @@ GameScene::~GameScene() {
 	{
 		delete kenemise_;
 	}
+
+	for (DeathParticles* deathParticlesHati : deathParticles_)
+	{
+		delete deathParticlesHati;
+	}
+
 
 	worldTransformBlocks_.clear();
 	delete modelBlock_;
@@ -165,7 +172,13 @@ void GameScene::Initialize() {
 
 	CameraController_->SetMovableArea(setter);
 
-
+	deathParticles_.resize(8);
+	
+	for (DeathParticles* deathParticlesHati : deathParticles_)
+	{
+		
+		deathParticlesHati->Initialize(model_, &viewProjection_, playerPosition);
+	}
 }
 
 void GameScene::Update() {
@@ -177,6 +190,8 @@ void GameScene::Update() {
 	for (Enemy* kenemise_ : enemies_) {
 		kenemise_->Update();
 	}
+
+
 
 	// 全ての当たり判定を行う
 	ChecAllCollisiions();

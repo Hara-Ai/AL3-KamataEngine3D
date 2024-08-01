@@ -13,6 +13,7 @@
 #include "Enemy.h"
 #include "CameraController.h"
 #include <cassert>
+#include "DeathParticles.h"
 
 
 /// <summary>
@@ -90,5 +91,7 @@ private: // メンバ変数
 
 	//デバックカメラのビュープロジェクション
 	ViewProjection* debugViewProjection_; 
+
+	std::vector<DeathParticles*> deathParticles_ ;
 
 };
