@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include <AABB.h>
+#include <GetWorldPosition.h>
 
 class MapChipField;
 class Player;
@@ -76,8 +77,8 @@ private:
 	float walkTimer_ = 0.0f;
 
 	// キャラキターの当たり判定サイズ
-	//static inline const float kWidth = 1.6f;
-	//static inline const float kHeigth = 1.6f;
+	static inline const float kWidth = 1.6f;
+	static inline const float kHeigth = 1.6f;
 
 
 };

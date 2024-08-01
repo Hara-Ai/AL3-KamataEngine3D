@@ -5,10 +5,6 @@
 	// 当たってるか当たってないか判断するフラグ
 	bool ATFlag = false;
 
-	
-
-	
-
 	if (aabb1.max.y > aabb2.min.y && aabb1.min.y < aabb2.max.y) 
 	{
 

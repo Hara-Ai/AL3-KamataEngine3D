@@ -2,11 +2,13 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "AABB.h"
+//#include <GetWorldPosition.h>
 
 class MapChipField;
 class Enemy;
+class GetWorldPosition;
 
-// 左右
+    // 左右
 enum class LRDirection
 {
 	kRight,
@@ -68,7 +70,7 @@ public:
 
 	// AABBを取得
 	AABB GetAABB();
-
+	
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
