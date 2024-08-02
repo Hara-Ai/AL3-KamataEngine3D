@@ -176,7 +176,6 @@ void GameScene::Initialize() {
 	
 	for (DeathParticles* deathParticlesHati : deathParticles_)
 	{
-		
 		deathParticlesHati->Initialize(model_, &viewProjection_, playerPosition);
 	}
 }
@@ -191,7 +190,13 @@ void GameScene::Update() {
 		kenemise_->Update();
 	}
 
-
+	//for (DeathParticles* deathParticlesHati : deathParticles_) 
+	//{
+	//	if (deathParticlesFlag) 
+	//	{
+	//		deathParticlesHati->Update();
+	//	}
+	//}
 
 	// 全ての当たり判定を行う
 	ChecAllCollisiions();
@@ -282,7 +287,13 @@ void GameScene::Draw()
 		}
 	}
 
-	
+	//for (DeathParticles* deathParticlesHati : deathParticles_) 
+	//{
+	//	if (deathParticlesFlag) 
+	//	{
+	//		deathParticlesHati->Draw();
+	//	}
+	//}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
