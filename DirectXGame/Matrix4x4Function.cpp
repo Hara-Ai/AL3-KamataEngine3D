@@ -1,6 +1,7 @@
 ﻿#include "Matrix4x4Function.h"
 #include <cassert>
 #include <cmath>
+#include <Vector3.h>
 
 static const int kRowHeight = 20;
 static const int kColumnWidth = 60;
