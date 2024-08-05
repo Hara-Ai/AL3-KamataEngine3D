@@ -76,7 +76,7 @@ public:
 	Vector3 GetWorldPosition();
 
 	void OnCollision(const Enemy* enemy);
-
+	bool IsDead() const { return isDeed_; }
 
 	/// <summary>
 	/// 初期化処理
@@ -148,5 +148,5 @@ private:
 
 	bool isDeed_ = false;
 
-	bool IsDead() const { return isDeed_; }
+	
 };

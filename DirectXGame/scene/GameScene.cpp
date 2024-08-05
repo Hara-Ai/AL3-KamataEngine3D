@@ -14,15 +14,16 @@ void GameScene::ChangePhase()
 	{
 	case Phase::kPlay:
 
-		if ()
-		{
-			phase_ = Phase::kDeath;
-			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
-			deathParticles_->Initialize(model_, &viewProjection_, objectColor_);
-		}
+		
 
 		break;
 	case Phase::kDeath:
+
+		if (player_->IsDead()) {
+			phase_ = Phase::kDeath;
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+			deathParticles_->Initialize(model_, &viewProjection_, deathParticlesPosition);
+		}
 
 		break;
 	}
@@ -202,6 +203,9 @@ void GameScene::Update() {
 	switch (phase_) 
 	{
 	case Phase::kPlay:
+
+		
+
 		skydome_->Update();
 		// 自キャラの更新
 		player_->Update();
@@ -211,15 +215,9 @@ void GameScene::Update() {
 			kenemise_->Update();
 		}
 
-		// for (DeathParticles* deathParticlesHati : deathParticles_)
-		//{
-		//	if (deathParticlesFlag)
-		//	{
-		//		deathParticlesHati->Update();
-		//	}
-		// }
-
-		deathParticles_->Update();
+		if (player_->IsDead()) {
+			deathParticles_->Update();
+		}
 
 		// 全ての当たり判定を行う
 		ChecAllCollisiions();
@@ -233,6 +231,8 @@ void GameScene::Update() {
 				}
 			}
 		}
+
+		
 
 #ifdef _DEBUG
 		if (input_->TriggerKey(DIK_P)) {
@@ -258,8 +258,12 @@ void GameScene::Update() {
 			viewProjection_.TransferMatrix();
 		}
 
+		
+
 		break;
 	case Phase::kDeath:
+
+		
 
 		break;
 	}
@@ -267,8 +271,7 @@ void GameScene::Update() {
 
 }
 
-void GameScene::Draw()
-{
+void GameScene::Draw() {
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
@@ -314,15 +317,11 @@ void GameScene::Draw()
 		}
 	}
 
-	//for (DeathParticles* deathParticlesHati : deathParticles_) 
-	//{
-	//	if (deathParticlesFlag) 
-	//	{
-	//		deathParticlesHati->Draw();
-	//	}
-	//}
-
-	deathParticles_->Draw();
+	if (player_->IsDead()) 
+	{
+		// パーティクルの描画
+		deathParticles_->Draw();
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

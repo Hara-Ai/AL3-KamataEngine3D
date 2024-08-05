@@ -37,7 +37,7 @@ void DeathParticles::Update()
 	for (uint32_t i = 0; i < 8; i++)
 	{
 		Vector3 velocity = {kSpeed, 0, 0};
-		float angle = (360.0f / 8.0f) * (float)i;
+		float angle = kAngleUnit * (float)i;
 		Matrix4x4 matrixRotation = Matrix4x4::MakeRotateZMatrix(angle);
 		velocity = Matrix4x4::Transform(velocity, matrixRotation);
 		worldTransforms_[i].translation_ += velocity;
@@ -69,8 +69,6 @@ void DeathParticles::Draw()
 	// モデルの描画
 	for (auto& worldTransform : worldTransforms_) 
 	{
-		//model_->Draw(worldTransform, *viewProjection_, textureHandle_);
-	
 		model_->Draw(worldTransform, *viewProjection_, &objectColor_);
 	}
 
