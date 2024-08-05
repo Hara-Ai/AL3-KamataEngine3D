@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
 #include "AABB.h"
@@ -145,6 +145,8 @@ private:
 	// 着地時の速度減衰率
 	static inline const float kAttenuationWall = 1.0f;
 
+	bool isDeed_ = false;
 
+	bool IsDead() const { return isDeed_; }
 	
 };

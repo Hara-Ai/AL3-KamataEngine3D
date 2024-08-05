@@ -7,6 +7,19 @@
 #include <cassert>
 #include <AABB.h>
 
+void GameScene::ChangePhase()
+{
+	switch (phase_) 
+	{
+	case Phase::kPlay:
+
+		break;
+	case Phase::kDeath:
+
+		break;
+	}
+}
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene()
@@ -64,6 +77,8 @@ void GameScene::ChecAllCollisiions()
 }
 
 void GameScene::Initialize() {
+
+	phase_ = Phase::kPlay;
 
 	// int height = 720;
 	// int width = 1280;
@@ -175,63 +190,71 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	skydome_->Update();
-	// 自キャラの更新
-	player_->Update();
-	// 敵キャラの更新
-	enemy_->Update();
-	for (Enemy* kenemise_ : enemies_) {
-		kenemise_->Update();
-	}
 
-	//for (DeathParticles* deathParticlesHati : deathParticles_) 
-	//{
-	//	if (deathParticlesFlag) 
-	//	{
-	//		deathParticlesHati->Update();
-	//	}
-	//}
+	switch (phase_) 
+	{
+	case Phase::kPlay:
+		skydome_->Update();
+		// 自キャラの更新
+		player_->Update();
+		// 敵キャラの更新
+		enemy_->Update();
+		for (Enemy* kenemise_ : enemies_) {
+			kenemise_->Update();
+		}
 
-	deathParticles_->Update();
+		// for (DeathParticles* deathParticlesHati : deathParticles_)
+		//{
+		//	if (deathParticlesFlag)
+		//	{
+		//		deathParticlesHati->Update();
+		//	}
+		// }
 
-	// 全ての当たり判定を行う
-	ChecAllCollisiions();
+		deathParticles_->Update();
 
-	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock) {
-				continue;
-			} else {
-				worldTransformBlock->UpdateMatrix();
+		// 全ての当たり判定を行う
+		ChecAllCollisiions();
+
+		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+				if (!worldTransformBlock) {
+					continue;
+				} else {
+					worldTransformBlock->UpdateMatrix();
+				}
 			}
 		}
-	}
 
 #ifdef _DEBUG
-	if (input_->TriggerKey(DIK_P)) {
-		isDebugCameraActiive_ = true;
-	}
+		if (input_->TriggerKey(DIK_P)) {
+			isDebugCameraActiive_ = true;
+		}
 #endif
 
-	debugCamera_->Update();
+		debugCamera_->Update();
 
-	if (isDebugCameraActiive_) {
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	} else {
-		// ビュープロジェクション行列の更新と転送
-		//viewProjection_.UpdateMatrix();
+		if (isDebugCameraActiive_) {
+			viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+			viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+			// ビュープロジェクション行列の転送
+			viewProjection_.TransferMatrix();
+		} else {
+			// ビュープロジェクション行列の更新と転送
+			// viewProjection_.UpdateMatrix();
 
-		CameraController_->Update();
-		viewProjection_.matView = CameraController_->GetViewProjection().matView;
-		viewProjection_.matProjection = CameraController_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
+			CameraController_->Update();
+			viewProjection_.matView = CameraController_->GetViewProjection().matView;
+			viewProjection_.matProjection = CameraController_->GetViewProjection().matProjection;
+			// ビュープロジェクション行列の転送
+			viewProjection_.TransferMatrix();
+		}
+
+		break;
+	case Phase::kDeath:
+
+		break;
 	}
-
-	
 
 
 }

@@ -74,8 +74,8 @@ void DeathParticles::Draw()
 		model_->Draw(worldTransform, *viewProjection_, &objectColor_);
 	}
 
-	//if (isFinished_) 
-	//{
-	//	return;
-	//}
+	if (isFinished_) 
+	{
+		return;
+	}
 }

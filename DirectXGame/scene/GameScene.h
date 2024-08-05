@@ -15,6 +15,11 @@
 #include <cassert>
 #include "DeathParticles.h"
 
+enum class Phase
+{
+	kPlay,
+	kDeath,
+};
 
 /// <summary>
 /// ゲームシーン
@@ -22,6 +27,8 @@
 class GameScene {
 
 public: // メンバ関数
+
+	void ChangePhase();
 
 	/// <summary>
 	/// コンストクラタ
@@ -95,5 +102,7 @@ private: // メンバ変数
 	DeathParticles* deathParticles_ ;
 	//デスパーティクルが存在するか
 	bool deathParticlesFlag = false;
+
+	Phase phase_;
 
 };
