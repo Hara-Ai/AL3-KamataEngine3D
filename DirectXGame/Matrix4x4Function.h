@@ -24,6 +24,7 @@
 #include <cstdint> //uint32_tを使う際にはこれを追加
 
 struct Matrix4x4 {
+public:
 	float m[4][4];
 
 	Matrix4x4() {
@@ -88,50 +89,50 @@ struct Triangle {
 ////
 
 // 加算
-Vector3 add(const Vector3& v1, const Vector3& v2);
+static Vector3 add(const Vector3& v1, const Vector3& v2);
 // 減算
-Vector3 Subtract(const Vector3& v1, const Vector3& v2);
+static Vector3 Subtract(const Vector3& v1, const Vector3& v2);
 // スカラー倍
-Vector3 Multiply(float scalar, const Vector3& v2);
+static Vector3 Multiply(float scalar, const Vector3& v2);
 float Dot(const Vector3& v1, const Vector3& v2);
 // 長さ(イルム)
 float Length(const Vector3& v);
 // 正規化
-Vector3 Nirmalize(const Vector3& v);
+static Vector3 Nirmalize(const Vector3& v);
 
 ////
 // 00_02
 ////
 
-Matrix4x4 Inverse(const Matrix4x4& m);
-Matrix4x4 Transpose(const Matrix4x4& m);
-Matrix4x4 MakeIdentity4x4();
+static Matrix4x4 Inverse(const Matrix4x4& m);
+static Matrix4x4 Transpose(const Matrix4x4& m);
+static Matrix4x4 MakeIdentity4x4();
 
 ////
 // 00_03
 ////
 
-Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
-Matrix4x4 MakeScaleMatrix(const Vector3& scale);
-Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+static Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
+static Matrix4x4 MakeScaleMatrix(const Vector3& scale);
+static Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
 ////
 // 00_04
 ////
 
-Matrix4x4 MakeRotateXMatrix(float radian);
-Matrix4x4 MakeRotateYMatrix(float radian);
-Matrix4x4 MakeRotateZMatrix(float radian);
-Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
+static Matrix4x4 MakeRotateXMatrix(float radian);
+static Matrix4x4 MakeRotateYMatrix(float radian);
+static Matrix4x4 MakeRotateZMatrix(float radian);
+static Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
 ////
 // 00_05
 ////
 
-Matrix4x4 MakeRotationMatrix(const Vector3& rotate);
-Matrix4x4 MakeTranslationMatrix(const Vector3& translate);
-Matrix4x4 operator*(const Matrix4x4& a, const Matrix4x4& b);
-Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+static Matrix4x4 MakeRotationMatrix(const Vector3& rotate);
+static Matrix4x4 MakeTranslationMatrix(const Vector3& translate);
+static Matrix4x4 operator*(const Matrix4x4& a, const Matrix4x4& b);
+static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 ////
 // 01_00
