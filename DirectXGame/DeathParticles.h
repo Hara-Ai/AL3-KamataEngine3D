@@ -3,6 +3,7 @@
 #include "WorldTransform.h"
 #include <MapChipField.h>
 #include <array>
+#include <math.h>
 
 class DeathParticles 
 {
