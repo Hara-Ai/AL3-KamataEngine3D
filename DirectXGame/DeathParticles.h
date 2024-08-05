@@ -11,7 +11,8 @@ class DeathParticles
 {
 public:
 
-	
+	// IsFinishedメンバー関数を追加
+	bool IsFinished() const;
 
 	/// <summary>
 	/// 初期化処理

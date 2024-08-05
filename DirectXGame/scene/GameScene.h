@@ -60,6 +60,9 @@ public: // メンバ関数
 	void GenerateBlocks();
 	bool IsCollision(AABB aabb1, AABB aabb2);
 
+	// デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 private: // メンバ変数
 
 	WorldTransform worldTransform_;
@@ -107,4 +110,5 @@ private: // メンバ変数
 
 	//終了フラグ
 	bool finished_ = false;
+	
 };

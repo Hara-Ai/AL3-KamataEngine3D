@@ -7,6 +7,11 @@
 
 
 
+bool DeathParticles::IsFinished() const 
+{ 
+	 return isFinished_; // 例としてfinished変数を返す
+}
+
 void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 	//ワールド変換の初期化

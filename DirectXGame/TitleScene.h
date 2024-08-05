@@ -2,7 +2,8 @@
 class TitleScene 
 {
 public:
-
+	TitleScene();
+	~TitleScene();
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -11,16 +12,21 @@ public:
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update(char* keys, char* preKeys);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
 
+	// 終了フラグ
+	bool finished_ = false;
+	// デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 	private:
 
-		// 終了フラグ
-	    bool finished_ = false;
+	bool isFinished_;
+	
 
 };
