@@ -92,7 +92,7 @@ private: // メンバ変数
 	//デバックカメラのビュープロジェクション
 	ViewProjection* debugViewProjection_; 
 
-	std::vector<DeathParticles*> deathParticles_ ;
+	DeathParticles* deathParticles_ ;
 	//デスパーティクルが存在するか
 	bool deathParticlesFlag = false;
 
