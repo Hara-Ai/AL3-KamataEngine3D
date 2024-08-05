@@ -28,30 +28,30 @@ void DeathParticles::Update()
 		worldTransform.UpdateMatrix();
 	}
 
-	//for (uint32_t i = 0; i < 8; i++)
-	//{
-	//	Vector3 velocity = {kSpeed, 0, 0};
-	//	float angle = (360.0f / 8.0f) * (float)i;
-	//	Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
-	//	velocity = Transform(velocity, matrixRotation);
-	////	worldTransforms_[i].translation_ += velocity;
-	//}
+	for (uint32_t i = 0; i < 8; i++)
+	{
+		Vector3 velocity = {kSpeed, 0, 0};
+		float angle = (360.0f / 8.0f) * (float)i;
+		Matrix4x4 matrixRotation = Matrix4x4::MakeRotateZMatrix(angle);
+		velocity = Matrix4x4::Transform(velocity, matrixRotation);
+		worldTransforms_[i].translation_ += velocity;
+	}
 
-	// カウンターを1フレーム分の秒数進める
-	//counter_ += 1.0f / 60.0f;
+	 //カウンターを1フレーム分の秒数進める
+	counter_ += 1.0f / 60.0f;
 
 	// 存続時間上限に達したら
-	//if (counter_ >= kDuration)
-	//{
-	//	counter_ = kDuration;
-	//	// 終了扱いにする
-	//	isFinished_ = true;
-	//}
-	//
-	//if (isFinished_)
-	//{
-	//	return;
-	//}
+	if (counter_ >= kDuration)
+	{
+		counter_ = kDuration;
+		// 終了扱いにする
+		isFinished_ = true;
+	}
+	
+	if (isFinished_)
+	{
+		return;
+	}
 }
 
 void DeathParticles::Draw() 

@@ -15,7 +15,7 @@ public:
 	static Matrix4x4 MakeRotationMatrix(const Vector3& rotate);
 	static Matrix4x4 MakeTranslationMatrix(const Vector3& translate);
 	static Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
-
+	static Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 	Matrix4x4 operator*(const Matrix4x4& other) const;
 };
 

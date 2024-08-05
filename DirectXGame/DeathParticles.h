@@ -45,17 +45,17 @@ private:
 
 	std::array<WorldTransform, kNumParticles> worldTransforms_;
 
-	//// 存続時間
-	//static inline const float kDuration = 1.0f;
-	//// 移動の速さ
-	//static inline const float kSpeed = 1.0f;
-	//// 分割した1個分の角度
-	//static inline const float kAngleUnit = 2.0f * 3.14f / 8.0f;
-	//
-	//// 終了フラグ
-	//bool isFinished_ = false;
-	//// 経過時間カウント
-	//float counter_ = 0.0f;
-	//
+	// 存続時間
+	static inline const float kDuration = 1.0f;
+	// 移動の速さ
+	static inline const float kSpeed = 1.0f;
+	// 分割した1個分の角度
+	static inline const float kAngleUnit = 2.0f * 3.14f / 8.0f;
+	
+	// 終了フラグ
+	bool isFinished_ = false;
+	// 経過時間カウント
+	float counter_ = 0.0f;
+	
 		
 };
