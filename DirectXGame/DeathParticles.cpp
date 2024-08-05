@@ -1,7 +1,7 @@
-﻿#include "DeathParticles.h"
+#include "DeathParticles.h"
 #include <cassert>
 #include <numbers>
-#include <Matrix4x4Function.h>
+#include <Matrix4x4.h>
 #include <algorithm>
 
 
@@ -61,7 +61,7 @@ void DeathParticles::Update()
 
 	color_.w = std::clamp(1 - counter_, 0.0f, 1.0f);
 	objectColor_.SetColor(color_);
-	objectColor_.TrnsferMatrix();
+	objectColor_.TransferMatrix();
 }
 
 void DeathParticles::Draw() 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Matrix4x4Function.h"
+#include "Matrix4x4.h"
 #include "Vector3.h"
 #include <d3d12.h>
 #include <type_traits>
@@ -23,9 +23,11 @@ public:
 	// ローカル座標
 	Vector3 translation_ = {0, 0, 0};
 	// ローカル → ワールド変換行列
-	Matrix4x4 matWorld_ = {};
+	Matrix4x4 matWorld_;
 	// 親となるワールド変換へのポインタ
 	const WorldTransform* parent_ = nullptr;
+
+	void UpdateMatrix();
 
 	WorldTransform() = default;
 	~WorldTransform() = default;
@@ -45,9 +47,6 @@ public:
 	/// <summary>
 	/// 行列を転送する
 	/// </summary>
-	
-	void UpdateMatrix();
-
 	void TransferMatrix();
 	/// <summary>
 	/// 定数バッファの取得

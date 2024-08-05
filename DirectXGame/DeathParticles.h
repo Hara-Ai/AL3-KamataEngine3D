@@ -1,9 +1,12 @@
-﻿#pragma once
+#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
 #include <MapChipField.h>
 #include <array>
 #include <math.h>
+#include <ObjectColor.h>
+
+
 class DeathParticles 
 {
 public:
@@ -59,6 +62,6 @@ private:
 	// 経過時間カウント
 	float counter_ = 0.0f;
 	
-	OBjectColor objectColor_;
+	ObjectColor objectColor_;
 	Vector4 color_;
 };
