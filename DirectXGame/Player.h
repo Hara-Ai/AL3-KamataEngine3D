@@ -47,6 +47,8 @@ public:
 		mapChipField_ = mapChipField; 
 	}
 
+
+
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 	// マップ衝突判定
@@ -66,7 +68,6 @@ public:
 	// 壁接触による減速
 	void attachedWallCeiling(const CollisionMapInfo& info);
 
-	
 
 	// AABBを取得
 	AABB GetAABB();
@@ -148,5 +149,4 @@ private:
 	bool isDeed_ = false;
 
 	bool IsDead() const { return isDeed_; }
-	
 };

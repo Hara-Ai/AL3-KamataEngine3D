@@ -4,6 +4,7 @@
 #include "Skydome.h"
 #include "TextureManager.h"
 #include "CameraController.h"
+#include "ObjectColor.h"
 #include <cassert>
 #include <AABB.h>
 
@@ -12,6 +13,13 @@ void GameScene::ChangePhase()
 	switch (phase_) 
 	{
 	case Phase::kPlay:
+
+		if ()
+		{
+			phase_ = Phase::kDeath;
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+			deathParticles_->Initialize(model_, &viewProjection_, objectColor_);
+		}
 
 		break;
 	case Phase::kDeath:

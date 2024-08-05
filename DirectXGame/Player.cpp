@@ -1,4 +1,4 @@
-﻿#define NOMINMAX
+#define NOMINMAX
 #include "Player.h"
 #include "MapChipField.h"
 #include "Player.h"
@@ -429,6 +429,7 @@ void Player::OnCollision(const Enemy* enemy) {
 	(void)enemy;
 	// ジャンプ開始(仮)
 	velocity_ += Vector3(0, 1.0f, 0);
+	isDeed_ = true;
 	
 }
 
