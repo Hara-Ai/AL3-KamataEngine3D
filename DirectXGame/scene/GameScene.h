@@ -105,4 +105,6 @@ private: // メンバ変数
 
 	Phase phase_;
 
+	//終了フラグ
+	bool finished_ = false;
 };
