@@ -23,10 +23,14 @@ GameScene::~GameScene()
 		delete kenemise_;
 	}
 
-	for (DeathParticles* deathParticlesHati : deathParticles_)
-	{
-		delete deathParticlesHati;
-	}
+	//for (DeathParticles* deathParticlesHati : deathParticles_)
+	//{
+	//	delete deathParticlesHati;
+	//}
+
+	//deathParticles_.clear();
+
+	delete deathParticles_;
 
 
 	worldTransformBlocks_.clear();
@@ -172,12 +176,8 @@ void GameScene::Initialize() {
 
 	CameraController_->SetMovableArea(setter);
 
-	deathParticles_.resize(8);
-	
-	for (DeathParticles* deathParticlesHati : deathParticles_)
-	{
-		deathParticlesHati->Initialize(model_, &viewProjection_, playerPosition);
-	}
+	deathParticles_ = new DeathParticles();
+	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
 }
 
 void GameScene::Update() {
@@ -190,13 +190,12 @@ void GameScene::Update() {
 		kenemise_->Update();
 	}
 
-	//for (DeathParticles* deathParticlesHati : deathParticles_) 
+	//for (auto particle : deathParticles_) 
 	//{
-	//	if (deathParticlesFlag) 
-	//	{
-	//		deathParticlesHati->Update();
-	//	}
+	//	particle->Update();
 	//}
+
+	deathParticles_->Update();
 
 	// 全ての当たり判定を行う
 	ChecAllCollisiions();
@@ -287,13 +286,12 @@ void GameScene::Draw()
 		}
 	}
 
-	//for (DeathParticles* deathParticlesHati : deathParticles_) 
+	//for (DeathParticles* particle : deathParticles_) 
 	//{
-	//	if (deathParticlesFlag) 
-	//	{
-	//		deathParticlesHati->Draw();
-	//	}
+	//	particle->Draw();
 	//}
+
+	deathParticles_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
