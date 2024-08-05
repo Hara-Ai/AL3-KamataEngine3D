@@ -9,8 +9,8 @@
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataViewProjection {
-	Matrix4x4Function view; // ワールド → ビュー変換行列
-	Matrix4x4Function projection; // ビュー → プロジェクション変換行列
+	Matrix4x4 view; // ワールド → ビュー変換行列
+	Matrix4x4 projection; // ビュー → プロジェクション変換行列
 	Vector3 cameraPos;    // カメラ座標（ワールド座標）
 };
 
@@ -38,9 +38,9 @@ public:
 #pragma endregion
 
 	// ビュー行列
-	Matrix4x4Function matView = {};
+	Matrix4x4 matView = {};
 	// 射影行列
-	Matrix4x4Function matProjection = {};
+	Matrix4x4 matProjection = {};
 
 	ViewProjection() = default;
 	~ViewProjection() = default;

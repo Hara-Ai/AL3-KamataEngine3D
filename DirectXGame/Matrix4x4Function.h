@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //
 //#include <cmath>
 //#include "Vector3.h"
@@ -21,7 +21,7 @@
 
 #pragma once
 #include "Vector3.h"
-#include <cstdint> //uint32_t‚ğg‚¤Û‚É‚Í‚±‚ê‚ğ’Ç‰Á
+#include <cstdint> //uint32_tã‚’ä½¿ã†éš›ã«ã¯ã“ã‚Œã‚’è¿½åŠ 
 
 struct Matrix4x4 {
 	float m[4][4];
@@ -62,12 +62,12 @@ struct Matrix4x4 {
 	}
 };
 struct Sphere {
-	Vector3 center; //!< ’†S“_
-	float radius;   //!< ”¼Œa
+	Vector3 center; //!< ä¸­å¿ƒç‚¹
+	float radius;   //!< åŠå¾„
 };
 struct Triangle {
-	Vector3 v0, v1, v2; // OŠpŒ`‚Ì3‚Â‚Ì’¸“_
-	Vector3 vertice[3]; // ’¸“_‚Ì”z—ñ
+	Vector3 v0, v1, v2; // ä¸‰è§’å½¢ã®3ã¤ã®é ‚ç‚¹
+	Vector3 vertice[3]; // é ‚ç‚¹ã®é…åˆ—
 
 	Triangle() : v0(), v1(), v2() {
 		vertice[0] = v0;
@@ -87,16 +87,16 @@ struct Triangle {
 // 00_01
 ////
 
-// ‰ÁZ
+// åŠ ç®—
 Vector3 add(const Vector3& v1, const Vector3& v2);
-// Œ¸Z
+// æ¸›ç®—
 Vector3 Subtract(const Vector3& v1, const Vector3& v2);
-// ƒXƒJƒ‰[”{
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
 Vector3 Multiply(float scalar, const Vector3& v2);
 float Dot(const Vector3& v1, const Vector3& v2);
-// ’·‚³(ƒCƒ‹ƒ€)
+// é•·ã•(ã‚¤ãƒ«ãƒ )
 float Length(const Vector3& v);
-// ³‹K‰»
+// æ­£è¦åŒ–
 Vector3 Nirmalize(const Vector3& v);
 
 ////
@@ -145,7 +145,7 @@ Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, f
 // 01_01
 ////
 
-// ƒxƒNƒgƒ‹‚ÌƒNƒƒXÏ‚ğŒvZ
+// ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¯ãƒ­ã‚¹ç©ã‚’è¨ˆç®—
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
-// ƒxƒNƒgƒ‹‚ğ•ÏŠ·
+// ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¤‰æ›
 Vector3 Transform_2(const Vector3& v, const Matrix4x4& m);
