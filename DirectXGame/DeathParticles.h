@@ -4,10 +4,12 @@
 #include <MapChipField.h>
 #include <array>
 #include <math.h>
-
 class DeathParticles 
 {
 public:
+
+	
+
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
@@ -57,5 +59,6 @@ private:
 	// 経過時間カウント
 	float counter_ = 0.0f;
 	
-		
+	OBjectColor objectColor_;
+	Vector4 color_;
 };

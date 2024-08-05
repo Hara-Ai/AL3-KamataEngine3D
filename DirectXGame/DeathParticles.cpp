@@ -2,10 +2,12 @@
 #include <cassert>
 #include <numbers>
 #include <Matrix4x4Function.h>
+#include <algorithm>
 
 
-void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) 
-{
+
+
+void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 	//ワールド変換の初期化
 	for (auto& worldTransform : worldTransforms_)
@@ -19,6 +21,10 @@ void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, co
 
 	// 引数の内容をメンバ変数に記録
 	viewProjection_ = viewProjection;
+
+	objectColor_.Initialize();
+	color_ = {1, 1, 1, 1};
+
 }
 
 void DeathParticles::Update() 
@@ -52,6 +58,10 @@ void DeathParticles::Update()
 	{
 		return;
 	}
+
+	color_.w = std::clamp(1 - counter_, 0.0f, 1.0f);
+	objectColor_.SetColor(color_);
+	objectColor_.TrnsferMatrix();
 }
 
 void DeathParticles::Draw() 
