@@ -19,11 +19,7 @@ void GameScene::ChangePhase()
 		break;
 	case Phase::kDeath:
 
-		if (player_->IsDead()) {
-			phase_ = Phase::kDeath;
-			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
-			deathParticles_->Initialize(model_, &viewProjection_, deathParticlesPosition);
-		}
+		
 
 		break;
 	}
@@ -204,8 +200,12 @@ void GameScene::Update() {
 	{
 	case Phase::kPlay:
 
+		if (player_->IsDead()) {
+			phase_ = Phase::kDeath;
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+			deathParticles_->Initialize(model_, &viewProjection_, deathParticlesPosition);
+		}
 		
-
 		skydome_->Update();
 		// 自キャラの更新
 		player_->Update();
@@ -215,9 +215,7 @@ void GameScene::Update() {
 			kenemise_->Update();
 		}
 
-		if (player_->IsDead()) {
-			deathParticles_->Update();
-		}
+		
 
 		// 全ての当たり判定を行う
 		ChecAllCollisiions();
@@ -263,7 +261,16 @@ void GameScene::Update() {
 		break;
 	case Phase::kDeath:
 
-		
+		// 敵キャラの更新
+		enemy_->Update();
+		for (Enemy* kenemise_ : enemies_) {
+			kenemise_->Update();
+		}
+
+
+		if (player_->IsDead()) {
+			deathParticles_->Update();
+		}
 
 		break;
 	}
@@ -275,71 +282,143 @@ void GameScene::Draw() {
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+	switch (phase_) {
+	case Phase::kPlay:
+
+		
 
 #pragma region 背景スプライト描画
-	// 背景スプライト描画前処理
-	Sprite::PreDraw(commandList);
+		// 背景スプライト描画前処理
+		Sprite::PreDraw(commandList);
 
-	/// <summary>
-	/// ここに背景スプライトの描画処理を追加できる
-	/// </summary>
+		/// <summary>
+		/// ここに背景スプライトの描画処理を追加できる
+		/// </summary>
 
-	// スプライト描画後処理
-	Sprite::PostDraw();
-	// 深度バッファクリア
-	dxCommon_->ClearDepthBuffer();
+		// スプライト描画後処理
+		Sprite::PostDraw();
+		// 深度バッファクリア
+		dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-	// 3Dオブジェクト描画前処理
-	Model::PreDraw(commandList);
+		// 3Dオブジェクト描画前処理
+		Model::PreDraw(commandList);
 
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
+		/// <summary>
+		/// ここに3Dオブジェクトの描画処理を追加できる
+		/// </summary>
 
-	// 自キャラの描画
-	player_->Draw();
-	// 敵キャラの描画
-	enemy_->Draw();
-	for (Enemy* kenemise_ : enemies_) {
-		kenemise_->Draw();
-	}
-	// 天球の描画
-	skydome_->Draw();
-
-	// マップチップの描画
-	for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock)
-				continue;
-			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+		// 自キャラの描画
+		player_->Draw();
+		// 敵キャラの描画
+		enemy_->Draw();
+		for (Enemy* kenemise_ : enemies_) {
+			kenemise_->Draw();
 		}
-	}
+		// 天球の描画
+		skydome_->Draw();
 
-	if (player_->IsDead()) 
-	{
-		// パーティクルの描画
-		deathParticles_->Draw();
-	}
+		// マップチップの描画
+		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+				if (!worldTransformBlock)
+					continue;
+				modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+			}
+		}
 
-	// 3Dオブジェクト描画後処理
-	Model::PostDraw();
+		
+		// 3Dオブジェクト描画後処理
+		Model::PostDraw();
 
 #pragma endregion
 
 #pragma region 前景スプライト描画
-	// 前景スプライト描画前処理
-	Sprite::PreDraw(commandList);
+		// 前景スプライト描画前処理
+		Sprite::PreDraw(commandList);
 
-	/// <summary>
-	/// ここに前景スプライトの描画処理を追加できる
-	/// </summary>
+		/// <summary>
+		/// ここに前景スプライトの描画処理を追加できる
+		/// </summary>
 
-	// スプライト描画後処理
-	Sprite::PostDraw();
+		// スプライト描画後処理
+		Sprite::PostDraw();
 
 #pragma endregion
+
+		break;
+	case Phase::kDeath:
+
+		
+
+#pragma region 背景スプライト描画
+		// 背景スプライト描画前処理
+		Sprite::PreDraw(commandList);
+
+		/// <summary>
+		/// ここに背景スプライトの描画処理を追加できる
+		/// </summary>
+
+		// スプライト描画後処理
+		Sprite::PostDraw();
+		// 深度バッファクリア
+		dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+		// 3Dオブジェクト描画前処理
+		Model::PreDraw(commandList);
+
+		/// <summary>
+		/// ここに3Dオブジェクトの描画処理を追加できる
+		/// </summary>
+
+		
+		// 敵キャラの描画
+		enemy_->Draw();
+		for (Enemy* kenemise_ : enemies_) {
+			kenemise_->Draw();
+		}
+		// 天球の描画
+		skydome_->Draw();
+
+		// マップチップの描画
+		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+				if (!worldTransformBlock)
+					continue;
+				modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+			}
+		}
+
+		if (player_->IsDead()) {
+			// パーティクルの描画
+			deathParticles_->Draw();
+		}
+
+		// 3Dオブジェクト描画後処理
+		Model::PostDraw();
+
+#pragma endregion
+
+#pragma region 前景スプライト描画
+		// 前景スプライト描画前処理
+		Sprite::PreDraw(commandList);
+
+		/// <summary>
+		/// ここに前景スプライトの描画処理を追加できる
+		/// </summary>
+
+		// スプライト描画後処理
+		Sprite::PostDraw();
+
+#pragma endregion
+
+		break;
+	}
+
+	
 }
 
 void GameScene::GenerateBlocks() {
