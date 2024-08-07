@@ -22,8 +22,12 @@ enum class Scene
 Scene scene = Scene::kUnkown;
 TitleScene* titleScene = nullptr;
 GameScene* gameScene = nullptr;
+Model* model_ = nullptr;
+WorldTransform* wolrldTransform_ = {};
+ViewProjection* viewProjection_ = {}; 
+MapChipField* mapChipField_ = nullptr;
 
-// キー入力結果を受け取る箱
+    // キー入力結果を受け取る箱
 char keys[256] = {0};
 char preKeys[256] = {0};
 
