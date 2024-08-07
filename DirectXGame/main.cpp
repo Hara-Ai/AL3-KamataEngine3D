@@ -62,7 +62,7 @@ void UpdateScene()
 	switch (scene) 
 	{
 	case Scene::kTitle:
-		titleScene->Update(keys,preKeys);
+		titleScene->Update();
 		break;
 	case Scene::kGame:
 		gameScene->Update();
@@ -148,6 +148,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	
 
+
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -155,45 +156,87 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+		switch (scene) {
+		case Scene::kTitle:
+
+			// ImGui受付開始
+			imguiManager->Begin();
+			// 入力関連の毎フレーム処理
+			input->Update();
+			// ゲームシーンの毎フレーム処理
+			//gameScene->Update();
+			// 軸表示の更新
+			axisIndicator->Update();
+			// タイトルの更新
+			//titleScene->Update(keys, preKeys);
+			// 現在Sceneの更新
+			UpdateScene();
+			//   シーン切り替え
+			ChangeScene();
+			// ImGui受付終了
+			imguiManager->End();
+
+			// 描画開始
+			dxCommon->PreDraw();
+			// タイトルの描画
+			// titleScene->Draw();
+			//   現在シーンの描画
+			DrawScene();;
+			// 軸表示の描画
+			axisIndicator->Draw();
+			// プリミティブ描画のリセット
+			primitiveDrawer->Reset();
+			// ImGui描画
+			imguiManager->Draw();
+			// 描画終了
+			dxCommon->PostDraw();
+
+			break;
+		case Scene::kGame:
+
+			// ImGui受付開始
+			imguiManager->Begin();
+			// 入力関連の毎フレーム処理
+			input->Update();
+			// ゲームシーンの毎フレーム処理
+			gameScene->Update();
+			// 軸表示の更新
+			axisIndicator->Update();
+			// タイトルの更新
+			// titleScene->Update(keys, preKeys);
+			// 現在Sceneの更新
+			UpdateScene();
+			// シーン切り替え
+			ChangeScene();
+			// ImGui受付終了
+			imguiManager->End();
+
+			// 描画開始
+			dxCommon->PreDraw();
+			// タイトルの描画
+			// titleScene->Draw();
+			// 現在シーンの描画
+			DrawScene();
+			// ゲームシーンの描画
+			//gameScene->Draw();
+			// 軸表示の描画
+			axisIndicator->Draw();
+			// プリミティブ描画のリセット
+			primitiveDrawer->Reset();
+			// ImGui描画
+			imguiManager->Draw();
+			// 描画終了
+			dxCommon->PostDraw();
+
+			break;
+		}
+
 		
-
-		// ImGui受付開始
-		imguiManager->Begin();
-		// 入力関連の毎フレーム処理
-		input->Update();
-		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
-		// 軸表示の更新
-		axisIndicator->Update();
-		//タイトルの更新
-		//titleScene->Update(keys, preKeys);
-		// シーン切り替え
-		ChangeScene();
-		// 現在Sceneの描画
-		UpdateScene();
-		// ImGui受付終了
-		imguiManager->End();
-
-		// 描画開始
-		dxCommon->PreDraw();
-		//タイトルの描画
-		//titleScene->Draw();
-		// 現在シーンの描画
-		DrawScene();
-		// ゲームシーンの描画
-		gameScene->Draw();
-		// 軸表示の描画
-		axisIndicator->Draw();
-		// プリミティブ描画のリセット
-		primitiveDrawer->Reset();
-		// ImGui描画
-		imguiManager->Draw();
-		// 描画終了
-		dxCommon->PostDraw();
 	}
 
 	// 各種解放
 	delete gameScene;
+	delete titleScene;
 	// 3Dモデル解放
 	Model::StaticFinalize();
 	audio->Finalize();
@@ -203,8 +246,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
 
-	delete titleScene;
-	delete gameScene;
+	
+	
 
 	return 0;
 }

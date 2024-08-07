@@ -318,7 +318,8 @@ void GameScene::Draw() {
 		player_->Draw();
 		// 敵キャラの描画
 		enemy_->Draw();
-		for (Enemy* kenemise_ : enemies_) {
+		for (Enemy* kenemise_ : enemies_)
+		{
 			kenemise_->Draw();
 		}
 		// 天球の描画

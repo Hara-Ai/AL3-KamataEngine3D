@@ -9,17 +9,21 @@ TitleScene::~TitleScene() {
 	// デストラクタの内容
 }
 
-void TitleScene::Initialize() {
-	// 初期化処理
+void TitleScene::Initialize() // 初期化処理
+{
+	isFinished_ = false;
 }
 
-void TitleScene::Update(char* keys, char* preKeys) {
-	// 更新処理
-	if (preKeys[DIK_SPACE] == 0 && keys[DIK_SPACE] != 0) {
+void TitleScene::Update() // 更新処理
+{
+
+	if (Input::GetInstance()->PushKey(DIK_SPACE))
+	{
 		isFinished_ = true;
 	}
 }
 
-void TitleScene::Draw() {
-	// 描画処理
+void TitleScene::Draw() // 描画処理
+{
+	
 }
