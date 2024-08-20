@@ -1,4 +1,4 @@
-﻿#include "MapChipField.h"
+#include "MapChipField.h"
 #include <cassert>
 #include <fstream>
 #include <map>
@@ -10,6 +10,7 @@ namespace
 	{
 		{"0", MapChipType::kBlank},
 		{"1", MapChipType::kBlock},
+		{"2", MapChipType::kBlock2},
 	};
 }
 

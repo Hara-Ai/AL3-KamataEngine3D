@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "WorldTransform.h"
 #include <Vector3.h>
@@ -13,6 +13,7 @@
 enum class MapChipType {
 	kBlank, // 空白
 	kBlock, // ブロック
+	kBlock2,// ブロック2
 };
 
 struct MapChipData {

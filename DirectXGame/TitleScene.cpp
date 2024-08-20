@@ -25,7 +25,7 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 
 	// 3Dモデルの生成(プレイヤー)
-	model_ = Model::CreateFromOBJ("player", true);
+	model_ = Model::CreateFromOBJ("nisito", true);
 	
 	// 自キャラの生成
 	player_ = new Player();
