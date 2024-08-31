@@ -123,19 +123,22 @@ void GameScene::Initialize() {
 	enemy_->SetMapChipField(mapChipField_);
 
 	// 敵の生成
-	for (int32_t i = 1; i < 4; ++i)
+	for (int32_t a = 1; a < 10; ++a) 
 	{
-		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition_ = 
-		{ 
-			enemyPosition.x * i, enemyPosition.y * i, enemyPosition.z 
-		};
-		newEnemy->Initialize(enmeyModel_, &viewProjection_, enemyPosition_);
+		for (int32_t i = 1; i < 10; ++i) 
+		{
+			for (int32_t c = 1; c < 10; ++c) 
+			{
+				Enemy* newEnemy = new Enemy();
+				Vector3 enemyPosition_ = {enemyPosition.x * i * a * c, enemyPosition.y * i, enemyPosition.z};
+				newEnemy->Initialize(enmeyModel_, &viewProjection_, enemyPosition_);
 
-		enemies_.push_back(newEnemy);
+				enemies_.push_back(newEnemy);
+			}
+		}
 	}
 
-
+	
 
 	worldTransform_.Initialize();
 
