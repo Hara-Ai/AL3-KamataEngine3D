@@ -130,10 +130,11 @@ void GameScene::Initialize() {
 			for (int32_t c = 1; c < 10; ++c) 
 			{
 				Enemy* newEnemy = new Enemy();
-				Vector3 enemyPosition_ = {enemyPosition.x * i * a * c, enemyPosition.y * i, enemyPosition.z};
+				Vector3 enemyPosition_ = {enemyPosition.x * a * i * c, enemyPosition.y * i, enemyPosition.z};
 				newEnemy->Initialize(enmeyModel_, &viewProjection_, enemyPosition_);
 
 				enemies_.push_back(newEnemy);
+			
 			}
 		}
 	}
@@ -195,6 +196,9 @@ void GameScene::Initialize() {
 	
 	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
 	
+	// 3Dモデルの生成(プレイヤー)
+	clearModel_ = Model::CreateFromOBJ("clear", true);
+
 }
 
 void GameScene::Update() {
@@ -210,18 +214,18 @@ void GameScene::Update() {
 		}
 		
 		skydome_->Update();
-		// 自キャラの更新
-		player_->Update();
-		// 敵キャラの更新
-		enemy_->Update();
-		for (Enemy* kenemise_ : enemies_) {
-			kenemise_->Update();
+		if (Timer < 3600) {
+			// 自キャラの更新
+			player_->Update();
+			// 敵キャラの更新
+			enemy_->Update();
+			for (Enemy* kenemise_ : enemies_) {
+				kenemise_->Update();
+			}
+
+			// 全ての当たり判定を行う
+			ChecAllCollisiions();
 		}
-
-		
-
-		// 全ての当たり判定を行う
-		ChecAllCollisiions();
 
 		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -259,7 +263,20 @@ void GameScene::Update() {
 			viewProjection_.TransferMatrix();
 		}
 
-		
+		if (Timer > 3600)
+		{
+			if (safeTimer > 360) 
+			{
+				Timer = 0;
+				safeTimer = 0;
+				finished_ = true;
+			
+			}
+			safeTimer++;
+		} else 
+		{
+			Timer++;
+		}
 
 		break;
 	case Phase::kDeath:
@@ -317,13 +334,15 @@ void GameScene::Draw() {
 		/// ここに3Dオブジェクトの描画処理を追加できる
 		/// </summary>
 
-		// 自キャラの描画
-		player_->Draw();
-		// 敵キャラの描画
-		enemy_->Draw();
-		for (Enemy* kenemise_ : enemies_)
-		{
-			kenemise_->Draw();
+		if (Timer < 3600) {
+			// 自キャラの描画
+			player_->Draw();
+
+			// 敵キャラの描画
+			enemy_->Draw();
+			for (Enemy* kenemise_ : enemies_) {
+				kenemise_->Draw();
+			}
 		}
 		// 天球の描画
 		skydome_->Draw();
@@ -337,7 +356,10 @@ void GameScene::Draw() {
 			}
 		}
 
-		
+		if (Timer > 3600) {
+			clearModel_->Draw(worldTransform_, viewProjection_, tetureHandle_);
+		}
+
 		// 3Dオブジェクト描画後処理
 		Model::PostDraw();
 

@@ -77,6 +77,7 @@ private: // メンバ変数
 	Enemy* enemy_ = nullptr;
 	Model* model_ = nullptr;
 	Model* enmeyModel_ = nullptr;
+	Model* clearModel_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
@@ -110,5 +111,9 @@ private: // メンバ変数
 
 	//終了フラグ
 	bool finished_ = false;
+
+	//タイマー
+	uint32_t Timer = 0;
+	uint32_t safeTimer = 0;
 	
 };

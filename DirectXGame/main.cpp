@@ -7,6 +7,7 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 #include "TitleScene.h"
+#include "ClearScene.h"
 
 
 
@@ -22,6 +23,7 @@ enum class Scene
 Scene scene = Scene::kUnkown;
 TitleScene* titleScene = nullptr;
 GameScene* gameScene = nullptr;
+ClearScene* clearScene = nullptr;
 Model* model_ = nullptr;
 WorldTransform* wolrldTransform_ = {};
 ViewProjection* viewProjection_ = {}; 
@@ -58,6 +60,7 @@ void ChangeScene() {
 			titleScene->Initialize();
 		}
 		break;
+	
 	}
 }
 
@@ -233,6 +236,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			dxCommon->PostDraw();
 
 			break;
+		 
 		}
 
 		
