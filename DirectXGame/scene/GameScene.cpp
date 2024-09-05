@@ -110,7 +110,7 @@ void GameScene::Initialize() {
 	// プレイヤーの初期位置
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
 	// 敵の初期位置
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(10, 18);
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(99, 99);
 	
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
@@ -180,10 +180,10 @@ void GameScene::Initialize() {
 	//カメラの出力範囲の初期化
 	Rect setter = 
 	{
-		35.5,    //左端
-		160.5,   //右端
-		19.5, 	 //下端
-		19.0	 //上端
+		35.5f  + plus,    //左端
+		160.5f + plus,   //右端
+		19.5f  + plus, 	 //下端
+		19.0f  + plus	 //上端
 	}; 
 
 	CameraController_->SetMovableArea(setter);
@@ -210,19 +210,21 @@ void GameScene::Update() {
 		// 自キャラの更新
 		player_->Update();
 		// 敵キャラの更新
-		enemy_->Update();
-		for (Enemy* kenemise_ : enemies_) {
-			kenemise_->Update();
-		}
+		//enemy_->Update();
+		//for (Enemy* kenemise_ : enemies_) {
+		//	kenemise_->Update();
+		//}
 
-		
 
 		// 全ての当たり判定を行う
 		ChecAllCollisiions();
 
-		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
-			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-				if (!worldTransformBlock) {
+		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) 
+		{
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) 
+			{
+				if (!worldTransformBlock) 
+				{
 					continue;
 				} else {
 					worldTransformBlock->UpdateMatrix();
@@ -230,7 +232,11 @@ void GameScene::Update() {
 			}
 		}
 
-		
+		if (input_->TriggerKey(DIK_A)) 
+		{
+			plus--;
+			CameraController_->Update();
+		}
 
 #ifdef _DEBUG
 		if (input_->TriggerKey(DIK_P)) {

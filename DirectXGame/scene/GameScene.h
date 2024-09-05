@@ -74,6 +74,7 @@ private: // メンバ変数
 	MapChipField* mapChipField_;
 	Skydome* skydome_ = nullptr;
 	Player* player_ = nullptr;
+	
 	Enemy* enemy_ = nullptr;
 	Model* model_ = nullptr;
 	Model* enmeyModel_ = nullptr;
@@ -111,4 +112,8 @@ private: // メンバ変数
 	//終了フラグ
 	bool finished_ = false;
 	
+	float plus = 0.0f;
+	int playerPosX = 1;
+	int playerPosY = 18;
+
 };

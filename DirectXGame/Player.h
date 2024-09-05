@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "AABB.h"
+#include "Input.h"
 //#include <GetWorldPosition.h>
 
 class MapChipField;
@@ -110,6 +111,8 @@ private:
 	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
+	Input* input_ = nullptr;
+
 	LRDirection lrDirection_ = LRDirection::kLeft;
 
 	static inline const float kAcceleraion = 0.3f;
@@ -147,6 +150,6 @@ private:
 	static inline const float kAttenuationWall = 1.0f;
 
 	bool isDeed_ = false;
-
+	bool isTranslucent = false;
 	
 };

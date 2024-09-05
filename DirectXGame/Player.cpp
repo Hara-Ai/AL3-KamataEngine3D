@@ -26,6 +26,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 
 	// 引数の内容をメンバ変数に記録
 	viewProjection_ = viewProjection;
+	input_ = Input::GetInstance();
 }
 
 WorldTransform& Player::GetWorldTrnsform() { return worldTransform_; }
@@ -171,6 +172,17 @@ void Player::MapCollisionDetection(CollisionMapInfo& info)
 
 void Player::Update() {
 
+	if (input_->TriggerKey(DIK_Z)) {
+		if (isTranslucent == false)
+		{
+			isTranslucent = true;
+		}
+
+		//if (isTranslucent == true) {
+		//	isTranslucent = false;
+		//}
+	}
+
 	// ②.1移動情報初期化
 	CollisionMapInfo collisionMapInfo;
 
@@ -202,21 +214,37 @@ void Player::CollisonMapTop(CollisionMapInfo& info) {
 		return;
 	}
 
-	MapChipType mapChpiType;
+	MapChipType mapChpiType{};
 	// 真上の当たり判定を行う
 	bool hit = false;
 
 	// 左上点の判定
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	//半透明じゃない場合
+	if (isTranslucent == false) 
+	{
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);//当たり判定を一ブロック上にする
+	}
+	//半透明の場合
+	if (isTranslucent == true) 
+	{
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
 	if (mapChpiType == MapChipType::kBlock) 
 	{
 		hit = true;
 	}
 	// 右上点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (isTranslucent == false) 
+	{
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);//当たり判定を一ブロック上にする
+	}
+	if (isTranslucent == true)
+	{
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
 	if (mapChpiType == MapChipType::kBlock)
 	{
 		hit = true;
@@ -312,14 +340,26 @@ void Player::CollisonMaplight(CollisionMapInfo& info)
 		return;
 	}
 
-	MapChipType mapChpiType;
+	MapChipType mapChpiType{};
 	// 右の当たり判定を行う
 	bool hit = false;
 
 	// 右上点の判定
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	// 半透明じゃない場合
+	if (isTranslucent == false) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex -1);
+		if (mapChpiType == MapChipType::kBlock) {
+			hit = true;
+		}
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
+	// 半透明の場合
+	if (isTranslucent == true) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
+	
 	if (mapChpiType == MapChipType::kBlock) {
 		hit = true;
 	}
@@ -357,20 +397,34 @@ void Player::CollisonMapLeft(CollisionMapInfo& info)
 		return;
 	}
 
-	MapChipType mapChpiType;
+	MapChipType mapChpiType{};
 	// 左の当たり判定を行う
 	bool hit = false;
 
 	// 左上点の判定
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (isTranslucent == false) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);
+		if (mapChpiType == MapChipType::kBlock) {
+			hit = true;
+		}
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
+	if (isTranslucent == true) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
 	if (mapChpiType == MapChipType::kBlock) {
 		hit = true;
 	}
 	// 左下点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftBottom]);
-	mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (isTranslucent == true) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);
+	}
+	if (isTranslucent == true) {
+		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	}
 	if (mapChpiType == MapChipType::kBlock) {
 		hit = true;
 	}
