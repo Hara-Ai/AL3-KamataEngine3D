@@ -125,13 +125,7 @@ private: // メンバ変数
 	float top    = 19.0f + moveCamera;
 
 
-	// カメラの出力範囲の初期化
-	Rect setter = {
-	    35.5f + moveCamera,  // 左端
-	    160.5f + moveCamera, // 右端
-	    19.5f + moveCamera,  // 下端
-	    19.0f + moveCamera   // 上端
-	}; 
+	
 	
 	
 };
