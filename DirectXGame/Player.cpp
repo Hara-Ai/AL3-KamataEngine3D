@@ -172,6 +172,7 @@ void Player::MapCollisionDetection(CollisionMapInfo& info)
 
 void Player::Update() {
 
+	//透明の切り替え処理
 	if (input_->TriggerKey(DIK_Z)) {
 		if (isTranslucent == false)
 		{
