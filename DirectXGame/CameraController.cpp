@@ -1,4 +1,4 @@
-﻿#define NOMINMAX
+#define NOMINMAX
 #include "CameraController.h"
 #include "Player.h"
 #include <algorithm>
@@ -30,6 +30,12 @@ void CameraController::Update()
 	// 行列を更新する
 	viewProjection_.UpdateMatrix();
 	viewProjection_.TransferMatrix();
+}
+
+float CameraController::MoveCamera(float PosZ) 
+{
+	PosZ--;
+	return PosZ;
 }
 
 void CameraController::Reset() 

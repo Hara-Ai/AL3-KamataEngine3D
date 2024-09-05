@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "MapChipField.h"
 #include "Rect.h"
+#include "Input.h"
 
 //前方宣言
 class Player;
@@ -36,6 +37,7 @@ public:
 	/// </summary>
 	void Update();
 	void SetMovableArea(Rect area) { movableArea_ = area; }
+	float MoveCamera(float PosZ);
 
 
 	/// <summary>
@@ -43,6 +45,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	// カメラの奥行の初期位置
+	float targetOffsetPosZ_ = -60.0f; 
 
 private:
 
@@ -50,8 +54,10 @@ private:
 	WorldTransform* worldTransform_;
 	Player* target_ = nullptr;
 
+	
+
 	// 追跡対象とカメラの座標の差(オフセット)
-	Vector3 targetOffset_ = {0, 0, -50.0f};
+	Vector3 targetOffset_ = {0, 0, -targetOffsetPosZ_};
 
 	// カメラ移動範囲
 	Rect movableArea_ = 

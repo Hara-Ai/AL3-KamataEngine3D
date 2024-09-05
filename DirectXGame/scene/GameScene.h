@@ -115,5 +115,23 @@ private: // メンバ変数
 	//タイマー
 	uint32_t Timer = 0;
 	uint32_t safeTimer = 0;
+
+	//Cameraの動く値
+	float moveCamera = 0;
+
+	float left   = 35.5f + moveCamera;
+	float light  = 160.5f + moveCamera;
+	float bottom = 19.5f + moveCamera;
+	float top    = 19.0f + moveCamera;
+
+
+	// カメラの出力範囲の初期化
+	Rect setter = {
+	    35.5f + moveCamera,  // 左端
+	    160.5f + moveCamera, // 右端
+	    19.5f + moveCamera,  // 下端
+	    19.0f + moveCamera   // 上端
+	}; 
+	
 	
 };

@@ -181,15 +181,6 @@ void GameScene::Initialize() {
 	CameraController_->SetTarget(player_);    // 追跡対象をリセット
 	CameraController_->Reset();               // リセット(瞬間合わせ)
 
-	//カメラの出力範囲の初期化
-	Rect setter = 
-	{
-		35.5,    //左端
-		160.5,   //右端
-		19.5, 	 //下端
-		19.0	 //上端
-	}; 
-
 	CameraController_->SetMovableArea(setter);
 
 	deathParticles_ = new DeathParticles;
@@ -216,12 +207,12 @@ void GameScene::Update() {
 		skydome_->Update();
 		if (Timer < 3600) {
 			// 自キャラの更新
-			player_->Update();
+			//player_->Update();
 			// 敵キャラの更新
-			enemy_->Update();
-			for (Enemy* kenemise_ : enemies_) {
-				kenemise_->Update();
-			}
+			//enemy_->Update();
+			//for (Enemy* kenemise_ : enemies_) {
+			//	kenemise_->Update();
+			//}
 
 			// 全ての当たり判定を行う
 			ChecAllCollisiions();
@@ -237,7 +228,7 @@ void GameScene::Update() {
 			}
 		}
 
-		
+
 
 #ifdef _DEBUG
 		if (input_->TriggerKey(DIK_P)) {
@@ -272,11 +263,20 @@ void GameScene::Update() {
 				finished_ = true;
 			
 			}
-			safeTimer++;
+			safeTimer;
 		} else 
 		{
-			Timer++;
+			Timer;
 		}
+
+		if (Input::GetInstance()->PushKey(DIK_A)) {
+			// カメラの移動
+			moveCamera--;
+			
+		}
+
+		
+		CameraController_->Update();
 
 		break;
 	case Phase::kDeath:
