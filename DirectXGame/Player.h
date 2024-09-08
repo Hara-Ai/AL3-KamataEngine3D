@@ -150,6 +150,10 @@ private:
 	static inline const float kAttenuationWall = 1.0f;
 
 	bool isDeed_ = false;
+
+	// 透明かどうかの判定フラグ
 	bool isTranslucent = false;
+	// 切り替えTimer
+	uint32_t halfTimer = 0;
 	
 };

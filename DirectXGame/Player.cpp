@@ -171,17 +171,21 @@ void Player::MapCollisionDetection(CollisionMapInfo& info)
 }
 
 void Player::Update() {
+	halfTimer++;
 
 	//透明の切り替え処理
 	if (input_->TriggerKey(DIK_Z)) {
-		if (isTranslucent == false)
+		if (isTranslucent == false && halfTimer > 120)
 		{
 			isTranslucent = true;
+			halfTimer = 0;
 		}
 
-		//if (isTranslucent == true) {
-		//	isTranslucent = false;
-		//}
+		if (isTranslucent == true && halfTimer > 120) 
+		{
+			isTranslucent = false;
+			halfTimer = 0;
+		}
 	}
 
 	// ②.1移動情報初期化
