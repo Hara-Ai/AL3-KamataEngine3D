@@ -95,11 +95,15 @@ void GameScene::Initialize() {
 
 
 	// 3Dモデルの生成(プレイヤー)
-	model_ = Model::CreateFromOBJ("player", true);
+	model_ = Model::CreateFromOBJ("player", true);//透明じゃない場合
+	toumeiModel_ = Model::CreateFromOBJ("toumeiPlayer", true);//透明の場合
+
 	// 3Dモデルの生成(敵)
 	enmeyModel_ = Model::CreateFromOBJ("enemy", true);
 	// 自キャラの生成
 	player_ = new Player();
+	toumeiPlayer_ = new Player();
+
 	// 敵キャラの生成
 	enemy_  = new Enemy();
 
@@ -114,8 +118,10 @@ void GameScene::Initialize() {
 	
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
+	toumeiPlayer_->Initialize(toumeiModel_, &viewProjection_, playerPosition);
 
 	player_->SetMapChipField(mapChipField_);
+	toumeiPlayer_->SetMapChipField(mapChipField_);
 
 	//敵キャラの初期化
 	enemy_->Initialize(enmeyModel_, &viewProjection_, enemyPosition);
@@ -209,6 +215,7 @@ void GameScene::Update() {
 		skydome_->Update();
 		// 自キャラの更新
 		player_->Update();
+		toumeiPlayer_->Update();
 		// 敵キャラの更新
 		//enemy_->Update();
 		//for (Enemy* kenemise_ : enemies_) {
@@ -320,8 +327,21 @@ void GameScene::Draw() {
 		/// ここに3Dオブジェクトの描画処理を追加できる
 		/// </summary>
 
-		// 自キャラの描画
-		player_->Draw();
+		// 透明な場合
+		if (player_->isTranslucent == true)
+		{
+			// 自キャラの描画
+			toumeiPlayer_->Draw();
+		}
+
+		// 未透明な場合
+		if (player_->isTranslucent == false) 
+		{
+			// 自キャラの描画
+			player_->Draw();
+		}
+
+
 		// 敵キャラの描画
 		enemy_->Draw();
 		for (Enemy* kenemise_ : enemies_)

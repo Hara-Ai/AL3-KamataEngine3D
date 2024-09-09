@@ -22,7 +22,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 	worldTransform_.translation_ = position;
 
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
-	model_ = model;
+	playerModel_ = model;
 
 	// 引数の内容をメンバ変数に記録
 	viewProjection_ = viewProjection;
@@ -159,8 +159,6 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 
 	
 }
-
-
 
 void Player::MapCollisionDetection(CollisionMapInfo& info) 
 { 
@@ -494,7 +492,7 @@ void Player::OnCollision(const Enemy* enemy) {
 
 
 
-void Player::Draw() { model_->Draw(worldTransform_, *viewProjection_, textureHandle_); }
+void Player::Draw() { playerModel_->Draw(worldTransform_, *viewProjection_, textureHandle_); }
 
 
 

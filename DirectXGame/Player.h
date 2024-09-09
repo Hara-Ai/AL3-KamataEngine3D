@@ -95,6 +95,9 @@ public:
 	/// </summary>
 	void Draw();
 
+	// 透明かどうかの判定フラグ
+	bool isTranslucent = false;
+
 private:
 	// マップチップによるフィールド
 	MapChipField* mapChipField_ = nullptr;
@@ -103,7 +106,7 @@ private:
 	WorldTransform worldTransform_;
 
 	// モデル
-	Model* model_ = nullptr;
+	Model* playerModel_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
@@ -151,8 +154,7 @@ private:
 
 	bool isDeed_ = false;
 
-	// 透明かどうかの判定フラグ
-	bool isTranslucent = false;
+	
 	// 切り替えTimer
 	uint32_t halfTimer = 0;
 	
