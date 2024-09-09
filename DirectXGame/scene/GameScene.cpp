@@ -224,7 +224,7 @@ void GameScene::Update() {
 
 
 		// 全ての当たり判定を行う
-		ChecAllCollisiions();
+		//ChecAllCollisiions();
 
 		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) 
 		{

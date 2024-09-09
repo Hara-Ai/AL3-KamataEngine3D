@@ -1,17 +1,16 @@
 #pragma once
-#include "Model.h"
-#include "WorldTransform.h"
 #include "AABB.h"
 #include "Input.h"
-//#include <GetWorldPosition.h>
+#include "Model.h"
+#include "WorldTransform.h"
+// #include <GetWorldPosition.h>
 
 class MapChipField;
 class Enemy;
 class GetWorldPosition;
 
-    // 左右
-enum class LRDirection
-{
+// 左右
+enum class LRDirection {
 	kRight,
 	kLeft,
 };
@@ -33,9 +32,7 @@ struct CollisionMapInfo {
 	Vector3 moveMent;                  // 移動量
 };
 
-
-class Player 
-{
+class Player {
 
 public:
 	Player();
@@ -43,36 +40,30 @@ public:
 
 	WorldTransform& GetWorldTrnsform();
 
-	void SetMapChipField(MapChipField* mapChipField) 
-	{ 
-		mapChipField_ = mapChipField; 
-	}
-
-
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 	// マップ衝突判定
 	void MapCollisionDetection(CollisionMapInfo& info);
 
-	void CollisonMapTop(CollisionMapInfo& info); // 上
+	void CollisonMapTop(CollisionMapInfo& info);    // 上
 	void CollisonMapBottom(CollisionMapInfo& info); // 下
-	void CollisonMaplight(CollisionMapInfo& info);//右
-	void CollisonMapLeft(CollisionMapInfo& info);//左
+	void CollisonMaplight(CollisionMapInfo& info);  // 右
+	void CollisonMapLeft(CollisionMapInfo& info);   // 左
 
-	//判定結果を反映して移動させる
+	// 判定結果を反映して移動させる
 	void Move(const CollisionMapInfo& info);
-	//天井に接している場合の処理
+	// 天井に接している場合の処理
 	void attachedCeiling(const CollisionMapInfo& info);
-	//着地状態の切り替え処理
+	// 着地状態の切り替え処理
 	void SwitchingState(CollisionMapInfo& info);
 	// 壁接触による減速
 	void attachedWallCeiling(const CollisionMapInfo& info);
 
-
 	// AABBを取得
 	AABB GetAABB();
-	
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
@@ -132,7 +123,7 @@ private:
 	// 接地状態フラグ
 	bool onGround_ = true;
 
-	//重力加速度(下方向)
+	// 重力加速度(下方向)
 	static inline const float kGravityAcceleration = 0.1f;
 	// 最大落下速度(下方向)
 	static inline const float kLimitFallSpeed = 0.01f;
@@ -144,7 +135,7 @@ private:
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeigth = 1.6f;
-	
+
 	static inline const float kBlank = 0.1f;
 
 	// 着地時の速度減衰率
@@ -154,8 +145,8 @@ private:
 
 	bool isDeed_ = false;
 
-	
 	// 切り替えTimer
 	uint32_t halfTimer = 0;
-	
+
+	static inline const float kGaq = 0.6f;
 };

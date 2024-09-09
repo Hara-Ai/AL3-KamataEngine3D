@@ -1,5 +1,6 @@
 #pragma once
 #include "Model.h"
+#include "Player.h"
 #include "WorldTransform.h"
 #include <AABB.h>
 #include <GetWorldPosition.h>
@@ -62,8 +63,13 @@ private:
 	// ビュープロジェクション
 	ViewProjection* viewProjection_ = nullptr;
 
+	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
+
 	// 歩行の速さ
 	static inline const float kWalkSpeed = 0.01f;
+	static inline float plusSpeed = 0.0f;
+
 
 	// 速度
 	Vector3 velocity_ = {0,0,0};

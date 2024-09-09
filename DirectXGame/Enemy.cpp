@@ -10,16 +10,23 @@
 
 Enemy::Enemy() {}
 
-Enemy::~Enemy() {}
+Enemy::~Enemy()
+{
+	delete player_;
+	delete enemy_;
+}
 
 void Enemy::OnCollision(const Player* player) 
 {
 	(void)player; 
+
 }
 
 void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position) {
 	assert(model);
 	worldTransform_.Initialize();
+	player_ = new Player();
+	enemy_ = new Enemy();
 	//worldTransform_.translation_.x = 20.0f;
 	worldTransform_.translation_ = position;
 	//worldTransform_.translation_.y = 20.0f;
@@ -27,14 +34,14 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vecto
 	// 速度を設定する
 	velocity_ = 
 	{
-	    -kWalkSpeed,
+	    -kWalkSpeed + plusSpeed,
 	    0,
 	    0,
 	};
 
 	walkTimer_ = 0;
 
-	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 1.0f;
 	model_ = model;
 
 	// 引数の内容をメンバ変数に記録
@@ -44,6 +51,13 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vecto
 void Enemy::Update() {
 	// 敵の移動処理
 	worldTransform_.translation_ -= velocity_;
+	if (player_->isTranslucent == true)
+	{
+		plusSpeed = plusSpeed + 0.01f;
+		
+	} else {
+		plusSpeed = 0;
+	}
 	// タイマーを加算
 	walkTimer_ += 1.0f / 60.0f;
 
