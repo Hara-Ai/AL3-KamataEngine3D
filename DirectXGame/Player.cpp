@@ -414,37 +414,26 @@ void Player::CollisonMapLeft(CollisionMapInfo& info)
 	// 左上点の判定
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftTop]);
-	positionsNew[kLeftBottom] += Vector3(-kGaq, 0, 0);
-	positionsNew[kLeftTop] += Vector3(-kGaq, 0, 0);
+	positionsNew[kLeftTop]+= Vector3(+kGaq, 0, 0);
+	positionsNew[kLeftBottom] += Vector3(+kGaq, 0, 0);
+	// 半透明じゃない場合
 	if (isTranslucent == false) {
 		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);
-		if (mapChpiType == MapChipType::kBlock) {
-			hit = true;
-		}
 		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	}
+	// 半透明の場合
 	if (isTranslucent == true) {
 		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	}
-	if (mapChpiType == MapChipType::kBlock) {
-		hit = true;
-	}
-	// 左下点の判定
-	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kLeftBottom]);
-	if (isTranslucent == true) {
-		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);
-	}
-	if (isTranslucent == true) {
-		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
-	}
+
 	if (mapChpiType == MapChipType::kBlock) {
 		hit = true;
 	}
 
-	if (hit == true && info.WallContactFlag == false) {
-		float left = worldTransform_.translation_.x - kWidth / 2;
+	if (hit == true) {
+		float left = worldTransform_.translation_.x - kWidth;
 		Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.moveMent.x = std::max(0.0f, rect.right - left);
+		info.moveMent.x = std::min(0.0f, rect.right - left);
 		// 壁のフラグを立てている
 		info.WallContactFlag= true;
 	} 

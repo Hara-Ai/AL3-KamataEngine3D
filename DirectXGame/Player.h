@@ -79,6 +79,8 @@ public:
 	void OnCollision(const Enemy* enemy);
 	bool IsDead() const { return isDeed_; }
 
+	WorldTransform& GetWorldTransform() { return worldTransform_; }
+
 	/// <summary>
 	/// 初期化処理
 	/// </summary>

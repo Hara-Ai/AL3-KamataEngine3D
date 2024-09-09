@@ -6,25 +6,7 @@
 #include "CameraController.h"
 #include "ObjectColor.h"
 #include <cassert>
-#include <AABB.h>
-
-void GameScene::ChangePhase()
-{
-	switch (phase_) 
-	{
-	case Phase::kPlay:
-
-		
-
-		break;
-	case Phase::kDeath:
-
-		
-
-		break;
-	}
-}
-
+#include "AABB.h"
 GameScene::GameScene() {}
 
 GameScene::~GameScene()
@@ -38,6 +20,9 @@ GameScene::~GameScene()
 	for (Enemy* kenemise_ : enemies_) 
 	{
 		delete kenemise_;
+	}
+	for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
+		delete kMoveEnemise_;
 	}
 
 	delete deathParticles_;
@@ -141,7 +126,14 @@ void GameScene::Initialize() {
 		enemies_.push_back(newEnemy);
 	}
 
+	for (int32_t i = 0; i < 1; ++i) {
+		MoveEnemy* newMoveEnemy = new MoveEnemy();
+		Vector3 moveEnemyPosition_ = {5, 10,0};
+		newMoveEnemy->Initalize(enmeyModel_, &viewProjection_, moveEnemyPosition_, player_);
+		
 
+		moveEnemies_.push_back(newMoveEnemy);
+	}
 
 	worldTransform_.Initialize();
 
@@ -222,7 +214,9 @@ void GameScene::Update() {
 			kenemise_->Update();
 		}
 
-
+		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
+			kMoveEnemise_->Update();
+		}
 		// 全ての当たり判定を行う
 		ChecAllCollisiions();
 
@@ -347,6 +341,9 @@ void GameScene::Draw() {
 		for (Enemy* kenemise_ : enemies_)
 		{
 			kenemise_->Draw();
+		}
+		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
+			kMoveEnemise_->Draw();
 		}
 		// 天球の描画
 		skydome_->Draw();

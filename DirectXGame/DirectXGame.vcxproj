@@ -119,6 +119,7 @@
     <ClCompile Include="MapChipField.cpp" />
     <ClCompile Include="math\Vector3.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="MoveEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="MoveEnemy.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="scene\GameScene.h" />

@@ -14,7 +14,7 @@
 #include "CameraController.h"
 #include <cassert>
 #include "DeathParticles.h"
-
+#include "MoveEnemy.h"
 //Scene
 enum class Phase
 {
@@ -92,6 +92,7 @@ private: // メンバ変数
 	uint32_t tetureHandle_ = 0;
 	
 	std::list<Enemy*> enemies_;
+	std::list<MoveEnemy*> moveEnemies_;
 
 	/// <summary>
 	/// ゲームシーン用
