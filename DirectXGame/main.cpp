@@ -9,8 +9,6 @@
 #include "TitleScene.h"
 
 
-
-
 enum class Scene
 {
 	kUnkown = 0,
