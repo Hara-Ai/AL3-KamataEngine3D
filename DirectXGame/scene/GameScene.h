@@ -15,6 +15,7 @@
 #include <cassert>
 #include "DeathParticles.h"
 
+//Scene
 enum class Phase
 {
 	kPlay,
