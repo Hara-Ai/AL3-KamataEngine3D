@@ -158,4 +158,5 @@ private:
 	// 切り替えTimer
 	uint32_t halfTimer = 0;
 	
+	static inline const float kGaq = 0.6f;
 };

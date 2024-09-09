@@ -72,10 +72,10 @@ void GameScene::ChecAllCollisiions()
 		if (IsCollision(aabb1, aabb2))
 		{
 
-			// 自キャラの衝突時コールバックを呼び出す
-			player_->OnCollision(enemy);
-			// 敵弾の衝突時コールバックを呼び出す
-			enemy_->OnCollision(player_);
+			//// 自キャラの衝突時コールバックを呼び出す
+			//player_->OnCollision(enemy);
+			//// 敵弾の衝突時コールバックを呼び出す
+			//enemy_->OnCollision(player_);
 		}
 	}
 
