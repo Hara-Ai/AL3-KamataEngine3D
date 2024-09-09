@@ -128,7 +128,7 @@ void GameScene::Initialize() {
 
 	for (int32_t i = 0; i < 1; ++i) {
 		MoveEnemy* newMoveEnemy = new MoveEnemy();
-		Vector3 moveEnemyPosition_ = {5, 10,0};
+		Vector3 moveEnemyPosition_ = {20, 35,0};
 		newMoveEnemy->Initalize(enmeyModel_, &viewProjection_, moveEnemyPosition_, player_);
 		
 

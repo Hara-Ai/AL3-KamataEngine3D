@@ -7,11 +7,9 @@ void MoveEnemy::Initalize(Model* model, ViewProjection* viewProjection, const Ve
 	viewProjection_ = viewProjection;
 	enemyModel_ = model;
 	player_ = player;
-	// gameScene_->Initialize();
 }
 
 void MoveEnemy::Update() {
-	// player_ = gameScene_->GetPlayer();
 	if (player_) {
 
 		// フレームごとにプレイヤーの位置や向きを更新

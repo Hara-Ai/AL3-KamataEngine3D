@@ -6,17 +6,9 @@
 #include "WorldTransform.h"
 #include <cmath>
 #include "AABB.h"
-    // #include "Bullet.h"
-
 class MapChipField;
 class Player;
-//#ifndef STRUCT_H
-//#define STRUCT_H
-//struct AABB {
-//	Vector3 min;
-//	Vector3 max;
-//};
-//#endif
+
 class MoveEnemy {
 public:
 	/// <summary>
@@ -74,10 +66,10 @@ public:
 	/// <returns></returns>
 	Vector3 Normalize(const Vector3& vec) {
 		float length = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-		if (length > 0.0f) {
-			return {vec.x / length, vec.y / length, vec.z / length};
+		if (length == 0.0f) {
+			return {0.0f, 0.0f, 0.0f}; 
 		}
-		return {0.0f, 0.0f, 0.0f}; // ベクトルがゼロの場合は正規化しない
+		return {vec.x / length, vec.y / length, vec.z / length};
 	}
 
 private:
@@ -85,10 +77,9 @@ private:
 	ViewProjection* viewProjection_;
 	Model* enemyModel_ = nullptr;
 	Player* player_;
-	// GameScene* gameScene_;
 	MapChipField* mapChipField_ = nullptr;
 	// 敵の歩き速度
-	static inline const float kMoveSpeed = 0.05f;
+	static inline const float kMoveSpeed = 0.001f;
 	// 移動量
 	Vector3 velocity_ = {};
 
@@ -100,11 +91,7 @@ private:
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeight = 1.6f;
-	float enemySpeed_ = 0.1f;
-	// Vector3 playerPos;
-	// Vector3 enemyDirection = {};
-	// Vector3 playerDirection = {};
+	float enemySpeed_ = 0.01f;
+	
 	float isA = true;
-
-	// GameScene* gameScene=nullptr;
 };
