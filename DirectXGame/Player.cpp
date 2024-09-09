@@ -384,7 +384,6 @@ void Player::CollisonMaplight(CollisionMapInfo& info)
 	}
 
 	if (hit == true) {
-		// float right = worldTransform_.translation_.x - kWidth / 2+kGaq;
 		float right = worldTransform_.translation_.x - kWidth / 2;
 		Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.moveMent.x = std::min(0.0f, rect.left - right);
