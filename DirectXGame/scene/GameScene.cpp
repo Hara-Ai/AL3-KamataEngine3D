@@ -112,9 +112,9 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// プレイヤーの初期位置
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1,18);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(4,18);
 	// 敵の初期位置
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(99, 99);
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 18);
 	
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
@@ -129,7 +129,7 @@ void GameScene::Initialize() {
 	enemy_->SetMapChipField(mapChipField_);
 
 	// 敵の生成
-	for (int32_t i = 1; i < 4; ++i)
+	for (int32_t i = 1; i < 19; ++i)
 	{
 		Enemy* newEnemy = new Enemy();
 		Vector3 enemyPosition_ = 
@@ -217,10 +217,10 @@ void GameScene::Update() {
 		player_->Update();
 		toumeiPlayer_->Update();
 		// 敵キャラの更新
-		//enemy_->Update();
-		//for (Enemy* kenemise_ : enemies_) {
-		//	kenemise_->Update();
-		//}
+		enemy_->Update();
+		for (Enemy* kenemise_ : enemies_) {
+			kenemise_->Update();
+		}
 
 
 		// 全ての当たり判定を行う

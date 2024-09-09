@@ -1,4 +1,4 @@
-﻿#include "MapChipField.h"
+#include "MapChipField.h"
 #include <cassert>
 #include <fstream>
 #include <map>

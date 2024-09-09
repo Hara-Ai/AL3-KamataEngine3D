@@ -173,14 +173,12 @@ void Player::Update() {
 
 	//透明の切り替え処理
 	if (input_->TriggerKey(DIK_Z)) {
-		if (isTranslucent == false && halfTimer > 120)
-		{
+		if (isTranslucent == false && halfTimer > 30) {
 			isTranslucent = true;
 			halfTimer = 0;
 		}
 
-		if (isTranslucent == true && halfTimer > 120) 
-		{
+		if (halfTimer > 30) {
 			isTranslucent = false;
 			halfTimer = 0;
 		}

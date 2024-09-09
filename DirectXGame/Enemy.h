@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Model.h"
 #include "WorldTransform.h"
 #include <AABB.h>
@@ -63,10 +63,10 @@ private:
 	ViewProjection* viewProjection_ = nullptr;
 
 	// 歩行の速さ
-	static inline const float kWalkSpeed = 0.1f;
+	static inline const float kWalkSpeed = 0.01f;
 
 	// 速度
-	Vector3 velocity_ = {};
+	Vector3 velocity_ = {0,0,0};
 
 	// 最初の角度[度]
 	static inline const float kWalkMotionAngleStart = 0.0f;
