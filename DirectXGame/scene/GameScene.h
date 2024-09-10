@@ -81,6 +81,7 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	Model* toumeiModel_ = nullptr;
 	Model* enmeyModel_ = nullptr;
+	Model* moveEnmeyModel_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "MapChipField.h"
@@ -68,7 +68,7 @@ private:
 	static inline const float kInterpolationRate = 0.8f;
 
 	// 速度掛け率
-	static inline const float kVelocityBias = 1.2f;
+	static inline const float kVelocityBias = 1.0f;
 	// 追従対象の各方向へカメラ移動範囲
 	static inline const Rect Margin = {0, 0, 0, 0};
 

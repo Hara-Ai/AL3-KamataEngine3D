@@ -91,7 +91,7 @@ private:
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeight = 1.6f;
-	float enemySpeed_ = 0.01f;
+	float enemySpeed_ = 0.02f;
 	
 	float isA = true;
 };

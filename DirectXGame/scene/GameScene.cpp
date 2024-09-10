@@ -36,7 +36,7 @@ GameScene::~GameScene()
 	delete debugCamera_;
 	delete player_;
 	delete enemy_;
-	
+	delete moveEnmeyModel_;
 }
 
 void GameScene::ChecAllCollisiions()
@@ -69,38 +69,58 @@ void GameScene::ChecAllCollisiions()
 void GameScene::Initialize() {
 
 	phase_ = Phase::kPlay;
-
-	// int height = 720;
-	// int width = 1280;
-
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	tetureHandle_ = TextureManager::Load("sample.png");
-
-
-	// 3Dモデルの生成(プレイヤー)
-	model_ = Model::CreateFromOBJ("player", true);//透明じゃない場合
-	toumeiModel_ = Model::CreateFromOBJ("toumeiPlayer", true);//透明の場合
-
-	// 3Dモデルの生成(敵)
-	enmeyModel_ = Model::CreateFromOBJ("enemy", true);
+	//----------------------------呼び出しの初期化----------------------------------------
 	// 自キャラの生成
 	player_ = new Player();
 	toumeiPlayer_ = new Player();
-
 	// 敵キャラの生成
 	enemy_  = new Enemy();
-
 	//マップチップを使うので呼び出す
 	modelBlock_ = Model::Create();
 	mapChipField_ = new MapChipField;
+
+	deathParticles_ = new DeathParticles;
+	debugCamera_ = new DebugCamera(1280, 720);
+	// スカイドームの初期化
+	skydome_ = new Skydome();
+	// 生成
+	CameraController_ = new CameraController; 
+	//-----------------------------モデルの呼び込み---------------------------------------
+	// 3Dモデルの生成(プレイヤー)
+	model_ = Model::CreateFromOBJ("player", true);//透明じゃない場合
+	toumeiModel_ = Model::CreateFromOBJ("toumeiPlayer", true);//透明の場合
+	// 3Dモデルの生成(敵)
+	enmeyModel_ = Model::CreateFromOBJ("enemy", true);
+	//moveEnmeyModel_ = Model::CreateFromOBJ("moveEnemy", true); 
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+
+	//-------------------------------初期化のために必要な変数-------------------------------
+	
 	// プレイヤーの初期位置
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(4,18);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(6, 18);
 	// 敵の初期位置
 	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 18);
-	
+
+	const uint32_t kNumBlockVirtical = 20;
+	const uint32_t kNumBlockHorizontal = 100;
+
+	// カメラの出力範囲の初期化
+	Rect setter = {
+	    35.5f + plus,  // 左端
+	    160.5f + plus, // 右端
+	    19.5f + plus,  // 下端
+	    19.0f + plus   // 上端
+	}; 
+	//------------------------------初期化-------------------------------------------------
+
+	worldTransform_.Initialize();	
+	viewProjection_.Initialize();
+	skydome_->Initialize(modelSkydome_, &viewProjection_);
 	// 自キャラの初期化
 	player_->Initialize(model_, &viewProjection_, playerPosition);
 	toumeiPlayer_->Initialize(toumeiModel_, &viewProjection_, playerPosition);
@@ -110,10 +130,22 @@ void GameScene::Initialize() {
 
 	//敵キャラの初期化
 	enemy_->Initialize(enmeyModel_, &viewProjection_, enemyPosition);
-
 	enemy_->SetMapChipField(mapChipField_);
 
-	// 敵の生成
+	worldTransformBlocks_.resize(kNumBlockVirtical);
+	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
+		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
+	}
+	GenerateBlocks();
+
+	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
+
+	// カメラコントローラの初期化
+	CameraController_->Initialize();       // 初期化
+	CameraController_->SetTarget(player_); // 追跡対象をリセット
+	CameraController_->Reset();            // リセット(瞬間合わせ)
+	CameraController_->SetMovableArea(setter);
+	//-----------------------------------------複数の敵の初期化-------------------------------------
 	for (int32_t i = 1; i < 19; ++i)
 	{
 		Enemy* newEnemy = new Enemy();
@@ -125,71 +157,12 @@ void GameScene::Initialize() {
 
 		enemies_.push_back(newEnemy);
 	}
-
-	for (int32_t i = 0; i < 1; ++i) {
+	for (int32_t i = 0; i < 3; ++i) {
 		MoveEnemy* newMoveEnemy = new MoveEnemy();
-		Vector3 moveEnemyPosition_ = {20, 35,0};
+		Vector3 moveEnemyPosition_ = {100+30.0f*i, 35,0};
 		newMoveEnemy->Initalize(enmeyModel_, &viewProjection_, moveEnemyPosition_, player_);
-		
-
 		moveEnemies_.push_back(newMoveEnemy);
 	}
-
-	worldTransform_.Initialize();
-
-	const uint32_t kNumBlockVirtical = 20;
-	const uint32_t kNumBlockHorizontal = 100;
-
-	numBlockVirtical_ = 20;
-	numBlockHorizontal_ = 100;
-
-	worldTransformBlocks_.resize(kNumBlockVirtical);
-
-	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
-		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
-	}
-
-	// スカイドームの初期化
-	skydome_ = new Skydome();
-//	modelSkydome_ = Model::Create();
-	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
-	skydome_->Initialize(modelSkydome_, &viewProjection_);
-
-	wolrldTransform_.Initialize();
-	viewProjection_.Initialize();
-
-	// カメラの位置の調整
-	viewProjection_.translation_.y = 10;
-	viewProjection_.translation_.x = 20;
-
-	// mapChipData_ = {};
-
-	debugCamera_ = new DebugCamera(1280, 720);
-
-	 GenerateBlocks();
-
-
-	// カメラコントローラの初期化
-	CameraController_ = new CameraController; // 生成
-	CameraController_->Initialize();          // 初期化
-	CameraController_->SetTarget(player_);    // 追跡対象をリセット
-	CameraController_->Reset();               // リセット(瞬間合わせ)
-
-	//カメラの出力範囲の初期化
-	Rect setter = 
-	{
-		35.5f  + plus,    //左端
-		160.5f + plus,   //右端
-		19.5f  + plus, 	 //下端
-		19.0f  + plus	 //上端
-	}; 
-
-	CameraController_->SetMovableArea(setter);
-
-	deathParticles_ = new DeathParticles;
-	
-	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
-	
 }
 
 void GameScene::Update() {
@@ -244,7 +217,6 @@ void GameScene::Update() {
 			isDebugCameraActiive_ = true;
 		}
 #endif
-
 		debugCamera_->Update();
 
 		if (isDebugCameraActiive_) {
@@ -253,9 +225,6 @@ void GameScene::Update() {
 			// ビュープロジェクション行列の転送
 			viewProjection_.TransferMatrix();
 		} else {
-			// ビュープロジェクション行列の更新と転送
-			// viewProjection_.UpdateMatrix();
-
 			CameraController_->Update();
 			viewProjection_.matView = CameraController_->GetViewProjection().matView;
 			viewProjection_.matProjection = CameraController_->GetViewProjection().matProjection;
@@ -273,8 +242,6 @@ void GameScene::Update() {
 		for (Enemy* kenemise_ : enemies_) {
 			kenemise_->Update();
 		}
-
-
 		if (player_->IsDead()) {
 			deathParticles_->Update();
 		}
@@ -347,7 +314,6 @@ void GameScene::Draw() {
 		}
 		// 天球の描画
 		skydome_->Draw();
-
 		// マップチップの描画
 		for (std::vector<WorldTransform*> worldTransformBlockLine : worldTransformBlocks_) {
 			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {

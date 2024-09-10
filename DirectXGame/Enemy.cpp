@@ -34,7 +34,7 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vecto
 
 	walkTimer_ = 0;
 
-	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 1.0f;
+	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	model_ = model;
 
 	// 引数の内容をメンバ変数に記録

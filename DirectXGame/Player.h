@@ -55,10 +55,10 @@ public:
 	// マップ衝突判定
 	void MapCollisionDetection(CollisionMapInfo& info);
 
-	void CollisonMapTop(CollisionMapInfo& info); // 上
-	void CollisonMapBottom(CollisionMapInfo& info); // 下
-	void CollisonMaplight(CollisionMapInfo& info);//右
-	void CollisonMapLeft(CollisionMapInfo& info);//左
+	void CollisonMapTop(CollisionMapInfo* info); // 上
+	void CollisonMapBottom(CollisionMapInfo* info); // 下
+	void CollisonMaplight(CollisionMapInfo* info);//右
+	void CollisonMapLeft(CollisionMapInfo* info);//左
 
 	//判定結果を反映して移動させる
 	void Move(const CollisionMapInfo& info);
@@ -120,8 +120,8 @@ private:
 
 	LRDirection lrDirection_ = LRDirection::kLeft;
 
-	static inline const float kAcceleraion = 0.3f;
-	static inline const float kLimitRunSpeed = 0.3f;
+	static inline const float kAcceleraion = 0.2f;
+	static inline const float kLimitRunSpeed = 0.2f;
 	Vector3 velocity_ = {};
 
 	// 旋回開始時の角度
@@ -129,7 +129,7 @@ private:
 	// 旋回タイマー
 	float turnTimer_ = 0.0f;
 	// 旋回時間<秒>
-	static inline const float kTimeTurn = 0.3f;
+	static inline const float kTimeTurn = 0.2f;
 
 	// 接地状態フラグ
 	bool onGround_ = true;
@@ -139,7 +139,7 @@ private:
 	// 最大落下速度(下方向)
 	static inline const float kLimitFallSpeed = 0.01f;
 	// ジャンプ速度(上方向)
-	static inline const float kJumpAcceleration = 1.5f;
+	static inline const float kJumpAcceleration = 1.0f;
 
 	const Vector3& GetVelocity() const { return velocity_; }
 
