@@ -11,11 +11,13 @@
 #include "Model.h"
 #include "MoveEnemy.h"
 #include "Player.h"
+#include "goalObject.h"
 #include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <cassert>
+
 // Scene
 enum class Phase {
 	kPlay,
@@ -39,6 +41,7 @@ public: // メンバ関数
 	/// </summary>
 	~GameScene();
 
+	//全ての敵や障害物との当たり判定（マップチップ外）
 	void ChecAllCollisiions();
 
 	/// <summary>
@@ -71,12 +74,14 @@ private: // メンバ変数
 	Skydome* skydome_ = nullptr;
 	Player* player_ = nullptr;
 	Player* toumeiPlayer_ = nullptr;
-
 	Enemy* enemy_ = nullptr;
+	goalObject* goalObject_ = nullptr;
+
 	Model* model_ = nullptr;
 	Model* toumeiModel_ = nullptr;
 	Model* enmeyModel_ = nullptr;
 	Model* moveEnmeyModel_ = nullptr;
+	Model* goalModel_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;

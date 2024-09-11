@@ -525,8 +525,18 @@ Vector3 Player::GetWorldPosition() { // ワールド座標を入れる変数
 	return worldPos;
 }
 
-void Player::OnCollision(const Enemy* enemy) {
+void Player::OnEnemyCollision(const Enemy* enemy)
+{
 	(void)enemy;
+	// ジャンプ開始(仮)
+	velocity_ += Vector3(0, 1.0f, 0);
+	// 敵当たったら死ぬ
+	isDeed_ = true;
+}
+
+void Player::OnGoalCollision(const goalObject* goal) 
+{
+	(void)goal;
 	// ジャンプ開始(仮)
 	velocity_ += Vector3(0, 1.0f, 0);
 	// 敵当たったら死ぬ

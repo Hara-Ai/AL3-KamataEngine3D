@@ -8,6 +8,7 @@
 #include "Skydome.h"
 #include "TextureManager.h"
 #include <cassert>
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -35,11 +36,12 @@ GameScene::~GameScene() {
 	delete player_;
 	delete enemy_;
 	delete moveEnmeyModel_;
+	delete goalObject_;
 }
 
 void GameScene::ChecAllCollisiions() {
 	// 衝突対象1と2の座標
-	AABB aabb1, aabb2;
+	AABB aabb1, aabb2, aabb3;
 
 	// 自キャラの座標
 	aabb1 = player_->GetAABB();
@@ -57,6 +59,15 @@ void GameScene::ChecAllCollisiions() {
 			//// 敵弾の衝突時コールバックを呼び出す
 			// enemy_->OnCollision(player_);
 		}
+	}
+	// ゴールの座標
+	aabb3 = goalObject_->GetAABB();
+
+	// AABB同士の交差判定
+	if (IsCollision(aabb1, aabb3)) 
+	{
+		player_->OnGoalCollision(goalObject_);
+		goalObject_->OnCollision(player_);
 	}
 }
 
@@ -83,6 +94,9 @@ void GameScene::Initialize() {
 	skydome_ = new Skydome();
 	// 生成
 	CameraController_ = new CameraController;
+	// ゴールの生成
+	goalObject_ = new goalObject;
+	
 	//-----------------------------モデルの呼び込み---------------------------------------
 	// 3Dモデルの生成(プレイヤー)
 	model_ = Model::CreateFromOBJ("player", true);             // 透明じゃない場合
@@ -92,13 +106,16 @@ void GameScene::Initialize() {
 	// moveEnmeyModel_ = Model::CreateFromOBJ("moveEnemy", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
-
+	//ゴールの生成
+	goalModel_ = Model::CreateFromOBJ("enemy", true); 
 	//-------------------------------初期化のために必要な変数-------------------------------
 
 	// プレイヤーの初期位置
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(6, 18);
 	// 敵の初期位置
 	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(0, 18);
+	// ゴールの初期位置
+	Vector3 goalPosition = mapChipField_->GetMapChipPositionByIndex(6, 19);
 
 	const uint32_t kNumBlockVirtical = 20;
 	const uint32_t kNumBlockHorizontal = 100;
@@ -133,6 +150,10 @@ void GameScene::Initialize() {
 	GenerateBlocks();
 
 	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
+
+	// ゴールの初期化
+	goalObject_->Initialize(goalModel_, &viewProjection_, goalPosition);
+	//goalObject_->SetMapChipField(mapChipField_);
 
 	// カメラコントローラの初期化
 	CameraController_->Initialize();       // 初期化
@@ -183,6 +204,8 @@ void GameScene::Update() {
 		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
 			kMoveEnemise_->Update();
 		}
+		// ゴールの更新
+		goalObject_->Update();
 		// 全ての当たり判定を行う
 		ChecAllCollisiions();
 
@@ -290,6 +313,10 @@ void GameScene::Draw() {
 		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
 			kMoveEnemise_->Draw();
 		}
+
+		// ゴールの描画
+		goalObject_->Draw();
+
 		// 天球の描画
 		skydome_->Draw();
 		// マップチップの描画

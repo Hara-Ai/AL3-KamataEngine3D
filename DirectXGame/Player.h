@@ -8,6 +8,7 @@
 
 class MapChipField;
 class Enemy;
+class goalObject;
 class GetWorldPosition;
 
 // 左右
@@ -75,7 +76,8 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
-	void OnCollision(const Enemy* enemy);
+	void OnEnemyCollision(const Enemy* enemy);
+	void OnGoalCollision(const goalObject* goal);
 	bool IsDead() const { return isDeed_; }
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; }
