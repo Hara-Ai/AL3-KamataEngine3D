@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Model.h"
 #include "WorldTransform.h"
+#include <MapChipField.h>
 // #include <GetWorldPosition.h>
 
 class MapChipField;
@@ -30,6 +31,8 @@ struct CollisionMapInfo {
 	bool LandingFlag = false;          // 着地フラグ
 	bool WallContactFlag = false;      // 壁接触フラグ
 	Vector3 moveMent;                  // 移動量
+
+	bool oneMoreFlag = false; // 一個上のフラグ
 };
 
 class Player {
@@ -47,10 +50,13 @@ public:
 	// マップ衝突判定
 	void MapCollisionDetection(CollisionMapInfo& info);
 
-	void CollisonMapTop(CollisionMapInfo& info);    // 上
-	void CollisonMapBottom(CollisionMapInfo& info); // 下
-	void CollisonMaplight(CollisionMapInfo& info);  // 右
-	void CollisonMapLeft(CollisionMapInfo& info);   // 左
+	void CollisonMapTop(CollisionMapInfo* info);    // 上
+	void CollisonMapBottom(CollisionMapInfo* info); // 下
+	void CollisonMaplight(CollisionMapInfo* info);  // 右
+	void CollisonMapLeft(CollisionMapInfo* info);   // 左
+	void ConllosonPlayerBlock(CollisionMapInfo* info);
+	// 一個上を見る処理
+	// void CheckUpperMapChipAndInput(CollisionMapInfo* info);
 
 	// 判定結果を反映して移動させる
 	void Move(const CollisionMapInfo& info);
@@ -61,6 +67,8 @@ public:
 	// 壁接触による減速
 	void attachedWallCeiling(const CollisionMapInfo& info);
 
+	// 半透明時に上にブロックがあった際の処理
+	void CollisononeMoreFlag(const CollisionMapInfo& info);
 	// AABBを取得
 	AABB GetAABB();
 
@@ -69,6 +77,8 @@ public:
 
 	void OnCollision(const Enemy* enemy);
 	bool IsDead() const { return isDeed_; }
+
+	WorldTransform& GetWorldTransform() { return worldTransform_; }
 
 	/// <summary>
 	/// 初期化処理
@@ -88,6 +98,8 @@ public:
 
 	// 透明かどうかの判定フラグ
 	bool isTranslucent = false;
+
+	MapChipType GetUpperMapChipType(const Vector3& position);
 
 private:
 	// マップチップによるフィールド
@@ -109,8 +121,8 @@ private:
 
 	LRDirection lrDirection_ = LRDirection::kLeft;
 
-	static inline const float kAcceleraion = 0.3f;
-	static inline const float kLimitRunSpeed = 0.3f;
+	static inline const float kAcceleraion = 0.2f;
+	static inline const float kLimitRunSpeed = 0.2f;
 	Vector3 velocity_ = {};
 
 	// 旋回開始時の角度
@@ -118,7 +130,7 @@ private:
 	// 旋回タイマー
 	float turnTimer_ = 0.0f;
 	// 旋回時間<秒>
-	static inline const float kTimeTurn = 0.3f;
+	static inline const float kTimeTurn = 0.2f;
 
 	// 接地状態フラグ
 	bool onGround_ = true;
@@ -128,7 +140,7 @@ private:
 	// 最大落下速度(下方向)
 	static inline const float kLimitFallSpeed = 0.01f;
 	// ジャンプ速度(上方向)
-	static inline const float kJumpAcceleration = 1.5f;
+	static inline const float kJumpAcceleration = 1.0f;
 
 	const Vector3& GetVelocity() const { return velocity_; }
 
