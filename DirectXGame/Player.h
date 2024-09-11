@@ -163,4 +163,5 @@ private:
 	uint32_t halfTimer = 0;
 
 	static inline const float kGaq = 0.6f;
+	static inline const float kGAaq = 0.8f;
 };

@@ -37,6 +37,7 @@ GameScene::~GameScene() {
 	delete enemy_;
 	delete moveEnmeyModel_;
 	delete goalObject_;
+	delete model_;
 }
 
 void GameScene::ChecAllCollisiions() {
@@ -107,7 +108,7 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	//ゴールの生成
-	goalModel_ = Model::CreateFromOBJ("enemy", true); 
+	goalModel_ = Model::CreateFromOBJ("player", true); 
 	//-------------------------------初期化のために必要な変数-------------------------------
 
 	// プレイヤーの初期位置

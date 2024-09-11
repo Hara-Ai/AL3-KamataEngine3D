@@ -328,8 +328,8 @@ void Player::CollisonMaplight(CollisionMapInfo* info) {
 	IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPoition(positionsNew[kRightTop]);
 
-	positionsNew[kRightTop] -= Vector3(-kGaq, 0, 0);
-	positionsNew[kRightBottom] -= Vector3(-kGaq, 0, 0);
+	positionsNew[kRightTop] -= Vector3(-kGAaq, 0, 0);
+	positionsNew[kRightBottom] -= Vector3(-kGAaq, 0, 0);
 	// 半透明じゃない場合
 	if (isTranslucent == false) {
 		mapChpiType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex - 1);
@@ -408,7 +408,7 @@ void Player::CollisonMapLeft(CollisionMapInfo* info) {
 	if (hit == true && info->WallContactFlag == false) {
 		float left = worldTransform_.translation_.x - kWidth / 2;
 		Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info->moveMent.x = std::max(0.0f, rect.right - left);
+		info->moveMent.x = std::max(0.0f, rect.right-left);
 		// 壁のフラグを立てている
 		info->WallContactFlag = true;
 	}
