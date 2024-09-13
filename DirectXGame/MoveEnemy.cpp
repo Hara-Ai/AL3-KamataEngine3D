@@ -51,4 +51,13 @@ Vector3 MoveEnemy::GetWorldPosition() {
 	return worldPos;
 }
 
-AABB MoveEnemy::GetAABB() { return AABB(); }
+AABB MoveEnemy::GetAABB() { 
+	Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+	return aabb;
+}
+
+void MoveEnemy::OnCollisiton(const Player* player) { (void)player; }

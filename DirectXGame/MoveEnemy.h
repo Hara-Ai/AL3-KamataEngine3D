@@ -79,7 +79,8 @@ private:
 	Player* player_;
 	MapChipField* mapChipField_ = nullptr;
 	// 敵の歩き速度
-	static inline const float kMoveSpeed = 0.001f;
+	//static inline const float kMoveSpeed = 0.001f;
+	//static inline const float kMoveSpeed = 0.5f;
 	// 移動量
 	Vector3 velocity_ = {};
 
@@ -91,7 +92,7 @@ private:
 	// キャラクターの当たり判定のサイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeight = 1.6f;
-	float enemySpeed_ = 0.02f;
+	float enemySpeed_ = 0.05f;
 
 	float isA = true;
 };

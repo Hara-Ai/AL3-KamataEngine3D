@@ -49,10 +49,9 @@ GameScene::~GameScene() {
 void GameScene::ChecAllCollisiions() {
 	// 衝突対象1と2の座標
 	AABB aabb1, aabb2, aabb3;
-
+	AABB aabb4;
 	// 自キャラの座標
 	aabb1 = player_->GetAABB();
-
 	// 自キャラと敵全ての当たり判定
 	for (Enemy* enemy : enemies_) {
 		// 敵弾の座標
@@ -65,6 +64,20 @@ void GameScene::ChecAllCollisiions() {
 			// player_->OnCollision(enemy);
 			//// 敵弾の衝突時コールバックを呼び出す
 			// enemy_->OnCollision(player_);
+		}
+	}
+	// 自キャラと敵全ての当たり判定
+	for (MoveEnemy* moveEnemy : moveEnemies_) {
+		// 敵弾の座標
+		aabb4 = moveEnemy->GetAABB();
+
+		// AABB同士の交差判定
+		if (IsCollision(aabb1, aabb4)) {
+
+			//// 自キャラの衝突時コールバックを呼び出す
+			player_->OnEnemyMoveCollision(moveEnemy);
+			//// 敵弾の衝突時コールバックを呼び出す
+			moveEnemy->OnCollisiton(player_);
 		}
 	}
 	// ゴールの座標

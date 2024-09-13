@@ -53,11 +53,12 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 		}
 
 		// 左右移動操作
-		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
+		if (Input::GetInstance()->PushKey(DIK_A) || Input::GetInstance()->PushKey(DIK_D) 
+			|| Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT)) {
 			// 左右加速
 			Vector3 acceleration = {};
 
-			if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
+			if (Input::GetInstance()->PushKey(DIK_D) ||Input::GetInstance()->PushKey(DIK_RIGHT)) {
 				// 左移動中の右入力
 				if (velocity_.x < 0.0f) {
 					// 速度と逆方向に入力中は急ブレーキ
@@ -72,7 +73,7 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 					// 旋回タイマーに時間を設定する
 					turnTimer_ = kTimeTurn;
 				}
-			} else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+			} else if (Input::GetInstance()->PushKey(DIK_A) || Input::GetInstance()->PushKey(DIK_LEFT)) {
 				acceleration.x -= kAcceleraion;
 
 				if (lrDirection_ != LRDirection::kLeft) {
@@ -111,7 +112,8 @@ void Player::SwitchingState(CollisionMapInfo& info) {
 			// 非入力時は移動減衰をかける
 			velocity_.x *= (1.0f - kAcceleraion);
 		}
-		if (Input::GetInstance()->TriggerKey(DIK_UP) && Input::GetInstance()->PushKey(DIK_UP)) {
+		if (Input::GetInstance()->TriggerKey(DIK_UP) && Input::GetInstance()->PushKey(DIK_UP) || 
+			Input::GetInstance()->TriggerKey(DIK_SPACE) && Input::GetInstance()->PushKey(DIK_SPACE)) {
 			// ジャンプ初速
 			velocity_ += Vector3(0, kJumpAcceleration, 0);
 		}
@@ -518,10 +520,20 @@ void Player::CollisononeMoreFlag(const CollisionMapInfo& info) {
 Vector3 Player::GetWorldPosition() { // ワールド座標を入れる変数
 	Vector3 worldPos;
 
-	// ワールド行列の平行移動分を取得（ワールド座標）
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
+	if (isTranslucent == true) // 透明の場合
+	{
+		// ワールド行列の平行移動分を取得（ワールド座標）
+		worldPos.x = worldTransform_.translation_.x;
+		worldPos.y = worldTransform_.translation_.y;
+		worldPos.z = worldTransform_.translation_.z;
+	}
+	if (isTranslucent == false) // 透明の場合
+	{
+		// ワールド行列の平行移動分を取得（ワールド座標）
+		worldPos.x = worldTransform_.translation_.x;
+		worldPos.y = worldTransform_.translation_.y + 2.2f;
+		worldPos.z = worldTransform_.translation_.z;
+	}
 	return worldPos;
 }
 
@@ -543,6 +555,11 @@ void Player::OnGoalCollision(const goalObject* goal)
 	isDeed_ = true;
 }
 
+void Player::OnEnemyMoveCollision(const MoveEnemy* moveEnemy) {
+	(void)moveEnemy;
+	isDeed_ = true;
+}
+
 void Player::Draw() { playerModel_->Draw(worldTransform_, *viewProjection_, textureHandle_); }
 
 MapChipType Player::GetUpperMapChipType(const Vector3& position) {
@@ -561,15 +578,26 @@ MapChipType Player::GetUpperMapChipType(const Vector3& position) {
 AABB Player::GetAABB() {
 
 	Vector3 worldPos = GetWorldPosition();
-	AABB aabb;
+	AABB aabb{};
+	
 
-	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
+	if (isTranslucent == true) //透明の場合
+	{
+		aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
 
-	aabb.max = {
-	    worldPos.x + kWidth / 2.0f,
-	    worldPos.y + kHeigth / 2.0f,
-	    worldPos.z + kWidth / 2.0f,
-	};
+		aabb.max = {
+		    worldPos.x + kWidth / 2.0f,
+		    worldPos.y + kHeigth / 2.0f,
+		    worldPos.z + kWidth / 2.0f,
+		};
+	} else {
+		aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeigth / 2.0f, worldPos.z - kWidth / 2.0f};
 
+		aabb.max = {
+		    worldPos.x + kWidth / 2.0f,
+		    worldPos.y + kHeigth / 2.0f,
+		    worldPos.z + kWidth / 2.0f,
+		};
+	}
 	return aabb;
 }

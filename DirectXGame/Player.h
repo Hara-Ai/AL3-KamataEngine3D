@@ -10,7 +10,7 @@ class MapChipField;
 class Enemy;
 class goalObject;
 class GetWorldPosition;
-
+class MoveEnemy;
 // 左右
 enum class LRDirection {
 	kRight,
@@ -78,6 +78,8 @@ public:
 
 	void OnEnemyCollision(const Enemy* enemy);
 	void OnGoalCollision(const goalObject* goal);
+	void OnEnemyMoveCollision(const MoveEnemy* moveEnemy);
+
 	bool IsDead() const { return isDeed_; }
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; }
@@ -149,7 +151,7 @@ private:
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeigth = 1.6f;
-
+	
 	static inline const float kBlank = 0.1f;
 
 	// 着地時の速度減衰率
