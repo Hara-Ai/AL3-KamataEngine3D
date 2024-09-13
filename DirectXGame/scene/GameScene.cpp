@@ -24,6 +24,12 @@ GameScene::~GameScene() {
 	for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
 		delete kMoveEnemise_;
 	}
+	for (EnemyBullet* kBulletEnemise_ : bulletEnemies_) {
+		delete kBulletEnemise_;
+	}
+	for (Bullet* kBullets_ : bullets_) {
+		delete kBullets_;
+	}
 
 	delete deathParticles_;
 
@@ -34,10 +40,10 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete debugCamera_;
 	delete player_;
+	delete model_;
 	delete enemy_;
 	delete moveEnmeyModel_;
 	delete goalObject_;
-	delete model_;
 }
 
 void GameScene::ChecAllCollisiions() {
@@ -65,8 +71,7 @@ void GameScene::ChecAllCollisiions() {
 	aabb3 = goalObject_->GetAABB();
 
 	// AABB同士の交差判定
-	if (IsCollision(aabb1, aabb3)) 
-	{
+	if (IsCollision(aabb1, aabb3)) {
 		player_->OnGoalCollision(goalObject_);
 		goalObject_->OnCollision(player_);
 	}
@@ -97,7 +102,7 @@ void GameScene::Initialize() {
 	CameraController_ = new CameraController;
 	// ゴールの生成
 	goalObject_ = new goalObject;
-	
+
 	//-----------------------------モデルの呼び込み---------------------------------------
 	// 3Dモデルの生成(プレイヤー)
 	model_ = Model::CreateFromOBJ("player", true);             // 透明じゃない場合
@@ -107,8 +112,10 @@ void GameScene::Initialize() {
 	// moveEnmeyModel_ = Model::CreateFromOBJ("moveEnemy", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
-	//ゴールの生成
-	goalModel_ = Model::CreateFromOBJ("player", true); 
+	// ゴールの生成
+	goalModel_ = Model::CreateFromOBJ("enemy", true);
+
+	bulletEnemyModel_ = Model::CreateFromOBJ("BulletEnemy", true);
 	//-------------------------------初期化のために必要な変数-------------------------------
 
 	// プレイヤーの初期位置
@@ -154,7 +161,7 @@ void GameScene::Initialize() {
 
 	// ゴールの初期化
 	goalObject_->Initialize(goalModel_, &viewProjection_, goalPosition);
-	//goalObject_->SetMapChipField(mapChipField_);
+	// goalObject_->SetMapChipField(mapChipField_);
 
 	// カメラコントローラの初期化
 	CameraController_->Initialize();       // 初期化
@@ -175,6 +182,40 @@ void GameScene::Initialize() {
 		newMoveEnemy->Initalize(enmeyModel_, &viewProjection_, moveEnemyPosition_, player_);
 		moveEnemies_.push_back(newMoveEnemy);
 	}
+
+	// 張り付いてくる敵
+	for (uint32_t i = 0; i < 3; ++i) {
+		if (i % 2 == 0) {
+			bulletSpeed = 0.015f;
+		} else {
+			bulletSpeed = 0.020f;
+		}
+
+		EnemyBullet* newEnemy = new EnemyBullet();
+		Vector3 enemyBulletPosition = {100.f + 30.f * i, 36.f, 0};
+		newEnemy->Initalize(bulletEnemyModel_, &viewProjection_, enemyBulletPosition);
+		bulletEnemies_.push_back(newEnemy);
+
+		for (uint32_t j = 0; j < 3; ++j) { // 各敵に対して3つの弾を生成
+			Bullet* newBullet = new Bullet();
+			Vector3 bulletPosition = {100.f + 30.f * i, 36.f, 0}; // 弾の位置を調整
+			Vector3 direction;
+			if (j == 0) {
+				// 1つ目の弾は真っ直ぐ下に飛ばす
+				direction = {0.0f, -1.0f, 0.0f};
+			} else if (j == 1) {
+				// 2つ目の弾を左斜め下に飛ばす
+				direction = {-0.7f, -1.0f, 0.0f};
+			} else if (j == 2) {
+				// 3つ目の弾を右斜め下に飛ばす
+				direction = {0.7f, -1.0f, 0.0f};
+			}
+
+			newBullet->Initalize(bulletEnemyModel_, &viewProjection_, bulletPosition, lifetime, bulletSpeed, direction);
+			bullets_.push_back(newBullet);
+		}
+	}
+
 #ifdef _DEBUG
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
@@ -204,6 +245,25 @@ void GameScene::Update() {
 
 		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
 			kMoveEnemise_->Update();
+		}
+		// for (EnemyBullet* kBulletEnemise_ : bulletEnemies_) {
+		//	kBulletEnemise_->Update();
+		// }
+		//  上に張り付いている敵
+		for (EnemyBullet* enemy : bulletEnemies_) {
+			if (!enemy) {
+				continue;
+			} else {
+				for (Bullet* bullet : bullets_) {
+					if (!bullet) {
+						continue;
+					}
+
+					bullet->Update();
+				}
+				enemy->Update();
+				// CheckAllCollisios();
+			}
 		}
 		// ゴールの更新
 		goalObject_->Update();
@@ -315,6 +375,18 @@ void GameScene::Draw() {
 			kMoveEnemise_->Draw();
 		}
 
+		for (EnemyBullet* enemy : bulletEnemies_) {
+			if (!enemy) {
+				continue;
+			} else {
+				enemy->Draw();
+			}
+			for (Bullet* bullet : bullets_) {
+				if (bullet) { // nullptr ではない弾を描画
+					bullet->Draw();
+				}
+			}
+		}
 		// ゴールの描画
 		goalObject_->Draw();
 

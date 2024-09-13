@@ -111,9 +111,11 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="DeathParticles.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="GetWorldPosition.cpp" />
     <ClCompile Include="goalObject.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,9 +155,11 @@
     <ClInclude Include="base\StringUtility.h" />
     <ClInclude Include="base\TextureManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="DeathParticles.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="GetWorldPosition.h" />
     <ClInclude Include="goalObject.h" />
     <ClInclude Include="input\Input.h" />

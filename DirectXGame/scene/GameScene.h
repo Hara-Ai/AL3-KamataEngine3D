@@ -6,16 +6,18 @@
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "Input.h"
 #include "MapChipField.h"
 #include "Model.h"
 #include "MoveEnemy.h"
 #include "Player.h"
-#include "goalObject.h"
 #include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "goalObject.h"
+#include <Bullet.h>
 #include <cassert>
 
 // Scene
@@ -41,7 +43,7 @@ public: // メンバ関数
 	/// </summary>
 	~GameScene();
 
-	//全ての敵や障害物との当たり判定（マップチップ外）
+	// 全ての敵や障害物との当たり判定（マップチップ外）
 	void ChecAllCollisiions();
 
 	/// <summary>
@@ -82,6 +84,7 @@ private: // メンバ変数
 	Model* enmeyModel_ = nullptr;
 	Model* moveEnmeyModel_ = nullptr;
 	Model* goalModel_ = nullptr;
+	Model* bulletEnemyModel_ = nullptr;
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
@@ -94,6 +97,8 @@ private: // メンバ変数
 
 	std::list<Enemy*> enemies_;
 	std::list<MoveEnemy*> moveEnemies_;
+	std::list<EnemyBullet*> bulletEnemies_;
+	std::list<Bullet*> bullets_;
 
 	/// <summary>
 	/// ゲームシーン用
@@ -120,4 +125,7 @@ private: // メンバ変数
 	float plus = 0.0f;
 	int playerPosX = 1;
 	int playerPosY = 18;
+
+	float lifetime = 0.0f;
+	float bulletSpeed = 0.0f;
 };
