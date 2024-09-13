@@ -31,19 +31,23 @@ GameScene::~GameScene() {
 		delete kBullets_;
 	}
 
-	delete deathParticles_;
-
-	worldTransformBlocks_.clear();
 	delete modelBlock_;
 	delete modelSkydome_;
-	delete mapChipField_;
 	delete skydome_;
-	delete debugCamera_;
 	delete player_;
-	delete model_;
+	delete toumeiPlayer_;
 	delete enemy_;
-	delete moveEnmeyModel_;
 	delete goalObject_;
+	delete model_;
+	delete toumeiModel_;
+	delete enmeyModel_;
+	delete moveEnmeyModel_;
+	delete goalModel_;
+	delete bulletEnemyModel_;
+	// delete bulletModel_;
+	delete deathParticles_;
+	delete mapChipField_;
+	delete debugCamera_;
 }
 
 void GameScene::ChecAllCollisiions() {
