@@ -4,12 +4,15 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include <MapChipField.h>
+
 // #include <GetWorldPosition.h>
 
 class MapChipField;
 class Enemy;
 class goalObject;
 class GetWorldPosition;
+class EnemyBullet;
+class Bullet;
 class MoveEnemy;
 // 左右
 enum class LRDirection {
@@ -40,7 +43,6 @@ class Player {
 
 public:
 	Player();
-	~Player();
 
 	WorldTransform& GetWorldTrnsform();
 
@@ -77,10 +79,13 @@ public:
 	Vector3 GetWorldPosition();
 
 	void OnEnemyCollision(const Enemy* enemy);
-	void OnGoalCollision(const goalObject* goal);
+	void OnEnemyBulletCollision(const EnemyBullet* enemy);
+	void OnBulletCollision(const Bullet* enemy);
 	void OnEnemyMoveCollision(const MoveEnemy* moveEnemy);
+	void OnGoalCollision(const goalObject* goal);
 
 	bool IsDead() const { return isDeed_; }
+	bool IsClaerF_() const { return clearF_; }
 
 	WorldTransform& GetWorldTransform() { return worldTransform_; }
 
@@ -104,6 +109,11 @@ public:
 	bool isTranslucent = false;
 
 	MapChipType GetUpperMapChipType(const Vector3& position);
+
+	bool IsAlive() const {
+		return isAlive_; // プレイヤーの生存状態を保持するメンバ変数
+	}
+	bool isAlive_ = true;
 
 private:
 	// マップチップによるフィールド
@@ -151,7 +161,7 @@ private:
 	// キャラキターの当たり判定サイズ
 	static inline const float kWidth = 1.6f;
 	static inline const float kHeigth = 1.6f;
-	
+
 	static inline const float kBlank = 0.1f;
 
 	// 着地時の速度減衰率
@@ -160,10 +170,10 @@ private:
 	static inline const float kAttenuationWall = 1.0f;
 
 	bool isDeed_ = false;
+	bool clearF_ = false;
 
 	// 切り替えTimer
 	uint32_t halfTimer = 0;
 
 	static inline const float kGaq = 0.6f;
-	static inline const float kGAaq = 0.8f;
 };

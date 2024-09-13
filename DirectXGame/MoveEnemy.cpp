@@ -8,7 +8,7 @@ void MoveEnemy::Initalize(Model* model, ViewProjection* viewProjection, const Ve
 	viewProjection_ = viewProjection;
 	enemyModel_ = model;
 	player_ = player;
-	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 1.0f;
 }
 
 void MoveEnemy::Update() {

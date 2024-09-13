@@ -64,12 +64,20 @@ public: // メンバ関数
 
 	// デスフラグのgetter
 	bool IsFinished() const { return finished_; }
+	bool IsClearF_() const { return clearF_; }
+	// bool IsClearR() const { return clearR_; }
+
+	bool IsPlayerAlive() const {
+		// プレイヤーオブジェクトが存在し、かつ生存しているかどうかをチェック
+		return player_ != nullptr && player_->IsAlive();
+	}
 
 private: // メンバ変数
 	WorldTransform worldTransform_;
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
 	Model* modelBlock_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 	MapChipField* mapChipField_;
@@ -85,6 +93,8 @@ private: // メンバ変数
 	Model* moveEnmeyModel_ = nullptr;
 	Model* goalModel_ = nullptr;
 	Model* bulletEnemyModel_ = nullptr;
+	Model* bulletModel_ = nullptr;
+
 	CameraController* CameraController_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
@@ -121,6 +131,7 @@ private: // メンバ変数
 
 	// 終了フラグ
 	bool finished_ = false;
+	bool clearF_ = false;
 
 	float plus = 0.0f;
 	int playerPosX = 1;
@@ -128,4 +139,7 @@ private: // メンバ変数
 
 	float lifetime = 0.0f;
 	float bulletSpeed = 0.0f;
+
+	uint32_t tH = 0;
+	Sprite* sprite = nullptr;
 };

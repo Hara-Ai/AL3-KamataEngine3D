@@ -44,18 +44,20 @@ GameScene::~GameScene() {
 	delete moveEnmeyModel_;
 	delete goalModel_;
 	delete bulletEnemyModel_;
-	// delete bulletModel_;
+	delete bulletModel_;
 	delete deathParticles_;
 	delete mapChipField_;
 	delete debugCamera_;
+	//delete sprite;
 }
 
 void GameScene::ChecAllCollisiions() {
 	// 衝突対象1と2の座標
 	AABB aabb1, aabb2, aabb3;
-	AABB aabb4;
+	AABB aabb4, aabb5, aabb6;
 	// 自キャラの座標
 	aabb1 = player_->GetAABB();
+
 	// 自キャラと敵全ての当たり判定
 	for (Enemy* enemy : enemies_) {
 		// 敵弾の座標
@@ -65,18 +67,47 @@ void GameScene::ChecAllCollisiions() {
 		if (IsCollision(aabb1, aabb2)) {
 
 			//// 自キャラの衝突時コールバックを呼び出す
-			// player_->OnCollision(enemy);
+			player_->OnEnemyCollision(enemy);
 			//// 敵弾の衝突時コールバックを呼び出す
-			// enemy_->OnCollision(player_);
+			enemy_->OnCollision(player_);
 		}
 	}
 	// 自キャラと敵全ての当たり判定
-	for (MoveEnemy* moveEnemy : moveEnemies_) {
+	for (EnemyBullet* enemyBullet : bulletEnemies_) {
 		// 敵弾の座標
-		aabb4 = moveEnemy->GetAABB();
+		aabb4 = enemyBullet->GetAABB();
 
 		// AABB同士の交差判定
 		if (IsCollision(aabb1, aabb4)) {
+
+			//// 自キャラの衝突時コールバックを呼び出す
+			player_->OnEnemyBulletCollision(enemyBullet);
+			//// 敵弾の衝突時コールバックを呼び出す
+			enemyBullet->OnCollisiton(player_);
+		}
+		// 自キャラと敵全ての当たり判定
+		for (Bullet* bullet : bullets_) {
+			// 敵弾の座標
+			aabb5 = bullet->GetAABB();
+
+			// AABB同士の交差判定
+			if (IsCollision(aabb1, aabb5)) {
+
+				//// 自キャラの衝突時コールバックを呼び出す
+				player_->OnBulletCollision(bullet);
+				//// 敵弾の衝突時コールバックを呼び出す
+				bullet->OnCollisiton(player_);
+			}
+		}
+	}
+
+	// 自キャラと敵全ての当たり判定
+	for (MoveEnemy* moveEnemy : moveEnemies_) {
+		// 敵弾の座標
+		aabb6 = moveEnemy->GetAABB();
+
+		// AABB同士の交差判定
+		if (IsCollision(aabb1, aabb6)) {
 
 			//// 自キャラの衝突時コールバックを呼び出す
 			player_->OnEnemyMoveCollision(moveEnemy);
@@ -130,9 +161,10 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 	// ゴールの生成
-	goalModel_ = Model::CreateFromOBJ("enemy", true);
+	goalModel_ = Model::CreateFromOBJ("goal", true);
 
 	bulletEnemyModel_ = Model::CreateFromOBJ("BulletEnemy", true);
+	bulletModel_ = Model::CreateFromOBJ("bullet", true);
 	//-------------------------------初期化のために必要な変数-------------------------------
 
 	// プレイヤーの初期位置
@@ -176,8 +208,6 @@ void GameScene::Initialize() {
 
 	deathParticles_->Initialize(model_, &viewProjection_, playerPosition);
 
-	// ゴールの初期化
-	goalObject_->Initialize(goalModel_, &viewProjection_, goalPosition);
 	// goalObject_->SetMapChipField(mapChipField_);
 
 	// カメラコントローラの初期化
@@ -203,9 +233,9 @@ void GameScene::Initialize() {
 	// 張り付いてくる敵
 	for (uint32_t i = 0; i < 3; ++i) {
 		if (i % 2 == 0) {
-			bulletSpeed = 0.015f;
+			bulletSpeed = 0.007f;
 		} else {
-			bulletSpeed = 0.020f;
+			bulletSpeed = 0.010f;
 		}
 
 		EnemyBullet* newEnemy = new EnemyBullet();
@@ -228,10 +258,14 @@ void GameScene::Initialize() {
 				direction = {0.7f, -1.0f, 0.0f};
 			}
 
-			newBullet->Initalize(bulletEnemyModel_, &viewProjection_, bulletPosition, lifetime, bulletSpeed, direction);
+			newBullet->Initalize(bulletModel_, &viewProjection_, bulletPosition, lifetime, bulletSpeed, direction);
 			bullets_.push_back(newBullet);
 		}
 	}
+	//tH = TextureManager::Load("setumei.png");
+	//sprite = Sprite::Create(tH, {30,100});
+	// ゴールの初期化
+	goalObject_->Initialize(goalModel_, &viewProjection_, goalPosition);
 
 #ifdef _DEBUG
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -322,6 +356,10 @@ void GameScene::Update() {
 			viewProjection_.TransferMatrix();
 		}
 
+		if (player_->IsClaerF_()) {
+			clearF_ = true;
+		}
+	
 		break;
 	case Phase::kDeath:
 
@@ -330,8 +368,25 @@ void GameScene::Update() {
 		for (Enemy* kenemise_ : enemies_) {
 			kenemise_->Update();
 		}
+		// 上に張り付いている敵
+		for (EnemyBullet* enemy : bulletEnemies_) {
+			if (!enemy) {
+				continue;
+			} else {
+				for (Bullet* bullet : bullets_) {
+					if (!bullet) {
+						continue;
+					}
+
+					bullet->Update();
+				}
+				enemy->Update();
+				// CheckAllCollisios();
+			}
+		}
 		if (player_->IsDead()) {
 			deathParticles_->Update();
+			player_->isAlive_ = false;
 		}
 
 		if (deathParticles_ && deathParticles_->IsFinished()) {
@@ -417,7 +472,7 @@ void GameScene::Draw() {
 				modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 			}
 		}
-
+		//sprite->Draw();
 		// 3Dオブジェクト描画後処理
 		Model::PostDraw();
 
@@ -460,12 +515,29 @@ void GameScene::Draw() {
 		/// <summary>
 		/// ここに3Dオブジェクトの描画処理を追加できる
 		/// </summary>
-
 		// 敵キャラの描画
 		enemy_->Draw();
 		for (Enemy* kenemise_ : enemies_) {
 			kenemise_->Draw();
 		}
+		for (MoveEnemy* kMoveEnemise_ : moveEnemies_) {
+			kMoveEnemise_->Draw();
+		}
+
+		for (EnemyBullet* enemy : bulletEnemies_) {
+			if (!enemy) {
+				continue;
+			} else {
+				enemy->Draw();
+			}
+			for (Bullet* bullet : bullets_) {
+				if (bullet) { // nullptr ではない弾を描画
+					bullet->Draw();
+				}
+			}
+		}
+		// ゴールの描画
+		goalObject_->Draw();
 		// 天球の描画
 		skydome_->Draw();
 

@@ -1,98 +1,73 @@
 #include "TitleScene.h"
-#include "CameraController.h"
-#include "Enemy.h"
-#include "GameScene.h"
-#include "ObjectColor.h"
-#include "Player.h"
-#include "Skydome.h"
-#include "TextureManager.h"
-#include <AABB.h>
-#include <cassert>
-#include <dinput.h>
-#include <numbers>
 
-TitleScene::TitleScene() : isFinished_(false) {
-	// コンストラクタの内容
+TitleScene::TitleScene() {}
+
+TitleScene::~TitleScene() {
+	delete clearModel_;
+	delete model;
 }
 
-TitleScene::~TitleScene() { delete player_; }
-
-
-
-void TitleScene::Initialize() {
-
+void TitleScene::Initalize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
+	audio_ = Audio::GetInstance();
 
-	// 3Dモデルの生成(プレイヤー)
-	model_ = Model::CreateFromOBJ("player", true);
-	
-	// 自キャラの生成
-	player_ = new Player();
-	viewProjection_ = new ViewProjection();
+	model = Model::CreateFromOBJ("GameTitleScene", true);
 
-	// プレイヤーの初期位置
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
-
-	// 自キャラの初期化
-	player_->Initialize(model_, viewProjection_, playerPosition);
-
-	player_->SetMapChipField(mapChipField_);
-
-
-	textureHandle_ = TextureManager::Load("sample.png");
-
-	worldTransform_.Initialize();
-	viewProjection_->Initialize();
+	clearModel_ = new TitleModel();
+	Vector3 clearPosition = {0.f, 0.f, 0.0f};
+	viewProjection_.Initialize();
+	clearModel_->Initalize(model, &viewProjection_, clearPosition);
 }
 
-void TitleScene::Update()
-{
-	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
-		isFinished_ = true;
+void TitleScene::Update() {
+	if (Input::GetInstance()->TriggerKey(DIK_SPACE) && Input::GetInstance()->PushKey(DIK_SPACE)) {
+		finished_ = true;
 	}
+	clearModel_->Update();
 }
 
-void TitleScene::Draw() 
-{
-
+void TitleScene::Draw() {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 #pragma region 背景スプライト描画
-		// 背景スプライト描画前処理
-		Sprite::PreDraw(commandList);
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
 
-		/// <summary>
-		/// ここに背景スプライトの描画処理を追加できる
-		/// </summary>
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
 
-		// スプライト描画後処理
-		Sprite::PostDraw();
-		// 深度バッファクリア
-		dxCommon_->ClearDepthBuffer();
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
-		// 3Dオブジェクト描画前処理
-		Model::PreDraw(commandList);
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
 
-		/// <summary>
-		/// ここに3Dオブジェクトの描画処理を追加できる
-		/// </summary>
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+	clearModel_->Draw();
+	// sprite_->Draw();
+	//  3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
 
-		// 自キャラの描画
-		//player_->Draw();
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
 
-		
-	    model_->Draw(worldTransform_, *viewProjection_,textureHandle_);
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
 
-		// 3Dオブジェクト描画後処理
-		Model::PostDraw();
+	// スプライト描画後処理
+	Sprite::PostDraw();
 
 #pragma endregion
 }
-
-
-
-

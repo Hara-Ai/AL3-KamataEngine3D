@@ -1,57 +1,53 @@
 #pragma once
-#include "Input.h"
-#include "Player.h"
-#include "Model.h"
-#include "MapChipField.h"
+#include "Audio.h"
+#include "CameraController.h"
+#include "DeathParticles.h"
+#include "DebugCamera.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
+#include "Input.h"
+#include "MapChipField.h"
+#include "Model.h"
+#include "Player.h"
+#include "Sprite.h"
 #include "ViewProjection.h"
+#include "WorldTransform.h"
+#include "titleModel.h"
+#include <vector>
 
-class TitleScene 
-{
+// #include "MapChipField.h"
+class TitleScene {
 public:
 	TitleScene();
 	~TitleScene();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initalize();
 
 	/// <summary>
-	/// 毎フレーム処理
+	/// 更新処理
 	/// </summary>
 	void Update();
-
 	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
 
-	// 終了フラグ
-	bool finished_ = false;
-	// デスフラグのgetter
-	bool IsFinished() const { return isFinished_; }
-
-	private:
-
-	bool isFinished_;
+	bool IsFinished() const { return finished_; };
 
 private:
-
-	Input* input_ = nullptr; 
-	Player* player_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
-	// マップチップによるフィールド
-	MapChipField* mapChipField_;
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+	// 終了フラグ
+	bool finished_ = false;
 
-	// ワールド変換データ
-	WorldTransform worldTransform_;
+	ViewProjection viewProjection_ = {};
+	TitleModel* clearModel_ = nullptr;
+	Model* model = nullptr;
 
-	// モデル
-	Model* model_ = nullptr;
-
-	// テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
-
-	// ビュープロジェクション
-	ViewProjection* viewProjection_ = {};
+	// uint32_t tH = 0;
+	// Sprite* sprite_ = nullptr;
 };
